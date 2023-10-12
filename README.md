@@ -1,2 +1,2 @@
 # Frent
-## Film renting application
+## Film renting system
