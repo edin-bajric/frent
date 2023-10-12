@@ -1,0 +1,6 @@
+configuration:
+  swagger:
+    app: 'Frent'
+    description: 'A film renting system'
+    developer: 'Edin Bajrić'
+    email: 'edin.bajric@stu.ibu.edu.ba'
