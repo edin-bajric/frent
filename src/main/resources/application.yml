@@ -4,3 +4,6 @@ configuration:
     description: 'A film renting system'
     developer: 'Edin Bajrić'
     email: 'edin.bajric@stu.ibu.edu.ba'
+
+  mailsender:
+    default: 'mailgun'
