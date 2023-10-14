@@ -17,6 +17,6 @@ public class UserController {
 
     @GetMapping("/send-to-all")
     public String sendEmailToAllUsers(@RequestParam String message) {
-        return userService.sendEmailtoAllUsers(message);
+        return userService.sendEmailToAllUsers(message);
     }
 }
