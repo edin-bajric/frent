@@ -8,7 +8,6 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-@ConditionalOnProperty(name = "configuration.mailsender.default", havingValue = "mailgun")
 public class MailgunSender implements MailSender {
     @Override
     public String send(List<User> users, String message) {
