@@ -1,7 +1,6 @@
 package ba.edu.ibu.frent.core.service;
 
 import ba.edu.ibu.frent.core.api.mailsender.MailSender;
-import ba.edu.ibu.frent.core.model.Movie;
 import ba.edu.ibu.frent.core.model.User;
 import ba.edu.ibu.frent.core.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,14 +13,16 @@ public class UserService {
     private final UserRepository userRepository;
 
     @Autowired
-    private MailSender mailSender;
+    private MailSender mailgunSender;
+    @Autowired
+    private MailSender sendgridSender;
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
     public String sendEmailToAllUsers(String message) {
         List<User> users = userRepository.findAll();
-        return mailSender.send(users, message);
+        return sendgridSender.send(users, message);
     }
 
     public List<User> findAll() {
