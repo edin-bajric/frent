@@ -4,3 +4,8 @@ configuration:
     description: 'A film renting system'
     developer: 'Edin Bajrić'
     email: 'edin.bajric@stu.ibu.edu.ba'
+spring:
+  data:
+    mongodb:
+      uri: mongodb+srv://edinweb:webengineering@cluster1.hggqskb.mongodb.net/?retryWrites=true&w=majority
+      database: frent
