@@ -1,8 +1,10 @@
 package ba.edu.ibu.frent.rest.controllers;
 
-import ba.edu.ibu.frent.core.model.Movie;
-import ba.edu.ibu.frent.core.model.User;
 import ba.edu.ibu.frent.core.service.UserService;
+import ba.edu.ibu.frent.rest.dto.UserDTO;
+import ba.edu.ibu.frent.rest.dto.UserRequestDTO;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,17 +18,34 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("/send-to-all")
-    public String sendEmailToAllUsers(@RequestParam String message) {
-        return userService.sendEmailToAllUsers(message);
+    @RequestMapping(method = RequestMethod.GET, path = "/")
+    public ResponseEntity<List<UserDTO>> getUsers() {
+        return ResponseEntity.ok(userService.getUsers());
     }
 
-    @GetMapping public List<User> findAll() {
-        return userService.findAll();
+    @RequestMapping(method = RequestMethod.POST, path = "/register")
+    public ResponseEntity<UserDTO> register(@RequestBody UserRequestDTO user) {
+        return ResponseEntity.ok(userService.addUser(user));
     }
 
-    @GetMapping("/{id}")
-    public User findById(@PathVariable int id) {
-        return userService.findById(id);
+    @RequestMapping(method = RequestMethod.GET, path = "/{id}")
+    public ResponseEntity<UserDTO> getUserById(@PathVariable String id) {
+        return ResponseEntity.ok(userService.getUserById(id));
     }
-}
+
+    @RequestMapping(method = RequestMethod.PUT, path = "/{id}")
+    public ResponseEntity<UserDTO> updateUser(@PathVariable String id, @RequestBody UserRequestDTO user) {
+        return ResponseEntity.ok(userService.updateUser(id, user));
+    }
+
+    @RequestMapping(method = RequestMethod.DELETE, path = "/{id}")
+    public ResponseEntity<Void> deleteUser(@PathVariable String id) {
+        userService.deleteUser(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @RequestMapping(method = RequestMethod.GET, path = "/filter")
+    public ResponseEntity<UserDTO> filterUser(@RequestParam String email) {
+        return ResponseEntity.ok(userService.filterByEmail(email));
+    }
+ }
