@@ -2,13 +2,13 @@ package ba.edu.ibu.frent.rest.dto;
 
 import ba.edu.ibu.frent.core.model.Rental;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public class RentalRequestDTO {
     private String userId;
     private String movieId;
-    private Date rentalDate;
-    private Date returnDate;
+    private LocalDate rentalDate;
+    private LocalDate returnDate;
     private double rentalPrice;
 
     public RentalRequestDTO() { }
@@ -47,19 +47,19 @@ public class RentalRequestDTO {
         this.movieId = movieId;
     }
 
-    public Date getRentalDate() {
+    public LocalDate getRentalDate() {
         return rentalDate;
     }
 
-    public void setRentalDate(Date rentalDate) {
+    public void setRentalDate(LocalDate rentalDate) {
         this.rentalDate = rentalDate;
     }
 
-    public Date getReturnDate() {
+    public LocalDate getReturnDate() {
         return returnDate;
     }
 
-    public void setReturnDate(Date returnDate) {
+    public void setReturnDate(LocalDate returnDate) {
         this.returnDate = returnDate;
     }
 
