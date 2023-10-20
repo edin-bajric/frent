@@ -13,7 +13,7 @@ public class UserDTO {
     private String email;
     private Date creationDate;
 
-    public UserDTO (User user) {
+    public UserDTO(User user) {
         this.id = user.getId();
         this.name = user.getFirstName() + " " + user.getLastName();
         this.username = user.getUsername();
