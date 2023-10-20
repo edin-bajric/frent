@@ -3,7 +3,7 @@ package ba.edu.ibu.frent.core.model;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 @Document
 public class Rental {
@@ -11,8 +11,8 @@ public class Rental {
     private String id;
     private String userId;
     private String movieId;
-    private Date rentalDate;
-    private Date returnDate;
+    private LocalDate rentalDate;
+    private LocalDate returnDate;
     private double rentalPrice;
 
     public String getId() {
@@ -39,19 +39,19 @@ public class Rental {
         this.movieId = movieId;
     }
 
-    public Date getRentalDate() {
+    public LocalDate getRentalDate() {
         return rentalDate;
     }
 
-    public void setRentalDate(Date rentalDate) {
+    public void setRentalDate(LocalDate rentalDate) {
         this.rentalDate = rentalDate;
     }
 
-    public Date getReturnDate() {
+    public LocalDate getReturnDate() {
         return returnDate;
     }
 
-    public void setReturnDate(Date returnDate) {
+    public void setReturnDate(LocalDate returnDate) {
         this.returnDate = returnDate;
     }
 
