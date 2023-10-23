@@ -23,7 +23,7 @@ public class MailgunSender implements MailSender {
     }
 
     @Override
-    public String send(List<User> users, String message) {
+    public String send(List<User> users, String message, String subject) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 
@@ -32,7 +32,7 @@ public class MailgunSender implements MailSender {
         for (User user: users) {
             map.add("to", user.getEmail());
         }
-        map.add("subject", "Test message");
+        map.add("subject", subject);
         map.add("text", message);
 
         HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(map, headers);
