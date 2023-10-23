@@ -1,12 +1,13 @@
 package ba.edu.ibu.frent.rest.dto;
 
 import ba.edu.ibu.frent.core.model.Movie;
+import ba.edu.ibu.frent.core.model.enums.Genre;
 
 public class MovieDTO {
     private String id;
     private String title;
     private String director;
-    private String genre;
+    private Genre genre;
     private int year;
     private boolean available;
     private double rentalPrice;
@@ -45,11 +46,11 @@ public class MovieDTO {
         this.director = director;
     }
 
-    public String getGenre() {
+    public Genre getGenre() {
         return genre;
     }
 
-    public void setGenre(String genre) {
+    public void setGenre(Genre genre) {
         this.genre = genre;
     }
 
