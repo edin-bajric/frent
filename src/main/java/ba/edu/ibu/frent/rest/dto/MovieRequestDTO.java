@@ -3,10 +3,12 @@ package ba.edu.ibu.frent.rest.dto;
 import ba.edu.ibu.frent.core.model.Movie;
 import ba.edu.ibu.frent.core.model.enums.Genre;
 
+import java.util.List;
+
 public class MovieRequestDTO {
     private String title;
     private String director;
-    private Genre genre;
+    private List<Genre> genre;
     private int year;
     private boolean available;
     private double rentalPrice;
@@ -49,11 +51,11 @@ public class MovieRequestDTO {
         this.director = director;
     }
 
-    public Genre getGenre() {
+    public List<Genre> getGenre() {
         return genre;
     }
 
-    public void setGenre(Genre genre) {
+    public void setGenre(List<Genre> genre) {
         this.genre = genre;
     }
 
