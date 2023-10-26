@@ -4,13 +4,15 @@ import ba.edu.ibu.frent.core.model.enums.Genre;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.List;
+
 @Document
 public class Movie {
     @Id
     private String id;
     private String title;
     private String director;
-    private Genre genre;
+    private List<Genre> genre;
     private int year;
     private boolean available;
     private double rentalPrice;
@@ -38,11 +40,11 @@ public class Movie {
         this.director = director;
     }
 
-    public Genre getGenre() {
+    public List<Genre> getGenre() {
         return genre;
     }
 
-    public void setGenre(Genre genre) {
+    public void setGenre(List<Genre> genre) {
         this.genre = genre;
     }
 
