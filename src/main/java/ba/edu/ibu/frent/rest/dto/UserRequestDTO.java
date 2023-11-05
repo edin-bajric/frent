@@ -1,29 +1,47 @@
-package ba.edu.ibu.frent.core.model;
+package ba.edu.ibu.frent.rest.dto;
 
+import ba.edu.ibu.frent.core.model.User;
 import ba.edu.ibu.frent.core.model.enums.UserType;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Date;
 
-@Document
-public class User {
-    @Id
-    private String id;
+public class UserRequestDTO {
     private UserType userType;
     private String firstName;
     private String lastName;
     private String email;
     private String username;
     private String password;
-    private Date creationDate = new Date();
 
-    public String getId() {
-        return id;
+    public UserRequestDTO() { }
+
+    public UserRequestDTO(User user) {
+        this.userType = user.getUserType();
+        this.firstName = user.getFirstName();
+        this.lastName = user.getLastName();
+        this.email = user.getEmail();
+        this.username = user.getUsername();
+        this.password = user.getPassword();
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public User toEntity() {
+        User user = new User();
+        user.setUserType(userType);
+        user.setFirstName(firstName);
+        user.setLastName(lastName);
+        user.setEmail(email);
+        user.setUsername(username);
+        user.setPassword(password);
+        user.setCreationDate(new Date());
+        return user;
+    }
+
+    public UserType getUserType() {
+        return userType;
+    }
+
+    public void setUserType(UserType userType) {
+        this.userType = userType;
     }
 
     public String getFirstName() {
@@ -50,14 +68,6 @@ public class User {
         this.email = email;
     }
 
-    public UserType getUserType() {
-        return userType;
-    }
-
-    public void setUserType(UserType userType) {
-        this.userType = userType;
-    }
-
     public String getUsername() {
         return username;
     }
@@ -72,13 +82,5 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public Date getCreationDate() {
-        return creationDate;
-    }
-
-    public void setCreationDate(Date creationDate) {
-        this.creationDate = creationDate;
     }
 }

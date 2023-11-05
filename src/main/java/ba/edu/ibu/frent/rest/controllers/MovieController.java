@@ -1,11 +1,11 @@
 package ba.edu.ibu.frent.rest.controllers;
 
-import ba.edu.ibu.frent.core.model.Movie;
 import ba.edu.ibu.frent.core.service.MovieService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import ba.edu.ibu.frent.rest.dto.MovieDTO;
+import ba.edu.ibu.frent.rest.dto.MovieRequestDTO;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -18,12 +18,29 @@ public class MovieController {
         this.movieService = movieService;
     }
 
-    @GetMapping public List<Movie> findAll() {
-        return movieService.findAll();
+    @RequestMapping(method = RequestMethod.GET, path = "/")
+    public ResponseEntity<List<MovieDTO>> getMovies() {
+        return ResponseEntity.ok(movieService.getMovies());
     }
 
-    @GetMapping("/{id}")
-    public Movie findById(@PathVariable int id) {
-        return movieService.findById(id);
+    @RequestMapping(method = RequestMethod.POST, path = "/add")
+    public ResponseEntity<MovieDTO> add(@RequestBody MovieRequestDTO movie) {
+        return ResponseEntity.ok(movieService.addMovie(movie));
+    }
+
+    @RequestMapping(method = RequestMethod.GET, path = "/{id}")
+    public ResponseEntity<MovieDTO> getMovieById(@PathVariable String id) {
+        return ResponseEntity.ok(movieService.getMovieById(id));
+    }
+
+    @RequestMapping(method = RequestMethod.PUT, path = "/{id}")
+    public ResponseEntity<MovieDTO> updateMovie(@PathVariable String id, @RequestBody MovieRequestDTO movie) {
+        return ResponseEntity.ok(movieService.updateMovie(id, movie));
+    }
+
+    @RequestMapping(method = RequestMethod.DELETE, path = "/{id}")
+    public ResponseEntity<Void> deleteMovie(@PathVariable String id) {
+        movieService.deleteMovie(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

@@ -1,14 +1,11 @@
-package ba.edu.ibu.frent.core.model;
+package ba.edu.ibu.frent.rest.dto;
 
+import ba.edu.ibu.frent.core.model.Movie;
 import ba.edu.ibu.frent.core.model.enums.Genre;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.List;
 
-@Document
-public class Movie {
-    @Id
+public class MovieDTO {
     private String id;
     private String title;
     private String director;
@@ -16,6 +13,17 @@ public class Movie {
     private int year;
     private boolean available;
     private double rentalPrice;
+
+    public MovieDTO(Movie movie) {
+        this.id = movie.getId();
+        this.title = movie.getTitle();
+        this.director = movie.getDirector();
+        this.genre = movie.getGenre();
+        this.year = movie.getYear();
+        this.available = movie.isAvailable();
+        this.rentalPrice = movie.getRentalPrice();
+    }
+
     public String getId() {
         return id;
     }
