@@ -17,4 +17,4 @@ email:
     password: 2ddeb646ee8c12f3a3f9a017457e7b60-3750a53b-c6c5c91f
 security:
   jwt:
-    secret: 'W&FXh5Q9vzDGu%uw'
+    secret: 'HucVcLqiV5Jv442U3N9N9RhyXQqf2wwYtZKUYpJzrecbCEZyNAqFfTGF55PW7h9T'

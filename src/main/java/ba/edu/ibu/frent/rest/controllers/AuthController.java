@@ -22,7 +22,7 @@ public class AuthController {
 
     @RequestMapping(method = RequestMethod.POST, path = "/register")
     public ResponseEntity<UserDTO> register(@RequestBody UserRequestDTO user) {
-        return ResponseEntity.ok(authService.signUP(user));
+        return ResponseEntity.ok(authService.signUp(user));
     }
 
     @RequestMapping(method = RequestMethod.POST, path = "/login")
