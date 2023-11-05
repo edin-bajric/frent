@@ -6,6 +6,7 @@ import ba.edu.ibu.frent.rest.dto.RentalRequestDTO;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,26 +22,31 @@ public class RentalController {
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "/")
+    @PreAuthorize("hasAnyAuthority('EMPLOYEE', 'ADMIN')")
     public ResponseEntity<List<RentalDTO>> getRentals() {
         return ResponseEntity.ok(rentalService.getRentals());
     }
 
     @RequestMapping(method = RequestMethod.POST, path = "/add")
+    @PreAuthorize("hasAnyAuthority('EMPLOYEE', 'ADMIN')")
     public ResponseEntity<RentalDTO> add(@RequestBody RentalRequestDTO rental) {
         return ResponseEntity.ok(rentalService.addRental(rental));
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "/{id}")
+    @PreAuthorize("hasAnyAuthority('EMPLOYEE', 'ADMIN')")
     public ResponseEntity<RentalDTO> getRentalById(@PathVariable String id) {
         return ResponseEntity.ok(rentalService.getRentalById(id));
     }
 
     @RequestMapping(method = RequestMethod.PUT, path = "/{id}")
+    @PreAuthorize("hasAnyAuthority('EMPLOYEE', 'ADMIN')")
     public ResponseEntity<RentalDTO> updateRental(@PathVariable String id, @RequestBody RentalRequestDTO rental) {
         return ResponseEntity.ok(rentalService.updateRental(id, rental));
     }
 
     @RequestMapping(method = RequestMethod.DELETE, path = "/{id}")
+    @PreAuthorize("hasAnyAuthority('EMPLOYEE', 'ADMIN')")
     public ResponseEntity<Void> deleteRental(@PathVariable String id) {
         rentalService.deleteRental(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
