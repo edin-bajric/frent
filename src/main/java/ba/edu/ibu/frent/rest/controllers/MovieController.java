@@ -3,14 +3,17 @@ package ba.edu.ibu.frent.rest.controllers;
 import ba.edu.ibu.frent.core.service.MovieService;
 import ba.edu.ibu.frent.rest.dto.MovieDTO;
 import ba.edu.ibu.frent.rest.dto.MovieRequestDTO;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("api/movies")
+@SecurityRequirement(name = "JWT Security")
 public class MovieController {
     private final MovieService movieService;
 
@@ -24,6 +27,7 @@ public class MovieController {
     }
 
     @RequestMapping(method = RequestMethod.POST, path = "/add")
+    @PreAuthorize("hasAnyAuthority('EMPLOYEE', 'ADMIN')")
     public ResponseEntity<MovieDTO> add(@RequestBody MovieRequestDTO movie) {
         return ResponseEntity.ok(movieService.addMovie(movie));
     }
@@ -34,11 +38,13 @@ public class MovieController {
     }
 
     @RequestMapping(method = RequestMethod.PUT, path = "/{id}")
+    @PreAuthorize("hasAnyAuthority('EMPLOYEE', 'ADMIN')")
     public ResponseEntity<MovieDTO> updateMovie(@PathVariable String id, @RequestBody MovieRequestDTO movie) {
         return ResponseEntity.ok(movieService.updateMovie(id, movie));
     }
 
     @RequestMapping(method = RequestMethod.DELETE, path = "/{id}")
+    @PreAuthorize("hasAnyAuthority('EMPLOYEE', 'ADMIN')")
     public ResponseEntity<Void> deleteMovie(@PathVariable String id) {
         movieService.deleteMovie(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
