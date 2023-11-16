@@ -14,6 +14,7 @@ public class Rental {
     private LocalDate rentalDate;
     private LocalDate returnDate;
     private double rentalPrice;
+    private boolean returned;
 
     public String getId() {
         return id;
@@ -61,5 +62,13 @@ public class Rental {
 
     public void setRentalPrice(double rentalPrice) {
         this.rentalPrice = rentalPrice;
+    }
+
+    public boolean isReturned() {
+        return returned;
+    }
+
+    public void setReturned(boolean returned) {
+        this.returned = returned;
     }
 }
