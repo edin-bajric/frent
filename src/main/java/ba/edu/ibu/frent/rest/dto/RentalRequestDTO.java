@@ -10,6 +10,7 @@ public class RentalRequestDTO {
     private LocalDate rentalDate;
     private LocalDate returnDate;
     private double rentalPrice;
+    private boolean returned;
 
     public RentalRequestDTO() { }
 
@@ -19,6 +20,7 @@ public class RentalRequestDTO {
         this.rentalDate = rental.getRentalDate();
         this.returnDate = rental.getReturnDate();
         this.rentalPrice = rental.getRentalPrice();
+        this.returned = rental.isReturned();
     }
 
     public Rental toEntity() {
@@ -28,6 +30,7 @@ public class RentalRequestDTO {
         rental.setRentalDate(rentalDate);
         rental.setReturnDate(returnDate);
         rental.setRentalPrice(rentalPrice);
+        rental.setReturned(returned);
         return rental;
     }
 
@@ -69,5 +72,13 @@ public class RentalRequestDTO {
 
     public void setRentalPrice(double rentalPrice) {
         this.rentalPrice = rentalPrice;
+    }
+
+    public boolean isReturned() {
+        return returned;
+    }
+
+    public void setReturned(boolean returned) {
+        this.returned = returned;
     }
 }
