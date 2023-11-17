@@ -12,6 +12,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -80,5 +81,77 @@ public class UserService {
                         .orElseThrow(() -> new UsernameNotFoundException("User not found"));
             }
         };
+    }
+
+    public UserDTO addToCart(String userId, String movieId) {
+        Optional<User> userOptional = userRepository.findById(userId);
+        if (userOptional.isEmpty()) {
+            throw new ResourceNotFoundException("The user with the given ID does not exist.");
+        }
+
+        User user = userOptional.get();
+        List<String> cart = user.getCart();
+        if (cart == null) {
+            cart = new ArrayList<>();
+        }
+        cart.add(movieId);
+        user.setCart(cart);
+
+        User updatedUser = userRepository.save(user);
+        return new UserDTO(updatedUser);
+    }
+
+    public UserDTO addToWishlist(String userId, String movieId) {
+        Optional<User> userOptional = userRepository.findById(userId);
+        if (userOptional.isEmpty()) {
+            throw new ResourceNotFoundException("The user with the given ID does not exist.");
+        }
+
+        User user = userOptional.get();
+        List<String> wishlist = user.getWishlist();
+        if (wishlist == null) {
+            wishlist = new ArrayList<>();
+        }
+        wishlist.add(movieId);
+        user.setWishlist(wishlist);
+
+        User updatedUser = userRepository.save(user);
+        return new UserDTO(updatedUser);
+    }
+
+    public UserDTO removeFromCart(String userId, String movieId) {
+        Optional<User> userOptional = userRepository.findById(userId);
+        if (userOptional.isEmpty()) {
+            throw new ResourceNotFoundException("The user with the given ID does not exist.");
+        }
+
+        User user = userOptional.get();
+        List<String> cart = user.getCart();
+        if (cart == null) {
+            cart = new ArrayList<>();
+        }
+        cart.remove(movieId);
+        user.setCart(cart);
+
+        User updatedUser = userRepository.save(user);
+        return new UserDTO(updatedUser);
+    }
+
+    public UserDTO removeFromWishlist(String userId, String movieId) {
+        Optional<User> userOptional = userRepository.findById(userId);
+        if (userOptional.isEmpty()) {
+            throw new ResourceNotFoundException("The user with the given ID does not exist.");
+        }
+
+        User user = userOptional.get();
+        List<String> wishlist = user.getWishlist();
+        if (wishlist == null) {
+            wishlist = new ArrayList<>();
+        }
+        wishlist.remove(movieId);
+        user.setWishlist(wishlist);
+
+        User updatedUser = userRepository.save(user);
+        return new UserDTO(updatedUser);
     }
 }
