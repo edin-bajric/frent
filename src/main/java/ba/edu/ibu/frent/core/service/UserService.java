@@ -154,4 +154,26 @@ public class UserService {
         User updatedUser = userRepository.save(user);
         return new UserDTO(updatedUser);
     }
+
+    public List<String> getCart(String userId) {
+        Optional<User> userOptional = userRepository.findById(userId);
+        if (userOptional.isEmpty()) {
+            throw new ResourceNotFoundException("The user with the given ID does not exist.");
+        }
+
+        User user = userOptional.get();
+        List<String> cart = user.getCart();
+        return cart != null ? new ArrayList<>(cart) : new ArrayList<>();
+    }
+
+    public List<String> getWishlist(String userId) {
+        Optional<User> userOptional = userRepository.findById(userId);
+        if (userOptional.isEmpty()) {
+            throw new ResourceNotFoundException("The user with the given ID does not exist.");
+        }
+
+        User user = userOptional.get();
+        List<String> wishlist = user.getWishlist();
+        return wishlist != null ? new ArrayList<>(wishlist) : new ArrayList<>();
+    }
 }
