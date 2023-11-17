@@ -57,4 +57,32 @@ public class UserController {
     public ResponseEntity<UserDTO> filterUser(@RequestParam String email) {
         return ResponseEntity.ok(userService.filterByEmail(email));
     }
+
+    @RequestMapping(method = RequestMethod.PUT, path = "/{userId}/addToCart/{movieId}")
+    @PreAuthorize("hasAnyAuthority('MEMBER', 'ADMIN')")
+    public ResponseEntity<UserDTO> addToCart(@PathVariable String userId, @PathVariable String movieId) {
+        UserDTO updatedUser = userService.addToCart(userId, movieId);
+        return ResponseEntity.ok(updatedUser);
+    }
+
+    @RequestMapping(method = RequestMethod.PUT, path = "/{userId}/addToWishlist/{movieId}")
+    @PreAuthorize("hasAnyAuthority('MEMBER', 'ADMIN')")
+    public ResponseEntity<UserDTO> addToWishlist(@PathVariable String userId, @PathVariable String movieId) {
+        UserDTO updatedUser = userService.addToWishlist(userId, movieId);
+        return ResponseEntity.ok(updatedUser);
+    }
+
+    @RequestMapping(method = RequestMethod.PUT, path = "/{userId}/removeFromCart/{movieId}")
+    @PreAuthorize("hasAnyAuthority('MEMBER', 'ADMIN')")
+    public ResponseEntity<UserDTO> removeFromCart(@PathVariable String userId, @PathVariable String movieId) {
+        UserDTO updatedUser = userService.removeFromCart(userId, movieId);
+        return ResponseEntity.ok(updatedUser);
+    }
+
+    @RequestMapping(method = RequestMethod.PUT, path = "/{userId}/removeFromWishlist/{movieId}")
+    @PreAuthorize("hasAnyAuthority('MEMBER', 'ADMIN')")
+    public ResponseEntity<UserDTO> removeFromWishlist(@PathVariable String userId, @PathVariable String movieId) {
+        UserDTO updatedUser = userService.removeFromWishlist(userId, movieId);
+        return ResponseEntity.ok(updatedUser);
+    }
  }
