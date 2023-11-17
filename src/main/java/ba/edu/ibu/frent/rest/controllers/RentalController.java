@@ -51,4 +51,11 @@ public class RentalController {
         rentalService.deleteRental(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
+    @RequestMapping(method = RequestMethod.PUT, path = "/return/{id}")
+    @PreAuthorize("hasAnyAuthority('EMPLOYEE', 'ADMIN')")
+    public ResponseEntity<RentalDTO> returnRental(@PathVariable String id) {
+        RentalDTO updatedRental = rentalService.returnRental(id);
+        return ResponseEntity.ok(updatedRental);
+    }
 }

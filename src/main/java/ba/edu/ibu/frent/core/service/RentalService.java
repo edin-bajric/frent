@@ -5,8 +5,13 @@ import ba.edu.ibu.frent.core.model.Rental;
 import ba.edu.ibu.frent.core.repository.RentalRepository;
 import ba.edu.ibu.frent.rest.dto.RentalDTO;
 import ba.edu.ibu.frent.rest.dto.RentalRequestDTO;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,9 +20,11 @@ import static java.util.stream.Collectors.toList;
 @Service
 public class RentalService {
     private final RentalRepository rentalRepository;
+    private final MongoTemplate mongoTemplate;
 
-    public RentalService(RentalRepository rentalRepository) {
+    public RentalService(RentalRepository rentalRepository, MongoTemplate mongoTemplate) {
         this.rentalRepository = rentalRepository;
+        this.mongoTemplate = mongoTemplate;
     }
 
     public List<RentalDTO> getRentals() {
@@ -56,5 +63,21 @@ public class RentalService {
     public void deleteRental(String id) {
         Optional<Rental> rental = rentalRepository.findById(id);
         rental.ifPresent(rentalRepository::delete);
+    }
+
+    public RentalDTO returnRental(String id) {
+        Optional<Rental> optionalRental = rentalRepository.findById(id);
+        if (optionalRental.isEmpty()) {
+            throw new ResourceNotFoundException("The rental with the given ID does not exist.");
+        }
+        Query query = new Query(Criteria.where("_id").is(id));
+        Update update = new Update()
+                .set("returnDate", LocalDate.now())
+                .set("returned", true);
+        mongoTemplate.updateFirst(query, update, Rental.class);
+        Optional<Rental> updatedRental = rentalRepository.findById(id);
+        return updatedRental.map(RentalDTO::new).orElseThrow(() ->
+                new ResourceNotFoundException("Unable to retrieve the updated rental.")
+        );
     }
 }
