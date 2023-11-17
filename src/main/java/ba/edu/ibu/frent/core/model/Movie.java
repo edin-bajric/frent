@@ -16,6 +16,26 @@ public class Movie {
     private int year;
     private boolean available;
     private double rentalPrice;
+
+    public Movie() {
+    }
+
+    public Movie(String id, String title, String director, List<Genre> genre, int year, boolean available, double rentalPrice) {
+        this.id = id;
+        this.title = title;
+        this.director = director;
+        this.genre = genre;
+        if (year < 0) {
+            throw new IllegalArgumentException("Year cannot be negative");
+        }
+        this.year = year;
+        this.available = available;
+        if (rentalPrice < 0) {
+            throw new IllegalArgumentException("Rental price cannot be negative");
+        }
+        this.rentalPrice = rentalPrice;
+    }
+
     public String getId() {
         return id;
     }
