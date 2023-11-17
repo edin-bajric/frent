@@ -21,6 +21,8 @@ public class User implements UserDetails {
     private String email;
     private String username;
     private String password;
+    private List<String> cart;
+    private List<String> wishlist;
     private Date creationDate = new Date();
 
     public String getId() {
@@ -77,6 +79,22 @@ public class User implements UserDetails {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public List<String> getCart() {
+        return cart;
+    }
+
+    public void setCart(List<String> cart) {
+        this.cart = cart;
+    }
+
+    public List<String> getWishlist() {
+        return wishlist;
+    }
+
+    public void setWishlist(List<String> wishlist) {
+        this.wishlist = wishlist;
     }
 
     public Date getCreationDate() {

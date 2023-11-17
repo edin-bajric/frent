@@ -4,6 +4,7 @@ import ba.edu.ibu.frent.core.model.enums.UserType;
 import ba.edu.ibu.frent.core.model.User;
 
 import java.util.Date;
+import java.util.List;
 
 public class UserDTO {
     private String id;
@@ -11,6 +12,8 @@ public class UserDTO {
     private String username;
     private UserType userType;
     private String email;
+    private List<String> cart;
+    private List<String> wishlist;
     private Date creationDate;
 
     public UserDTO(User user) {
@@ -19,6 +22,8 @@ public class UserDTO {
         this.username = user.getUsername();
         this.userType = user.getUserType();
         this.email = user.getEmail();
+        this.cart = user.getCart();
+        this.wishlist = user.getWishlist();
         this.creationDate = user.getCreationDate();
     }
 
@@ -60,6 +65,22 @@ public class UserDTO {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public List<String> getCart() {
+        return cart;
+    }
+
+    public void setCart(List<String> cart) {
+        this.cart = cart;
+    }
+
+    public List<String> getWishlist() {
+        return wishlist;
+    }
+
+    public void setWishlist(List<String> wishlist) {
+        this.wishlist = wishlist;
     }
 
     public Date getCreationDate() {
