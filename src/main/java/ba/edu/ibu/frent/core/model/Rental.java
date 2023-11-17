@@ -16,6 +16,22 @@ public class Rental {
     private double rentalPrice;
     private boolean returned;
 
+    public Rental() {
+    }
+
+    public Rental(String id, String userId, String movieId, LocalDate rentalDate, LocalDate returnDate, double rentalPrice, boolean returned) {
+        this.id = id;
+        this.userId = userId;
+        this.movieId = movieId;
+        this.rentalDate = rentalDate;
+        this.returnDate = returnDate;
+        if (rentalPrice < 0) {
+            throw new IllegalArgumentException("Rental price cannot be negative");
+        }
+        this.rentalPrice = rentalPrice;
+        this.returned = returned;
+    }
+
     public String getId() {
         return id;
     }
