@@ -1,6 +1,5 @@
 package ba.edu.ibu.frent.core.repository;
 
-import ba.edu.ibu.frent.core.model.Movie;
 import ba.edu.ibu.frent.core.model.Rental;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
