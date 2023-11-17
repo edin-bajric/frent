@@ -85,4 +85,18 @@ public class UserController {
         UserDTO updatedUser = userService.removeFromWishlist(userId, movieId);
         return ResponseEntity.ok(updatedUser);
     }
+
+    @RequestMapping(method = RequestMethod.GET, path = "/{userId}/cart")
+    @PreAuthorize("hasAnyAuthority('MEMBER', 'ADMIN')")
+    public ResponseEntity<List<String>> getCart(@PathVariable String userId) {
+        List<String> cartItems = userService.getCart(userId);
+        return ResponseEntity.ok(cartItems);
+    }
+
+    @RequestMapping(method = RequestMethod.GET, path = "/{userId}/wishlist")
+    @PreAuthorize("hasAnyAuthority('MEMBER', 'ADMIN')")
+    public ResponseEntity<List<String>> getWishlist(@PathVariable String userId) {
+        List<String> wishlistItems = userService.getWishlist(userId);
+        return ResponseEntity.ok(wishlistItems);
+    }
  }
