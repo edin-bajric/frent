@@ -22,19 +22,19 @@ public class RentalController {
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "/")
-    @PreAuthorize("hasAnyAuthority('EMPLOYEE', 'ADMIN')")
+    @PreAuthorize("hasAnyAuthority('MEMBER', 'EMPLOYEE', 'ADMIN')")
     public ResponseEntity<List<RentalDTO>> getRentals() {
         return ResponseEntity.ok(rentalService.getRentals());
     }
 
     @RequestMapping(method = RequestMethod.POST, path = "/add")
-    @PreAuthorize("hasAnyAuthority('EMPLOYEE', 'ADMIN')")
+    @PreAuthorize("hasAnyAuthority('MEMBER', 'EMPLOYEE', 'ADMIN')")
     public ResponseEntity<RentalDTO> add(@RequestBody RentalRequestDTO rental) {
         return ResponseEntity.ok(rentalService.addRental(rental));
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "/{id}")
-    @PreAuthorize("hasAnyAuthority('EMPLOYEE', 'ADMIN')")
+    @PreAuthorize("hasAnyAuthority('MEMBER', 'EMPLOYEE', 'ADMIN')")
     public ResponseEntity<RentalDTO> getRentalById(@PathVariable String id) {
         return ResponseEntity.ok(rentalService.getRentalById(id));
     }
@@ -46,7 +46,7 @@ public class RentalController {
     }
 
     @RequestMapping(method = RequestMethod.DELETE, path = "/{id}")
-    @PreAuthorize("hasAnyAuthority('EMPLOYEE', 'ADMIN')")
+    @PreAuthorize("hasAnyAuthority('MEMBER', 'EMPLOYEE', 'ADMIN')")
     public ResponseEntity<Void> deleteRental(@PathVariable String id) {
         rentalService.deleteRental(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
