@@ -36,7 +36,7 @@ class MovieServiceTest {
         Mockito.when(movieRepository.save(ArgumentMatchers.any(Movie.class))).thenReturn(movie);
         MovieDTO savedMovie = movieService.addMovie(new MovieRequestDTO(movie));
         Assertions.assertThat(movie.getTitle()).isEqualTo(savedMovie.getTitle());
-        Assertions.assertThat(movie.getYear()).isNotNull();
+        Assertions.assertThat(movie.getDirector()).isNotNull();
     }
 
     @Test
