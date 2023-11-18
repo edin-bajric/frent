@@ -13,6 +13,9 @@ public class RentalDTO {
     private double rentalPrice;
     private boolean returned;
 
+    public RentalDTO() {
+    }
+
     public RentalDTO(Rental rental) {
         this.id = rental.getId();
         this.userId = rental.getUserId();
