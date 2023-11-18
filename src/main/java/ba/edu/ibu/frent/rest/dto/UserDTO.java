@@ -16,6 +16,9 @@ public class UserDTO {
     private List<String> wishlist;
     private Date creationDate;
 
+    public UserDTO() {
+    }
+
     public UserDTO(User user) {
         this.id = user.getId();
         this.name = user.getFirstName() + " " + user.getLastName();
