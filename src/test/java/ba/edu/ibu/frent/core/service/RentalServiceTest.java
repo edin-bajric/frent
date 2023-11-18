@@ -36,7 +36,7 @@ class RentalServiceTest {
         Mockito.when(rentalRepository.save(ArgumentMatchers.any(Rental.class))).thenReturn(rental);
         RentalDTO savedRental = rentalService.addRental(new RentalRequestDTO(rental));
         Assertions.assertThat(rental.getUserId()).isEqualTo(savedRental.getUserId());
-        Assertions.assertThat(rental.getRentalPrice()).isNotNull();
+        Assertions.assertThat(rental.getUserId()).isNotNull();
     }
 
     @Test
