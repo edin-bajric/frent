@@ -53,7 +53,7 @@ public class RentalController {
     }
 
     @RequestMapping(method = RequestMethod.PUT, path = "/return/{id}")
-    @PreAuthorize("hasAnyAuthority('EMPLOYEE', 'ADMIN')")
+    @PreAuthorize("hasAnyAuthority('MEMBER', 'EMPLOYEE', 'ADMIN')")
     public ResponseEntity<RentalDTO> returnRental(@PathVariable String id) {
         RentalDTO updatedRental = rentalService.returnRental(id);
         return ResponseEntity.ok(updatedRental);
