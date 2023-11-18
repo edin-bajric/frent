@@ -61,7 +61,7 @@ public class MovieService {
     }
 
     public List<MovieDTO> searchMovies(String keyword) {
-        List<Movie> movies = movieRepository.findByTitleContainingIgnoreCase(keyword);
+        List<Movie> movies = movieRepository.findByTitleContainingIgnoreCaseOrDirectorContainingIgnoreCase(keyword, keyword);
 
         return movies
                 .stream()
