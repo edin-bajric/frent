@@ -14,6 +14,9 @@ public class MovieDTO {
     private boolean available;
     private double rentalPrice;
 
+    public MovieDTO() {
+    }
+
     public MovieDTO(Movie movie) {
         this.id = movie.getId();
         this.title = movie.getTitle();
