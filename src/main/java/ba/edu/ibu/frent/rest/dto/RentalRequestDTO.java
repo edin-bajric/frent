@@ -5,21 +5,21 @@ import ba.edu.ibu.frent.core.model.Rental;
 import java.time.LocalDate;
 
 public class RentalRequestDTO {
-    private String userId;
+    private String username;
     private String movieId;
     private double rentalPrice;
 
     public RentalRequestDTO() { }
 
     public RentalRequestDTO(Rental rental) {
-        this.userId = rental.getUserId();
+        this.username = rental.getUsername();
         this.movieId = rental.getMovieId();
         this.rentalPrice = rental.getRentalPrice();
     }
 
     public Rental toEntity() {
         Rental rental = new Rental();
-        rental.setUserId(userId);
+        rental.setUsername(username);
         rental.setMovieId(movieId);
         rental.setRentalDate(LocalDate.now());
         rental.setReturnDate(null);
@@ -28,12 +28,12 @@ public class RentalRequestDTO {
         return rental;
     }
 
-    public String getUserId() {
-        return userId;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getMovieId() {

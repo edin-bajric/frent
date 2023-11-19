@@ -29,21 +29,21 @@ class RentalServiceTest {
     public void shouldReturnRentalWhenCreated() {
         Rental rental = new Rental();
         rental.setId("id");
-        rental.setUserId("userId");
+        rental.setUsername("username");
         rental.setMovieId("movieId");
         rental.setRentalPrice(5.99);
 
         Mockito.when(rentalRepository.save(ArgumentMatchers.any(Rental.class))).thenReturn(rental);
         RentalDTO savedRental = rentalService.addRental(new RentalRequestDTO(rental));
-        Assertions.assertThat(rental.getUserId()).isEqualTo(savedRental.getUserId());
-        Assertions.assertThat(rental.getUserId()).isNotNull();
+        Assertions.assertThat(rental.getUsername()).isEqualTo(savedRental.getUsername());
+        Assertions.assertThat(rental.getUsername()).isNotNull();
     }
 
     @Test
     public void shouldReturnRentalById() {
         Rental rental = new Rental();
         rental.setId("id");
-        rental.setUserId("userId");
+        rental.setUsername("username");
         rental.setMovieId("movieId");
         rental.setRentalPrice(5.99);
 

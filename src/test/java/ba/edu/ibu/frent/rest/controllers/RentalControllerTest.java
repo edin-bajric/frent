@@ -49,7 +49,7 @@ class RentalControllerTest {
     void shouldReturnAllRentals() throws Exception {
         RentalDTO rental = new RentalDTO();
         rental.setId("id");
-        rental.setUserId("userId");
+        rental.setUsername("username");
         rental.setMovieId("movieId");
         rental.setRentalPrice(5.99);
 
@@ -63,7 +63,7 @@ class RentalControllerTest {
 
         String response = result.getResponse().getContentAsString();
         assertEquals(1, (Integer) JsonPath.read(response, "$.length()"));
-        assertEquals("userId", JsonPath.read(response, "$.[0].userId"));
+        assertEquals("username", JsonPath.read(response, "$.[0].username"));
 
     }
 }
