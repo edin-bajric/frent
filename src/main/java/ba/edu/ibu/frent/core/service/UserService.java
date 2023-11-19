@@ -1,6 +1,7 @@
 package ba.edu.ibu.frent.core.service;
 
 import ba.edu.ibu.frent.core.api.mailsender.MailSender;
+import ba.edu.ibu.frent.core.exceptions.auth.UserAlreadyExistsException;
 import ba.edu.ibu.frent.core.exceptions.repository.ResourceNotFoundException;
 import ba.edu.ibu.frent.core.model.User;
 import ba.edu.ibu.frent.core.repository.UserRepository;
@@ -48,6 +49,11 @@ public class UserService {
     }
 
     public UserDTO addUser(UserRequestDTO payload) {
+
+        if (userRepository.existsByEmail(payload.getEmail()) || userRepository.existsByUsername(payload.getUsername())) {
+            throw new UserAlreadyExistsException("User already exists");
+        }
+
         User user = userRepository.save(payload.toEntity());
         return new UserDTO(user);
     }
