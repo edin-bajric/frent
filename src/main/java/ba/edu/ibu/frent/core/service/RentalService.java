@@ -80,4 +80,43 @@ public class RentalService {
                 new ResourceNotFoundException("Unable to retrieve the updated rental.")
         );
     }
+
+    public List<RentalDTO> getRentalsForUser(String username) {
+        Query query = new Query(Criteria.where("username").is(username));
+        List<Rental> rentals = mongoTemplate.find(query, Rental.class);
+
+        return rentals
+                .stream()
+                .map(RentalDTO::new)
+                .collect(toList());
+    }
+
+    public RentalDTO addRentalForUser(String username, RentalRequestDTO payload) {
+        payload.setUsername(username);
+        Rental rental = rentalRepository.save(payload.toEntity());
+        return new RentalDTO(rental);
+    }
+
+    public RentalDTO getRentalByIdForUser(String id, String username) {
+        Query query = new Query(Criteria.where("_id").is(id).and("username").is(username));
+        Rental rental = mongoTemplate.findOne(query, Rental.class);
+
+        if (rental == null) {
+            throw new ResourceNotFoundException("The rental with the given ID for the user does not exist.");
+        }
+
+        return new RentalDTO(rental);
+    }
+
+    public void deleteRentalForUser(String id, String username) {
+        Query query = new Query(Criteria.where("_id").is(id).and("username").is(username));
+        Rental rental = mongoTemplate.findOne(query, Rental.class);
+
+
+        if (rental == null) {
+            throw new ResourceNotFoundException("The rental with the given ID for the user does not exist.");
+        }
+
+        rentalRepository.delete(rental);
+    }
 }
