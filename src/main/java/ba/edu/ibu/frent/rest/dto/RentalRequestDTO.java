@@ -7,14 +7,13 @@ import java.time.LocalDate;
 public class RentalRequestDTO {
     private String username;
     private String movieId;
-    private double rentalPrice;
 
+    private double rentalPrice;
     public RentalRequestDTO() { }
 
     public RentalRequestDTO(Rental rental) {
         this.username = rental.getUsername();
         this.movieId = rental.getMovieId();
-        this.rentalPrice = rental.getRentalPrice();
     }
 
     public Rental toEntity() {
