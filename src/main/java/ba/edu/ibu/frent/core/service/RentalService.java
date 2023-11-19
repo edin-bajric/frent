@@ -1,7 +1,9 @@
 package ba.edu.ibu.frent.core.service;
 
 import ba.edu.ibu.frent.core.exceptions.repository.ResourceNotFoundException;
+import ba.edu.ibu.frent.core.model.Movie;
 import ba.edu.ibu.frent.core.model.Rental;
+import ba.edu.ibu.frent.core.repository.MovieRepository;
 import ba.edu.ibu.frent.core.repository.RentalRepository;
 import ba.edu.ibu.frent.rest.dto.RentalDTO;
 import ba.edu.ibu.frent.rest.dto.RentalRequestDTO;
@@ -20,10 +22,12 @@ import static java.util.stream.Collectors.toList;
 @Service
 public class RentalService {
     private final RentalRepository rentalRepository;
+    private final MovieRepository movieRepository;
     private final MongoTemplate mongoTemplate;
 
-    public RentalService(RentalRepository rentalRepository, MongoTemplate mongoTemplate) {
+    public RentalService(RentalRepository rentalRepository, MovieRepository movieRepository, MongoTemplate mongoTemplate) {
         this.rentalRepository = rentalRepository;
+        this.movieRepository = movieRepository;
         this.mongoTemplate = mongoTemplate;
     }
 
@@ -92,7 +96,15 @@ public class RentalService {
     }
 
     public RentalDTO addRentalForUser(String username, RentalRequestDTO payload) {
+        String movieId = payload.getMovieId();
+        Movie movie = movieRepository.findById(movieId)
+                .orElseThrow(() -> new ResourceNotFoundException("Movie with ID " + movieId + " not found."));
+
+        double rentalPrice = movie.getRentalPrice();
+
+        payload.setRentalPrice(rentalPrice);
         payload.setUsername(username);
+
         Rental rental = rentalRepository.save(payload.toEntity());
         return new RentalDTO(rental);
     }
