@@ -83,10 +83,10 @@ public class UserService {
         };
     }
 
-    public UserDTO addToCart(String userId, String movieId) {
-        Optional<User> userOptional = userRepository.findById(userId);
+    public UserDTO addToCart(String movieId, String username) {
+        Optional<User> userOptional = userRepository.findByUsernameOrEmail(username);
         if (userOptional.isEmpty()) {
-            throw new ResourceNotFoundException("The user with the given ID does not exist.");
+            throw new ResourceNotFoundException("The user with the given username does not exist.");
         }
 
         User user = userOptional.get();
@@ -101,8 +101,8 @@ public class UserService {
         return new UserDTO(updatedUser);
     }
 
-    public UserDTO addToWishlist(String userId, String movieId) {
-        Optional<User> userOptional = userRepository.findById(userId);
+    public UserDTO addToWishlist(String movieId, String username) {
+        Optional<User> userOptional = userRepository.findByUsernameOrEmail(username);
         if (userOptional.isEmpty()) {
             throw new ResourceNotFoundException("The user with the given ID does not exist.");
         }
@@ -119,8 +119,8 @@ public class UserService {
         return new UserDTO(updatedUser);
     }
 
-    public UserDTO removeFromCart(String userId, String movieId) {
-        Optional<User> userOptional = userRepository.findById(userId);
+    public UserDTO removeFromCart(String movieId, String username) {
+        Optional<User> userOptional = userRepository.findByUsernameOrEmail(username);
         if (userOptional.isEmpty()) {
             throw new ResourceNotFoundException("The user with the given ID does not exist.");
         }
@@ -137,8 +137,8 @@ public class UserService {
         return new UserDTO(updatedUser);
     }
 
-    public UserDTO removeFromWishlist(String userId, String movieId) {
-        Optional<User> userOptional = userRepository.findById(userId);
+    public UserDTO removeFromWishlist(String movieId, String username) {
+        Optional<User> userOptional = userRepository.findByUsernameOrEmail(username);
         if (userOptional.isEmpty()) {
             throw new ResourceNotFoundException("The user with the given ID does not exist.");
         }
@@ -155,23 +155,21 @@ public class UserService {
         return new UserDTO(updatedUser);
     }
 
-    public List<String> getCart(String userId) {
-        Optional<User> userOptional = userRepository.findById(userId);
+    public List<String> getCart(String username) {
+        Optional<User> userOptional = userRepository.findByUsernameOrEmail(username);
         if (userOptional.isEmpty()) {
-            throw new ResourceNotFoundException("The user with the given ID does not exist.");
+            throw new ResourceNotFoundException("The user with the given username does not exist.");
         }
-
         User user = userOptional.get();
         List<String> cart = user.getCart();
         return cart != null ? new ArrayList<>(cart) : new ArrayList<>();
     }
 
-    public List<String> getWishlist(String userId) {
-        Optional<User> userOptional = userRepository.findById(userId);
+    public List<String> getWishlist(String username) {
+        Optional<User> userOptional = userRepository.findByUsernameOrEmail(username);
         if (userOptional.isEmpty()) {
-            throw new ResourceNotFoundException("The user with the given ID does not exist.");
+            throw new ResourceNotFoundException("The user with the given username does not exist.");
         }
-
         User user = userOptional.get();
         List<String> wishlist = user.getWishlist();
         return wishlist != null ? new ArrayList<>(wishlist) : new ArrayList<>();

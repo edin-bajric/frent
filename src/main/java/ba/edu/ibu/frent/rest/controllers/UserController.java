@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -58,45 +59,51 @@ public class UserController {
         return ResponseEntity.ok(userService.filterByEmail(email));
     }
 
-    @RequestMapping(method = RequestMethod.PUT, path = "/{userId}/addToCart/{movieId}")
+    @RequestMapping(method = RequestMethod.PUT, path = "/addToCart/{movieId}")
     @PreAuthorize("hasAnyAuthority('MEMBER', 'ADMIN')")
-    public ResponseEntity<UserDTO> addToCart(@PathVariable String userId, @PathVariable String movieId) {
-        UserDTO updatedUser = userService.addToCart(userId, movieId);
+    public ResponseEntity<UserDTO> addToCart(@PathVariable String movieId, Principal principal) {
+        String username = principal.getName();
+        UserDTO updatedUser = userService.addToCart(movieId, username);
         return ResponseEntity.ok(updatedUser);
     }
 
-    @RequestMapping(method = RequestMethod.PUT, path = "/{userId}/addToWishlist/{movieId}")
+    @RequestMapping(method = RequestMethod.PUT, path = "/addToWishlist/{movieId}")
     @PreAuthorize("hasAnyAuthority('MEMBER', 'ADMIN')")
-    public ResponseEntity<UserDTO> addToWishlist(@PathVariable String userId, @PathVariable String movieId) {
-        UserDTO updatedUser = userService.addToWishlist(userId, movieId);
+    public ResponseEntity<UserDTO> addToWishlist(@PathVariable String movieId, Principal principal) {
+        String username = principal.getName();
+        UserDTO updatedUser = userService.addToWishlist(movieId, username);
         return ResponseEntity.ok(updatedUser);
     }
 
-    @RequestMapping(method = RequestMethod.PUT, path = "/{userId}/removeFromCart/{movieId}")
+    @RequestMapping(method = RequestMethod.PUT, path = "/removeFromCart/{movieId}")
     @PreAuthorize("hasAnyAuthority('MEMBER', 'ADMIN')")
-    public ResponseEntity<UserDTO> removeFromCart(@PathVariable String userId, @PathVariable String movieId) {
-        UserDTO updatedUser = userService.removeFromCart(userId, movieId);
+    public ResponseEntity<UserDTO> removeFromCart(@PathVariable String movieId, Principal principal) {
+        String username = principal.getName();
+        UserDTO updatedUser = userService.removeFromCart(movieId, username);
         return ResponseEntity.ok(updatedUser);
     }
 
-    @RequestMapping(method = RequestMethod.PUT, path = "/{userId}/removeFromWishlist/{movieId}")
+    @RequestMapping(method = RequestMethod.PUT, path = "/removeFromWishlist/{movieId}")
     @PreAuthorize("hasAnyAuthority('MEMBER', 'ADMIN')")
-    public ResponseEntity<UserDTO> removeFromWishlist(@PathVariable String userId, @PathVariable String movieId) {
-        UserDTO updatedUser = userService.removeFromWishlist(userId, movieId);
+    public ResponseEntity<UserDTO> removeFromWishlist(@PathVariable String movieId, Principal principal) {
+        String username = principal.getName();
+        UserDTO updatedUser = userService.removeFromWishlist(movieId, username);
         return ResponseEntity.ok(updatedUser);
     }
 
-    @RequestMapping(method = RequestMethod.GET, path = "/{userId}/cart")
+    @RequestMapping(method = RequestMethod.GET, path = "/cart")
     @PreAuthorize("hasAnyAuthority('MEMBER', 'ADMIN')")
-    public ResponseEntity<List<String>> getCart(@PathVariable String userId) {
-        List<String> cartItems = userService.getCart(userId);
-        return ResponseEntity.ok(cartItems);
+    public ResponseEntity<List<String>> getCart(Principal principal) {
+        String username = principal.getName();
+        List<String> cart = userService.getCart(username);
+        return new ResponseEntity<>(cart, HttpStatus.OK);
     }
 
-    @RequestMapping(method = RequestMethod.GET, path = "/{userId}/wishlist")
+    @RequestMapping(method = RequestMethod.GET, path = "/wishlist")
     @PreAuthorize("hasAnyAuthority('MEMBER', 'ADMIN')")
-    public ResponseEntity<List<String>> getWishlist(@PathVariable String userId) {
-        List<String> wishlistItems = userService.getWishlist(userId);
-        return ResponseEntity.ok(wishlistItems);
+    public ResponseEntity<List<String>> getWishlist(Principal principal) {
+        String username = principal.getName();
+        List<String> wishlist = userService.getWishlist(username);
+        return new ResponseEntity<>(wishlist, HttpStatus.OK);
     }
  }
