@@ -13,9 +13,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static java.util.stream.Collectors.toList;
 
@@ -96,10 +94,7 @@ public class UserService {
         }
 
         User user = userOptional.get();
-        List<String> cart = user.getCart();
-        if (cart == null) {
-            cart = new ArrayList<>();
-        }
+        Set<String> cart = user.getCart();
         cart.add(movieId);
         user.setCart(cart);
 
@@ -110,14 +105,11 @@ public class UserService {
     public UserDTO addToWishlist(String movieId, String username) {
         Optional<User> userOptional = userRepository.findByUsernameOrEmail(username);
         if (userOptional.isEmpty()) {
-            throw new ResourceNotFoundException("The user with the given ID does not exist.");
+            throw new ResourceNotFoundException("The user with the given username does not exist.");
         }
 
         User user = userOptional.get();
-        List<String> wishlist = user.getWishlist();
-        if (wishlist == null) {
-            wishlist = new ArrayList<>();
-        }
+        Set<String> wishlist = user.getWishlist();
         wishlist.add(movieId);
         user.setWishlist(wishlist);
 
@@ -128,14 +120,11 @@ public class UserService {
     public UserDTO removeFromCart(String movieId, String username) {
         Optional<User> userOptional = userRepository.findByUsernameOrEmail(username);
         if (userOptional.isEmpty()) {
-            throw new ResourceNotFoundException("The user with the given ID does not exist.");
+            throw new ResourceNotFoundException("The user with the given username does not exist.");
         }
 
         User user = userOptional.get();
-        List<String> cart = user.getCart();
-        if (cart == null) {
-            cart = new ArrayList<>();
-        }
+        Set<String> cart = user.getCart();
         cart.remove(movieId);
         user.setCart(cart);
 
@@ -146,14 +135,11 @@ public class UserService {
     public UserDTO removeFromWishlist(String movieId, String username) {
         Optional<User> userOptional = userRepository.findByUsernameOrEmail(username);
         if (userOptional.isEmpty()) {
-            throw new ResourceNotFoundException("The user with the given ID does not exist.");
+            throw new ResourceNotFoundException("The user with the given username does not exist.");
         }
 
         User user = userOptional.get();
-        List<String> wishlist = user.getWishlist();
-        if (wishlist == null) {
-            wishlist = new ArrayList<>();
-        }
+        Set<String> wishlist = user.getWishlist();
         wishlist.remove(movieId);
         user.setWishlist(wishlist);
 
@@ -161,23 +147,21 @@ public class UserService {
         return new UserDTO(updatedUser);
     }
 
-    public List<String> getCart(String username) {
+    public Set<String> getCart(String username) {
         Optional<User> userOptional = userRepository.findByUsernameOrEmail(username);
         if (userOptional.isEmpty()) {
             throw new ResourceNotFoundException("The user with the given username does not exist.");
         }
         User user = userOptional.get();
-        List<String> cart = user.getCart();
-        return cart != null ? new ArrayList<>(cart) : new ArrayList<>();
+        return user.getCart() != null ? new HashSet<>(user.getCart()) : new HashSet<>();
     }
 
-    public List<String> getWishlist(String username) {
+    public Set<String> getWishlist(String username) {
         Optional<User> userOptional = userRepository.findByUsernameOrEmail(username);
         if (userOptional.isEmpty()) {
             throw new ResourceNotFoundException("The user with the given username does not exist.");
         }
         User user = userOptional.get();
-        List<String> wishlist = user.getWishlist();
-        return wishlist != null ? new ArrayList<>(wishlist) : new ArrayList<>();
+        return user.getWishlist() != null ? new HashSet<>(user.getWishlist()) : new HashSet<>();
     }
 }

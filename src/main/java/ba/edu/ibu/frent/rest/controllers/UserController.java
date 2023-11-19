@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("api/users")
@@ -93,17 +94,17 @@ public class UserController {
 
     @RequestMapping(method = RequestMethod.GET, path = "/cart")
     @PreAuthorize("hasAnyAuthority('MEMBER', 'ADMIN')")
-    public ResponseEntity<List<String>> getCart(Principal principal) {
+    public ResponseEntity<Set<String>> getCart(Principal principal) {
         String username = principal.getName();
-        List<String> cart = userService.getCart(username);
+        Set<String> cart = userService.getCart(username);
         return new ResponseEntity<>(cart, HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "/wishlist")
     @PreAuthorize("hasAnyAuthority('MEMBER', 'ADMIN')")
-    public ResponseEntity<List<String>> getWishlist(Principal principal) {
+    public ResponseEntity<Set<String>> getWishlist(Principal principal) {
         String username = principal.getName();
-        List<String> wishlist = userService.getWishlist(username);
+        Set<String> wishlist = userService.getWishlist(username);
         return new ResponseEntity<>(wishlist, HttpStatus.OK);
     }
  }
