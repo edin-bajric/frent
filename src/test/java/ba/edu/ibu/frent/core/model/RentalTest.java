@@ -10,10 +10,10 @@ class RentalTest {
 
     @Test
     void shouldCreateNewRental() {
-        Rental rental = new Rental("id", "userId", "movieId", LocalDate.now(), LocalDate.now(), 5.99, true);
+        Rental rental = new Rental("id", "username", "movieId", LocalDate.now(), LocalDate.now(), 5.99, true);
 
         assertEquals("id", rental.getId());
-        assertEquals("userId", rental.getUserId());
+        assertEquals("username", rental.getUsername());
         assertEquals("movieId", rental.getMovieId());
         assertEquals(LocalDate.now(), rental.getRentalDate());
         assertEquals(LocalDate.now(), rental.getReturnDate());
@@ -23,7 +23,7 @@ class RentalTest {
     @Test
     void shouldNotAllowNegativeRentalPrice() {
         assertThrows(IllegalArgumentException.class, () -> {
-            new Rental("id", "userId", "movieId", LocalDate.now(), LocalDate.now(), -5.99, true);
+            new Rental("id", "username", "movieId", LocalDate.now(), LocalDate.now(), -5.99, true);
         });
     }
     @Test
@@ -31,7 +31,7 @@ class RentalTest {
         Rental rental = new Rental();
 
         rental.setId("id");
-        rental.setUserId("userId");
+        rental.setUsername("username");
         rental.setMovieId("movieId");
         rental.setRentalDate(LocalDate.now());
         rental.setReturnDate(LocalDate.now());
@@ -39,7 +39,7 @@ class RentalTest {
         rental.setReturned(true);
 
         assertEquals("id", rental.getId());
-        assertEquals("userId", rental.getUserId());
+        assertEquals("username", rental.getUsername());
         assertEquals("movieId", rental.getMovieId());
         assertEquals(LocalDate.now(), rental.getRentalDate());
         assertEquals(LocalDate.now(), rental.getReturnDate());

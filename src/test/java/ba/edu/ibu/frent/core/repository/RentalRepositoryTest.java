@@ -21,7 +21,7 @@ class RentalRepositoryTest {
         List<Rental> rentals = rentalRepository.findAll();
 
         assertEquals(1, rentals.size());
-        assertEquals("userId", rentals.get(0).getUserId());
+        assertEquals("username", rentals.get(0).getUsername());
     }
 
     @Test
