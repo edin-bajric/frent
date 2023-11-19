@@ -4,7 +4,7 @@ import ba.edu.ibu.frent.core.model.enums.UserType;
 import org.junit.jupiter.api.Test;
 
 import java.util.Date;
-import java.util.List;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -27,8 +27,8 @@ class UserTest {
         user.setEmail("email@example.com");
         user.setUsername("username");
         user.setPassword("password");
-        user.setCart(List.of("movieId1", "movieId2"));
-        user.setWishlist(List.of("movieId1", "movieId2"));
+        user.setCart(Set.of("movieId1", "movieId2"));
+        user.setWishlist(Set.of("movieId1", "movieId2"));
         Date creationDate = new Date();
         user.setCreationDate(creationDate);
 
@@ -39,8 +39,8 @@ class UserTest {
         assertEquals("email@example.com", user.getEmail());
         assertEquals("username", user.getUsername());
         assertEquals("password", user.getPassword());
-        assertEquals(List.of("movieId1", "movieId2"), user.getCart());
-        assertEquals(List.of("movieId1", "movieId2"), user.getWishlist());
+        assertEquals(Set.of("movieId1", "movieId2"), user.getCart());
+        assertEquals(Set.of("movieId1", "movieId2"), user.getWishlist());
         assertEquals(creationDate, user.getCreationDate());
     }
 

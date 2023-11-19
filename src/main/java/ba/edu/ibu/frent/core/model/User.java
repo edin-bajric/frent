@@ -7,9 +7,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Document
 public class User implements UserDetails {
@@ -21,8 +19,8 @@ public class User implements UserDetails {
     private String email;
     private String username;
     private String password;
-    private List<String> cart;
-    private List<String> wishlist;
+    private Set<String> cart = new HashSet<>();
+    private Set<String> wishlist = new HashSet<>();
     private Date creationDate = new Date();
 
     public String getId() {
@@ -81,19 +79,19 @@ public class User implements UserDetails {
         this.password = password;
     }
 
-    public List<String> getCart() {
+    public Set<String> getCart() {
         return cart;
     }
 
-    public void setCart(List<String> cart) {
+    public void setCart(Set<String> cart) {
         this.cart = cart;
     }
 
-    public List<String> getWishlist() {
+    public Set<String> getWishlist() {
         return wishlist;
     }
 
-    public void setWishlist(List<String> wishlist) {
+    public void setWishlist(Set<String> wishlist) {
         this.wishlist = wishlist;
     }
 
