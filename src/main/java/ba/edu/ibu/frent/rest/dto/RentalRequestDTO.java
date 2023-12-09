@@ -21,6 +21,8 @@ public class RentalRequestDTO {
         rental.setUsername(username);
         rental.setMovieId(movieId);
         rental.setRentalDate(LocalDate.now());
+        LocalDate dueDate = LocalDate.now().plusDays(10);
+        rental.setDueDate(dueDate);
         rental.setReturnDate(null);
         rental.setRentalPrice(rentalPrice);
         rental.setReturned(false);
