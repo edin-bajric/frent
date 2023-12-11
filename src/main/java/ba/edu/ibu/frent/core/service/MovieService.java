@@ -2,15 +2,14 @@ package ba.edu.ibu.frent.core.service;
 
 import ba.edu.ibu.frent.core.exceptions.repository.ResourceNotFoundException;
 import ba.edu.ibu.frent.core.model.Movie;
-import ba.edu.ibu.frent.core.model.Movie;
 import ba.edu.ibu.frent.core.repository.MovieRepository;
-import ba.edu.ibu.frent.rest.dto.MovieDTO;
 import ba.edu.ibu.frent.rest.dto.MovieDTO;
 import ba.edu.ibu.frent.rest.dto.MovieRequestDTO;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
 
@@ -61,11 +60,23 @@ public class MovieService {
     }
 
     public List<MovieDTO> searchMovies(String keyword) {
-        List<Movie> movies = movieRepository.findByTitleContainingIgnoreCaseOrDirectorContainingIgnoreCase(keyword, keyword);
-
-        return movies
-                .stream()
+        List<Movie> movies = movieRepository.findByTitleIgnoreCaseContainingOrDirectorIgnoreCaseContaining(keyword, keyword);
+        List<Movie> filteredMovies = movies.stream()
+                .filter(movie -> matchesSubstringInWord(keyword.toLowerCase(), movie.getTitle().toLowerCase())
+                        || matchesSubstringInWord(keyword.toLowerCase(), movie.getDirector().toLowerCase()))
+                .toList();
+        return filteredMovies.stream()
                 .map(MovieDTO::new)
-                .collect(toList());
+                .collect(Collectors.toList());
+    }
+
+    private boolean matchesSubstringInWord(String substring, String text) {
+        String[] words = text.split("\\s+");
+        for (String word : words) {
+            if (word.startsWith(substring)) {
+                return true;
+            }
+        }
+        return false;
     }
 }
