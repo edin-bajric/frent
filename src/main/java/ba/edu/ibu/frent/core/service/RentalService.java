@@ -14,6 +14,7 @@ import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,11 +25,13 @@ public class RentalService {
     private final RentalRepository rentalRepository;
     private final MovieRepository movieRepository;
     private final MongoTemplate mongoTemplate;
+    private final NotificationService notificationService;
 
-    public RentalService(RentalRepository rentalRepository, MovieRepository movieRepository, MongoTemplate mongoTemplate) {
+    public RentalService(RentalRepository rentalRepository, MovieRepository movieRepository, MongoTemplate mongoTemplate, NotificationService notificationService) {
         this.rentalRepository = rentalRepository;
         this.movieRepository = movieRepository;
         this.mongoTemplate = mongoTemplate;
+        this.notificationService = notificationService;
     }
 
     public List<RentalDTO> getRentals() {
@@ -130,5 +133,23 @@ public class RentalService {
         }
 
         rentalRepository.delete(rental);
+    }
+
+    public void checkDueDatesAndSendWarningsManually() {
+        List<Rental> overdueRentals = getOverdueRentals();
+        for (Rental rental : overdueRentals) {
+            String username = rental.getUsername();
+            List<String> ids = new ArrayList<>();
+            ids.add(rental.getMovieId());
+            String warningMessage = "Your movie " + ids + " is overdue! Please return it.";
+            notificationService.sendMessage(username, warningMessage);
+
+        }
+    }
+
+    private List<Rental> getOverdueRentals() {
+        LocalDate today = LocalDate.now();
+        Query query = new Query(Criteria.where("returnDate").is(null).and("dueDate").lt(today));
+        return mongoTemplate.find(query, Rental.class);
     }
 }
