@@ -73,8 +73,8 @@ public class RentalService {
     }
 
     public RentalDTO returnRental(String id) {
-        Optional<Rental> optionalRental = rentalRepository.findById(id);
-        if (optionalRental.isEmpty()) {
+        Optional<Rental> rental = rentalRepository.findById(id);
+        if (rental.isEmpty()) {
             throw new ResourceNotFoundException("The rental with the given ID does not exist.");
         }
         Query query = new Query(Criteria.where("_id").is(id));
