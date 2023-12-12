@@ -5,6 +5,10 @@ import ba.edu.ibu.frent.core.model.Movie;
 import ba.edu.ibu.frent.core.repository.MovieRepository;
 import ba.edu.ibu.frent.rest.dto.MovieDTO;
 import ba.edu.ibu.frent.rest.dto.MovieRequestDTO;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,9 +20,11 @@ import static java.util.stream.Collectors.toList;
 @Service
 public class MovieService {
     private final MovieRepository movieRepository;
+    private final MongoTemplate mongoTemplate;
 
-    public MovieService(MovieRepository movieRepository) {
+    public MovieService(MovieRepository movieRepository, MongoTemplate mongoTemplate) {
         this.movieRepository = movieRepository;
+        this.mongoTemplate = mongoTemplate;
     }
 
     public List<MovieDTO> getMovies() {
@@ -57,6 +63,24 @@ public class MovieService {
     public void deleteMovie(String id) {
         Optional<Movie> movie = movieRepository.findById(id);
         movie.ifPresent(movieRepository::delete);
+    }
+
+    public MovieDTO changeAvailability(String id) {
+        Optional<Movie> movie = movieRepository.findById(id);
+        if (movie.isEmpty()) {
+            throw new ResourceNotFoundException("The movie with the given ID does not exist.");
+        }
+        Query query = new Query(Criteria.where("_id").is(id));
+        Update update = new Update();
+        if (movie.get().isAvailable()) {
+            update.set("available", false);
+        }
+        else update.set("available", true);
+        mongoTemplate.updateFirst(query, update, Movie.class);
+        Optional<Movie> updatedMovie = movieRepository.findById(id);
+        return updatedMovie.map(MovieDTO::new).orElseThrow(() ->
+                new ResourceNotFoundException("Unable to retrieve the updated movie.")
+        );
     }
 
     public List<MovieDTO> searchMovies(String keyword) {

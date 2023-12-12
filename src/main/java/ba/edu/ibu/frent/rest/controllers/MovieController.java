@@ -54,4 +54,10 @@ public class MovieController {
     public ResponseEntity<List<MovieDTO>> searchMovies(@RequestParam String keyword) {
         return ResponseEntity.ok(movieService.searchMovies(keyword));
     }
+
+    @RequestMapping(method = RequestMethod.PUT, path = "/changeAvailable/{id}")
+    @PreAuthorize("hasAnyAuthority('EMPLOYEE', 'ADMIN')")
+    public ResponseEntity<MovieDTO> setAvailable(@PathVariable String id) {
+        return ResponseEntity.ok(movieService.changeAvailability(id));
+    }
 }
