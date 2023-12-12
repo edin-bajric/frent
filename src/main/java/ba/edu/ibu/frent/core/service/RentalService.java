@@ -143,7 +143,6 @@ public class RentalService {
             ids.add(rental.getMovieId());
             String warningMessage = "Your movie " + ids + " is overdue! Please return it.";
             notificationService.sendMessage(username, warningMessage);
-
         }
     }
 
