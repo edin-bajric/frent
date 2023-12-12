@@ -135,7 +135,7 @@ public class RentalService {
         rentalRepository.delete(rental);
     }
 
-    public void checkDueDatesAndSendWarningsManually() {
+    public void checkDueDatesAndSendWarnings() {
         List<Rental> overdueRentals = getOverdueRentals();
         for (Rental rental : overdueRentals) {
             String username = rental.getUsername();
