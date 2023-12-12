@@ -107,4 +107,12 @@ public class UserController {
         Set<String> wishlist = userService.getWishlist(username);
         return new ResponseEntity<>(wishlist, HttpStatus.OK);
     }
+
+    @RequestMapping(method = RequestMethod.GET, path = "/cartTotal")
+    @PreAuthorize("hasAnyAuthority('MEMBER', 'ADMIN')")
+    public ResponseEntity<Double> getCartTotal(Principal principal) {
+        String username = principal.getName();
+        double cartTotal = userService.getCartTotal(username);
+        return ResponseEntity.ok(cartTotal);
+    }
  }
