@@ -7,4 +7,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface RentalRepository extends MongoRepository<Rental, String> {
 
+    boolean existsByMovieIdAndUsernameAndReturnDateIsNull(String movieId, String username);
 }
