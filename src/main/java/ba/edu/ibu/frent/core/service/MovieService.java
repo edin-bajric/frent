@@ -3,7 +3,9 @@ package ba.edu.ibu.frent.core.service;
 import ba.edu.ibu.frent.core.exceptions.repository.ResourceAlreadyExistsException;
 import ba.edu.ibu.frent.core.exceptions.repository.ResourceNotFoundException;
 import ba.edu.ibu.frent.core.model.Movie;
+import ba.edu.ibu.frent.core.model.User;
 import ba.edu.ibu.frent.core.repository.MovieRepository;
+import ba.edu.ibu.frent.core.repository.UserRepository;
 import ba.edu.ibu.frent.rest.dto.MovieDTO;
 import ba.edu.ibu.frent.rest.dto.MovieRequestDTO;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -22,10 +24,14 @@ import static java.util.stream.Collectors.toList;
 public class MovieService {
     private final MovieRepository movieRepository;
     private final MongoTemplate mongoTemplate;
+    private final UserRepository userRepository;
+    private final NotificationService notificationService;
 
-    public MovieService(MovieRepository movieRepository, MongoTemplate mongoTemplate) {
+    public MovieService(MovieRepository movieRepository, MongoTemplate mongoTemplate, UserRepository userRepository, NotificationService notificationService) {
         this.movieRepository = movieRepository;
         this.mongoTemplate = mongoTemplate;
+        this.userRepository = userRepository;
+        this.notificationService = notificationService;
     }
 
     public List<MovieDTO> getMovies() {
@@ -67,14 +73,23 @@ public class MovieService {
     }
 
     public MovieDTO setAvailable(String id) {
-        Optional<Movie> movie = movieRepository.findById(id);
-        if (movie.isEmpty()) {
+        Optional<Movie> movieOptional = movieRepository.findById(id);
+        if (movieOptional.isEmpty()) {
             throw new ResourceNotFoundException("The movie with the given ID does not exist.");
         }
-        if (movie.get().isAvailable()) {
+        Movie movie = movieOptional.get();
+        if (movie.isAvailable()) {
             throw new ResourceAlreadyExistsException("The movie is already available.");
         }
         updateAvailability(id, true);
+        if (!movie.isAvailable()) {
+            List<User> usersWithMovieInWishlist = userRepository.findByWishlistContaining(id);
+            for (User user : usersWithMovieInWishlist) {
+                String username = user.getUsername();
+                String notificationMessage = "The movie '" + movie.getTitle() + "' is now available! Check it out!";
+                notificationService.sendMessage(username, notificationMessage);
+            }
+        }
         return movieRepository.findById(id)
                 .map(MovieDTO::new)
                 .orElseThrow(() -> new ResourceNotFoundException("Unable to retrieve the updated movie."));
