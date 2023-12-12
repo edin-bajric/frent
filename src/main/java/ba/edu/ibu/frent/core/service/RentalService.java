@@ -102,12 +102,12 @@ public class RentalService {
         String movieId = payload.getMovieId();
         Movie movie = movieRepository.findById(movieId)
                 .orElseThrow(() -> new ResourceNotFoundException("Movie with ID " + movieId + " not found."));
-
+        if (!movie.isAvailable()) {
+            throw new IllegalStateException("The movie is not available for rental.");
+        }
         double rentalPrice = movie.getRentalPrice();
-
         payload.setRentalPrice(rentalPrice);
         payload.setUsername(username);
-
         Rental rental = rentalRepository.save(payload.toEntity());
         return new RentalDTO(rental);
     }
