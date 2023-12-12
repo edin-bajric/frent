@@ -98,8 +98,11 @@ public class RentalService {
                 .collect(toList());
     }
 
-    public RentalDTO addRentalForUser(String username, RentalRequestDTO payload) {
-        String movieId = payload.getMovieId();
+    public RentalDTO addRentalForUser(String username, String movieId, RentalRequestDTO payload) {
+        boolean alreadyRented = rentalRepository.existsByMovieIdAndUsernameAndReturnDateIsNull(movieId, username);
+        if (alreadyRented) {
+            throw new IllegalStateException("You already have an active rental for this movie.");
+        }
         Movie movie = movieRepository.findById(movieId)
                 .orElseThrow(() -> new ResourceNotFoundException("Movie with ID " + movieId + " not found."));
         if (!movie.isAvailable()) {
@@ -108,6 +111,7 @@ public class RentalService {
         double rentalPrice = movie.getRentalPrice();
         payload.setRentalPrice(rentalPrice);
         payload.setUsername(username);
+        payload.setMovieId(movie.getId());
         Rental rental = rentalRepository.save(payload.toEntity());
         return new RentalDTO(rental);
     }

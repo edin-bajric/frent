@@ -68,11 +68,11 @@ public class RentalController {
         return ResponseEntity.ok(rentalIds);
     }
 
-    @RequestMapping(method = RequestMethod.POST, path = "/addForUser")
+    @RequestMapping(method = RequestMethod.POST, path = "/addForUser/{movieId}")
     @PreAuthorize("hasAnyAuthority('MEMBER', 'EMPLOYEE', 'ADMIN')")
-    public ResponseEntity<RentalDTO> addForUser(@RequestBody RentalRequestDTO rental, Principal principal) {
+    public ResponseEntity<RentalDTO> addForUser(@PathVariable String movieId, @RequestBody RentalRequestDTO rental, Principal principal) {
         String username = principal.getName();
-        return ResponseEntity.ok(rentalService.addRentalForUser(username, rental));
+        return ResponseEntity.ok(rentalService.addRentalForUser(username, movieId, rental));
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "/getForUser/{id}")
