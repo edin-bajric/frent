@@ -1,5 +1,6 @@
 package ba.edu.ibu.frent.core.service;
 
+import ba.edu.ibu.frent.core.exceptions.repository.ResourceAlreadyExistsException;
 import ba.edu.ibu.frent.core.exceptions.repository.ResourceNotFoundException;
 import ba.edu.ibu.frent.core.model.Movie;
 import ba.edu.ibu.frent.core.repository.MovieRepository;
@@ -65,22 +66,38 @@ public class MovieService {
         movie.ifPresent(movieRepository::delete);
     }
 
-    public MovieDTO changeAvailability(String id) {
+    public MovieDTO setAvailable(String id) {
         Optional<Movie> movie = movieRepository.findById(id);
         if (movie.isEmpty()) {
             throw new ResourceNotFoundException("The movie with the given ID does not exist.");
         }
-        Query query = new Query(Criteria.where("_id").is(id));
-        Update update = new Update();
         if (movie.get().isAvailable()) {
-            update.set("available", false);
+            throw new ResourceAlreadyExistsException("The movie is already available.");
         }
-        else update.set("available", true);
+        updateAvailability(id, true);
+        return movieRepository.findById(id)
+                .map(MovieDTO::new)
+                .orElseThrow(() -> new ResourceNotFoundException("Unable to retrieve the updated movie."));
+    }
+
+    public MovieDTO setUnavailable(String id) {
+        Optional<Movie> movie = movieRepository.findById(id);
+        if (movie.isEmpty()) {
+            throw new ResourceNotFoundException("The movie with the given ID does not exist.");
+        }
+        if (!movie.get().isAvailable()) {
+            throw new ResourceAlreadyExistsException("The movie is already unavailable.");
+        }
+        updateAvailability(id, false);
+        return movieRepository.findById(id)
+                .map(MovieDTO::new)
+                .orElseThrow(() -> new ResourceNotFoundException("Unable to retrieve the updated movie."));
+    }
+
+    private void updateAvailability(String id, boolean newAvailability) {
+        Query query = new Query(Criteria.where("_id").is(id));
+        Update update = new Update().set("available", newAvailability);
         mongoTemplate.updateFirst(query, update, Movie.class);
-        Optional<Movie> updatedMovie = movieRepository.findById(id);
-        return updatedMovie.map(MovieDTO::new).orElseThrow(() ->
-                new ResourceNotFoundException("Unable to retrieve the updated movie.")
-        );
     }
 
     public List<MovieDTO> searchMovies(String keyword) {

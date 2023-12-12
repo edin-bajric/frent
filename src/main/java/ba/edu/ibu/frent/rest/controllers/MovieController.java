@@ -55,9 +55,15 @@ public class MovieController {
         return ResponseEntity.ok(movieService.searchMovies(keyword));
     }
 
-    @RequestMapping(method = RequestMethod.PUT, path = "/changeAvailable/{id}")
+    @RequestMapping(method = RequestMethod.PUT, path = "/setAvailable/{id}")
     @PreAuthorize("hasAnyAuthority('EMPLOYEE', 'ADMIN')")
     public ResponseEntity<MovieDTO> setAvailable(@PathVariable String id) {
-        return ResponseEntity.ok(movieService.changeAvailability(id));
+        return ResponseEntity.ok(movieService.setAvailable(id));
+    }
+
+    @RequestMapping(method = RequestMethod.PUT, path = "/setUnavailable/{id}")
+    @PreAuthorize("hasAnyAuthority('EMPLOYEE', 'ADMIN')")
+    public ResponseEntity<MovieDTO> setUnavailable(@PathVariable String id) {
+        return ResponseEntity.ok(movieService.setUnavailable(id));
     }
 }
