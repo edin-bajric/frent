@@ -3,7 +3,9 @@ package ba.edu.ibu.frent.core.service;
 import ba.edu.ibu.frent.core.api.mailsender.MailSender;
 import ba.edu.ibu.frent.core.exceptions.auth.UserAlreadyExistsException;
 import ba.edu.ibu.frent.core.exceptions.repository.ResourceNotFoundException;
+import ba.edu.ibu.frent.core.model.Movie;
 import ba.edu.ibu.frent.core.model.User;
+import ba.edu.ibu.frent.core.repository.MovieRepository;
 import ba.edu.ibu.frent.core.repository.UserRepository;
 import ba.edu.ibu.frent.rest.dto.UserDTO;
 import ba.edu.ibu.frent.rest.dto.UserRequestDTO;
@@ -20,13 +22,15 @@ import static java.util.stream.Collectors.toList;
 @Service
 public class UserService {
     private final UserRepository userRepository;
+    private final MovieRepository movieRepository;
 
     @Autowired
     private MailSender mailgunSender;
     @Autowired
     private MailSender sendgridSender;
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, MovieRepository movieRepository) {
         this.userRepository = userRepository;
+        this.movieRepository = movieRepository;
     }
 
     public List<UserDTO> getUsers() {
@@ -92,12 +96,18 @@ public class UserService {
         if (userOptional.isEmpty()) {
             throw new ResourceNotFoundException("The user with the given username does not exist.");
         }
-
+        Optional<Movie> movieOptional = movieRepository.findById(movieId);
+        if (movieOptional.isEmpty()) {
+            throw new ResourceNotFoundException("The movie with the given ID does not exist.");
+        }
+        Movie movie = movieOptional.get();
+        if (!movie.isAvailable()) {
+            throw new IllegalStateException("The movie is not available.");
+        }
         User user = userOptional.get();
         Set<String> cart = user.getCart();
         cart.add(movieId);
         user.setCart(cart);
-
         User updatedUser = userRepository.save(user);
         return new UserDTO(updatedUser);
     }
@@ -107,12 +117,10 @@ public class UserService {
         if (userOptional.isEmpty()) {
             throw new ResourceNotFoundException("The user with the given username does not exist.");
         }
-
         User user = userOptional.get();
         Set<String> wishlist = user.getWishlist();
         wishlist.add(movieId);
         user.setWishlist(wishlist);
-
         User updatedUser = userRepository.save(user);
         return new UserDTO(updatedUser);
     }
@@ -122,12 +130,10 @@ public class UserService {
         if (userOptional.isEmpty()) {
             throw new ResourceNotFoundException("The user with the given username does not exist.");
         }
-
         User user = userOptional.get();
         Set<String> cart = user.getCart();
         cart.remove(movieId);
         user.setCart(cart);
-
         User updatedUser = userRepository.save(user);
         return new UserDTO(updatedUser);
     }
@@ -137,12 +143,10 @@ public class UserService {
         if (userOptional.isEmpty()) {
             throw new ResourceNotFoundException("The user with the given username does not exist.");
         }
-
         User user = userOptional.get();
         Set<String> wishlist = user.getWishlist();
         wishlist.remove(movieId);
         user.setWishlist(wishlist);
-
         User updatedUser = userRepository.save(user);
         return new UserDTO(updatedUser);
     }
