@@ -168,4 +168,20 @@ public class UserService {
         User user = userOptional.get();
         return user.getWishlist() != null ? new HashSet<>(user.getWishlist()) : new HashSet<>();
     }
+
+    public double getCartTotal(String username) {
+        Optional<User> userOptional = userRepository.findByUsernameOrEmail(username);
+        if (userOptional.isEmpty()) {
+            throw new ResourceNotFoundException("The user with the given username does not exist.");
+        }
+        User user = userOptional.get();
+        Set<String> cart = user.getCart();
+        if (cart == null || cart.isEmpty()) {
+            return 0.0;
+        }
+        List<Movie> moviesInCart = movieRepository.findAllById(cart);
+        return moviesInCart.stream()
+                .mapToDouble(Movie::getRentalPrice)
+                .sum();
+    }
 }
