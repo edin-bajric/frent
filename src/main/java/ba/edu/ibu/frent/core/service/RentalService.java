@@ -143,11 +143,16 @@ public class RentalService {
         List<Rental> overdueRentals = getOverdueRentals();
         for (Rental rental : overdueRentals) {
             String username = rental.getUsername();
-            List<String> ids = new ArrayList<>();
-            ids.add(rental.getMovieId());
-            String warningMessage = "Your movie " + ids + " is overdue! Please return it.";
+            String movieTitle = getMovieTitle(rental.getMovieId());
+            String warningMessage = "Hello, " + username + "! Your rental for '" + movieTitle + "' is overdue. Please return it as soon as possible. Thank you!";
             notificationService.sendMessage(username, warningMessage);
         }
+    }
+
+    private String getMovieTitle(String movieId) {
+        Query query = new Query(Criteria.where("_id").is(movieId));
+        Movie movie = mongoTemplate.findOne(query, Movie.class);
+        return (movie != null) ? movie.getTitle() : "Unknown Title";
     }
 
     private List<Rental> getOverdueRentals() {
