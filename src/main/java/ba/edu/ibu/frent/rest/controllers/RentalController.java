@@ -90,9 +90,9 @@ public class RentalController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @RequestMapping(method = RequestMethod.POST, path = "/checkOverdueRentals")
+    @RequestMapping(method = RequestMethod.POST, path = "/sendDueDateWarnings")
     @PreAuthorize("hasAnyAuthority('EMPLOYEE', 'ADMIN')")
-    public ResponseEntity<Void> checkOverdueRentals() {
+    public ResponseEntity<Void> sendDueDateWarnings() {
         rentalService.checkDueDatesAndSendWarnings();
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
