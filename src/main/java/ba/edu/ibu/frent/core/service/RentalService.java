@@ -14,6 +14,7 @@ import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -140,13 +141,45 @@ public class RentalService {
     }
 
     public void checkDueDatesAndSendWarnings() {
-        List<Rental> overdueRentals = getOverdueRentals();
+        LocalDate today = LocalDate.now();
+        List<Rental> overdueRentals = getOverdueRentals(today);
         for (Rental rental : overdueRentals) {
-            String username = rental.getUsername();
-            String movieTitle = getMovieTitle(rental.getMovieId());
-            String warningMessage = "Hello, " + username + "! Your rental for " + movieTitle + " is overdue. Please return it as soon as possible. Thank you!";
-            notificationService.sendMessage(username, warningMessage);
+            sendOverdueWarning(rental);
         }
+        List<Rental> upcomingDueRentals = getUpcomingDueRentals(today, 3, 2, 1);
+        for (Rental rental : upcomingDueRentals) {
+            sendUpcomingDueWarning(rental);
+        }
+    }
+
+    private void sendOverdueWarning(Rental rental) {
+        String username = rental.getUsername();
+        String movieTitle = getMovieTitle(rental.getMovieId());
+        String warningMessage = "Hello, " + username + "! Your rental for " + movieTitle + " is overdue. Please return it as soon as possible. Thank you!";
+        notificationService.sendMessage(username, warningMessage);
+    }
+
+    private void sendUpcomingDueWarning(Rental rental) {
+        String username = rental.getUsername();
+        String movieTitle = getMovieTitle(rental.getMovieId());
+        int daysUntilDue = calculateDaysUntilDue(rental.getDueDate());
+        String warningMessage = "Hello, " + username + "! Your rental for " + movieTitle + " will expire in " + daysUntilDue + " days. Please return it soon. Thank you!";
+        notificationService.sendMessage(username, warningMessage);
+    }
+
+    private List<Rental> getOverdueRentals(LocalDate today) {
+        Query query = new Query(Criteria.where("returnDate").is(null).and("dueDate").lt(today));
+        return mongoTemplate.find(query, Rental.class);
+    }
+
+    private List<Rental> getUpcomingDueRentals(LocalDate today, int... days) {
+        List<Rental> upcomingDueRentals = new ArrayList<>();
+        for (int day : days) {
+            LocalDate dueDateThreshold = today.plusDays(day);
+            Query query = new Query(Criteria.where("returnDate").is(null).and("dueDate").is(dueDateThreshold));
+            upcomingDueRentals.addAll(mongoTemplate.find(query, Rental.class));
+        }
+        return upcomingDueRentals;
     }
 
     private String getMovieTitle(String movieId) {
@@ -155,9 +188,9 @@ public class RentalService {
         return (movie != null) ? movie.getTitle() : "Unknown Title";
     }
 
-    private List<Rental> getOverdueRentals() {
+    private int calculateDaysUntilDue(LocalDate dueDate) {
         LocalDate today = LocalDate.now();
-        Query query = new Query(Criteria.where("returnDate").is(null).and("dueDate").lt(today));
-        return mongoTemplate.find(query, Rental.class);
+        return (int) ChronoUnit.DAYS.between(today, dueDate);
     }
+
 }
