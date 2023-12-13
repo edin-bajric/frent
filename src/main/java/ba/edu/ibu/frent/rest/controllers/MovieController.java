@@ -50,8 +50,8 @@ public class MovieController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @RequestMapping(method = RequestMethod.GET, path = "/search")
-    public ResponseEntity<List<MovieDTO>> searchMovies(@RequestParam String keyword) {
+    @RequestMapping(method = RequestMethod.GET, path = "/search/{keyword}")
+    public ResponseEntity<List<MovieDTO>> searchMovies(@PathVariable String keyword) {
         return ResponseEntity.ok(movieService.searchMovies(keyword));
     }
 
@@ -67,9 +67,9 @@ public class MovieController {
         return ResponseEntity.ok(movieService.setUnavailable(id));
     }
 
-    @RequestMapping(method = RequestMethod.PUT, path = "/discount")
+    @RequestMapping(method = RequestMethod.PUT, path = "/discount/{id}/{discount}")
     @PreAuthorize("hasAnyAuthority('EMPLOYEE', 'ADMIN')")
-    public ResponseEntity<MovieDTO> setPriceAndNotify(@RequestParam String id, @RequestParam double discount) {
+    public ResponseEntity<MovieDTO> setPriceAndNotify(@PathVariable String id, @PathVariable double discount) {
         MovieDTO updatedMovie = movieService.setPriceAndNotify(id, discount);
         return new ResponseEntity<>(updatedMovie, HttpStatus.OK);
     }
