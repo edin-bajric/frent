@@ -132,14 +132,15 @@ public class MovieService {
         for (User user : usersWithMovieInWishlist) {
             String username = user.getUsername();
             String notificationMessage = movie.getTitle() + " is now on sale! Original price: " +
-                    originalPrice + ", Discounted price: " + discountedPrice + ".";
+                    originalPrice + ", Discounted price: " + discountedPrice;
             notificationService.sendMessage(username, notificationMessage);
         }
         return new MovieDTO(movie);
     }
 
     private double calculateDiscountedPrice(double originalPrice, double discount) {
-        return originalPrice - (originalPrice * (discount / 100));
+        double discountedPrice = originalPrice - (originalPrice * (discount / 100));
+        return Math.round(discountedPrice * 100.0) / 100.0;
     }
 
     public List<MovieDTO> searchMovies(String keyword) {
