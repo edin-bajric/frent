@@ -132,7 +132,7 @@ public class MovieService {
         for (User user : usersWithMovieInWishlist) {
             String username = user.getUsername();
             String notificationMessage = movie.getTitle() + " is now on sale! Original price: " +
-                    originalPrice + "KM, Discounted price: " + discountedPrice + "KM.";
+                    originalPrice + ", Discounted price: " + discountedPrice + ".";
             notificationService.sendMessage(username, notificationMessage);
         }
         return new MovieDTO(movie);
