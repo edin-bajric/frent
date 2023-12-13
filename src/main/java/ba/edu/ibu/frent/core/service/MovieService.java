@@ -86,7 +86,7 @@ public class MovieService {
             List<User> usersWithMovieInWishlist = userRepository.findByWishlistContaining(id);
             for (User user : usersWithMovieInWishlist) {
                 String username = user.getUsername();
-                String notificationMessage = "The movie '" + movie.getTitle() + "' is now available! Check it out!";
+                String notificationMessage = movie.getTitle() + " from your wishlist is now available!";
                 notificationService.sendMessage(username, notificationMessage);
             }
         }
