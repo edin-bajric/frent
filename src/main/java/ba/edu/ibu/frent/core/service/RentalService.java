@@ -163,9 +163,11 @@ public class RentalService {
         String username = rental.getUsername();
         String movieTitle = getMovieTitle(rental.getMovieId());
         int daysUntilDue = calculateDaysUntilDue(rental.getDueDate());
-        String warningMessage = "Hello, " + username + "! Your rental for " + movieTitle + " will expire in " + daysUntilDue + " days. Please return it soon. Thank you!";
+        String dayOrDays = (daysUntilDue == 1) ? "day" : "days";
+        String warningMessage = "Hello, " + username + "! Your rental for " + movieTitle + " will expire in " + daysUntilDue + " " + dayOrDays + ". Please return it soon. Thank you!";
         notificationService.sendMessage(username, warningMessage);
     }
+
 
     private List<Rental> getOverdueRentals(LocalDate today) {
         Query query = new Query(Criteria.where("returnDate").is(null).and("dueDate").lt(today));
