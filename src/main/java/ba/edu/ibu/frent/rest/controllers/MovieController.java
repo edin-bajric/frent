@@ -66,4 +66,11 @@ public class MovieController {
     public ResponseEntity<MovieDTO> setUnavailable(@PathVariable String id) {
         return ResponseEntity.ok(movieService.setUnavailable(id));
     }
+
+    @RequestMapping(method = RequestMethod.PUT, path = "/discount")
+    @PreAuthorize("hasAnyAuthority('EMPLOYEE', 'ADMIN')")
+    public ResponseEntity<MovieDTO> setPriceAndNotify(@RequestParam String id, @RequestParam double discount) {
+        MovieDTO updatedMovie = movieService.setPriceAndNotify(id, discount);
+        return new ResponseEntity<>(updatedMovie, HttpStatus.OK);
+    }
 }

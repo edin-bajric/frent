@@ -115,6 +115,33 @@ public class MovieService {
         mongoTemplate.updateFirst(query, update, Movie.class);
     }
 
+    public MovieDTO setPriceAndNotify(String id, double discount) {
+        Optional<Movie> movieOptional = movieRepository.findById(id);
+        if (movieOptional.isEmpty()) {
+            throw new ResourceNotFoundException("The movie with the given ID does not exist.");
+        }
+        Movie movie = movieOptional.get();
+        double originalPrice = movie.getRentalPrice();
+        double discountedPrice = calculateDiscountedPrice(originalPrice, discount);
+        if (originalPrice == discountedPrice) {
+            throw new ResourceAlreadyExistsException("The movie is already on sale.");
+        }
+        movie.setRentalPrice(discountedPrice);
+        movieRepository.save(movie);
+        List<User> usersWithMovieInWishlist = userRepository.findByWishlistContaining(id);
+        for (User user : usersWithMovieInWishlist) {
+            String username = user.getUsername();
+            String notificationMessage = movie.getTitle() + " is now on sale! Original price: " +
+                    originalPrice + "KM, Discounted price: " + discountedPrice + "KM.";
+            notificationService.sendMessage(username, notificationMessage);
+        }
+        return new MovieDTO(movie);
+    }
+
+    private double calculateDiscountedPrice(double originalPrice, double discount) {
+        return originalPrice - (originalPrice * (discount / 100));
+    }
+
     public List<MovieDTO> searchMovies(String keyword) {
         List<Movie> movies = movieRepository.findByTitleIgnoreCaseContainingOrDirectorIgnoreCaseContaining(keyword, keyword);
         List<Movie> filteredMovies = movies.stream()
