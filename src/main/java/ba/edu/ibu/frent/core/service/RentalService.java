@@ -144,7 +144,7 @@ public class RentalService {
         for (Rental rental : overdueRentals) {
             String username = rental.getUsername();
             String movieTitle = getMovieTitle(rental.getMovieId());
-            String warningMessage = "Hello, " + username + "! Your rental for '" + movieTitle + "' is overdue. Please return it as soon as possible. Thank you!";
+            String warningMessage = "Hello, " + username + "! Your rental for " + movieTitle + " is overdue. Please return it as soon as possible. Thank you!";
             notificationService.sendMessage(username, warningMessage);
         }
     }
