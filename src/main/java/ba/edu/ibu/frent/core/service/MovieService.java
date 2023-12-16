@@ -143,6 +143,17 @@ public class MovieService {
         return Math.round(discountedPrice * 100.0) / 100.0;
     }
 
+    public MovieDTO revertPrice(String movieId, double oldPrice) {
+        Optional<Movie> movieOptional = movieRepository.findById(movieId);
+        if (movieOptional.isEmpty()) {
+            throw new ResourceNotFoundException("The movie with the given ID does not exist.");
+        }
+        Movie movie = movieOptional.get();
+        movie.setRentalPrice(oldPrice);
+        movieRepository.save(movie);
+        return new MovieDTO(movie);
+    }
+
     public List<MovieDTO> searchMovies(String keyword) {
         List<Movie> movies = movieRepository.findByTitleIgnoreCaseContainingOrDirectorIgnoreCaseContaining(keyword, keyword);
         List<Movie> filteredMovies = movies.stream()
