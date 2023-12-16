@@ -73,4 +73,11 @@ public class MovieController {
         MovieDTO updatedMovie = movieService.setPriceAndNotify(id, discount);
         return new ResponseEntity<>(updatedMovie, HttpStatus.OK);
     }
+
+    @RequestMapping(method = RequestMethod.PUT, path = "/revertPrice/{id}/{oldPrice}")
+    @PreAuthorize("hasAnyAuthority('EMPLOYEE', 'ADMIN')")
+    public ResponseEntity<MovieDTO> revertPrice(@PathVariable String id, @PathVariable double oldPrice) {
+        MovieDTO updatedMovie = movieService.revertPrice(id, oldPrice);
+        return new ResponseEntity<>(updatedMovie, HttpStatus.OK);
+    }
 }
