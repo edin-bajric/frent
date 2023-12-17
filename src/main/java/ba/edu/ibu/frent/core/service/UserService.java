@@ -26,8 +26,7 @@ public class UserService {
 
     @Autowired
     private MailSender mailgunSender;
-    @Autowired
-    private MailSender sendgridSender;
+
     public UserService(UserRepository userRepository, MovieRepository movieRepository) {
         this.userRepository = userRepository;
         this.movieRepository = movieRepository;
