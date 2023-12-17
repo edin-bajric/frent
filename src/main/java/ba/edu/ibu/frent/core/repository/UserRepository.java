@@ -21,4 +21,6 @@ public interface UserRepository extends MongoRepository<User, String> {
     boolean existsByUsername(String username);
 
     List<User> findByWishlistContaining(String id);
+    @Query(value = "{'wishlist': ?0}", fields = "{'email': 1, '_id': 0}")
+    List<String> findEmailsByWishlistContaining(String id);
 }

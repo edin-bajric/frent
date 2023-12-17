@@ -1,5 +1,6 @@
 package ba.edu.ibu.frent.core.service;
 
+import ba.edu.ibu.frent.api.impl.mailsender.MailgunSender;
 import ba.edu.ibu.frent.core.exceptions.repository.ResourceAlreadyExistsException;
 import ba.edu.ibu.frent.core.exceptions.repository.ResourceNotFoundException;
 import ba.edu.ibu.frent.core.model.Movie;
@@ -8,6 +9,7 @@ import ba.edu.ibu.frent.core.repository.MovieRepository;
 import ba.edu.ibu.frent.core.repository.UserRepository;
 import ba.edu.ibu.frent.rest.dto.MovieDTO;
 import ba.edu.ibu.frent.rest.dto.MovieRequestDTO;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -26,12 +28,14 @@ public class MovieService {
     private final MongoTemplate mongoTemplate;
     private final UserRepository userRepository;
     private final NotificationService notificationService;
+    private final MailgunSender mailgunSender;
 
-    public MovieService(MovieRepository movieRepository, MongoTemplate mongoTemplate, UserRepository userRepository, NotificationService notificationService) {
+    public MovieService(MovieRepository movieRepository, MongoTemplate mongoTemplate, UserRepository userRepository, NotificationService notificationService, MailgunSender mailgunSender) {
         this.movieRepository = movieRepository;
         this.mongoTemplate = mongoTemplate;
         this.userRepository = userRepository;
         this.notificationService = notificationService;
+        this.mailgunSender = mailgunSender;
     }
 
     public List<MovieDTO> getMovies() {
@@ -128,12 +132,15 @@ public class MovieService {
         }
         movie.setRentalPrice(discountedPrice);
         movieRepository.save(movie);
+        List<String> userEmails = userRepository.findEmailsByWishlistContaining(id);
+        String message = movie.getTitle() + " is now on sale! Original price: " +
+                originalPrice + ", Discounted price: " + discountedPrice;
+        String subject = movie.getTitle() + " from your wishlist is now on sale!";
+        mailgunSender.send(userEmails, message, subject);
         List<User> usersWithMovieInWishlist = userRepository.findByWishlistContaining(id);
         for (User user : usersWithMovieInWishlist) {
             String username = user.getUsername();
-            String notificationMessage = movie.getTitle() + " is now on sale! Original price: " +
-                    originalPrice + ", Discounted price: " + discountedPrice;
-            notificationService.sendMessage(username, notificationMessage);
+            notificationService.sendMessage(username, message);
         }
         return new MovieDTO(movie);
     }
