@@ -6,6 +6,11 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.List;
 
+/**
+ * Represents a movie entity in the system.
+ * Each movie has a unique identifier, title, director, genre, release year, availability status,
+ * and rental price associated with it.
+ */
 @Document
 public class Movie {
     @Id
@@ -17,9 +22,26 @@ public class Movie {
     private boolean available;
     private double rentalPrice;
 
+    /**
+     * Default constructor for the Movie class.
+     * Initializes the movie entity with default values.
+     */
     public Movie() {
     }
 
+    /**
+     * Parameterized constructor for the Movie class.
+     * Initializes the movie entity with the provided values.
+     *
+     * @param id           The unique identifier of the movie.
+     * @param title        The title of the movie.
+     * @param director     The director of the movie.
+     * @param genre        The list of genres associated with the movie.
+     * @param year         The release year of the movie.
+     * @param available    The availability status of the movie.
+     * @param rentalPrice  The rental price of the movie.
+     * @throws IllegalArgumentException If the provided year or rental price is negative.
+     */
     public Movie(String id, String title, String director, List<Genre> genre, int year, boolean available, double rentalPrice) {
         this.id = id;
         this.title = title;

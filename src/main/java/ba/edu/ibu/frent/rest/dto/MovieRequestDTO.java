@@ -5,6 +5,9 @@ import ba.edu.ibu.frent.core.model.enums.Genre;
 
 import java.util.List;
 
+/**
+ * MovieRequestDTO represents the data transfer object for creating or updating movies.
+ */
 public class MovieRequestDTO {
     private String title;
     private String director;
@@ -13,8 +16,17 @@ public class MovieRequestDTO {
     private boolean available;
     private double rentalPrice;
 
-    public MovieRequestDTO() { };
+    /**
+     * Constructs an empty MovieRequestDTO.
+     */
+    public MovieRequestDTO() {
+    }
 
+    /**
+     * Constructs a MovieRequestDTO based on the provided Movie entity.
+     *
+     * @param movie The Movie entity from which to construct the DTO.
+     */
     public MovieRequestDTO(Movie movie) {
         this.title = movie.getTitle();
         this.director = movie.getDirector();
@@ -24,6 +36,11 @@ public class MovieRequestDTO {
         this.rentalPrice = movie.getRentalPrice();
     }
 
+    /**
+     * Converts the DTO to a Movie entity.
+     *
+     * @return The Movie entity created from the DTO.
+     */
     public Movie toEntity() {
         Movie movie = new Movie();
         movie.setTitle(title);

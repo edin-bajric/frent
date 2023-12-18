@@ -5,6 +5,9 @@ import ba.edu.ibu.frent.core.model.enums.Genre;
 
 import java.util.List;
 
+/**
+ * MovieDTO represents the data transfer object for movies.
+ */
 public class MovieDTO {
     private String id;
     private String title;
@@ -14,9 +17,17 @@ public class MovieDTO {
     private boolean available;
     private double rentalPrice;
 
+    /**
+     * Constructs an empty MovieDTO.
+     */
     public MovieDTO() {
     }
 
+    /**
+     * Constructs a MovieDTO based on the provided Movie entity.
+     *
+     * @param movie The Movie entity from which to construct the DTO.
+     */
     public MovieDTO(Movie movie) {
         this.id = movie.getId();
         this.title = movie.getTitle();

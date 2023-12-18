@@ -6,6 +6,9 @@ import ba.edu.ibu.frent.core.model.User;
 import java.util.Date;
 import java.util.Set;
 
+/**
+ * UserDTO represents the data transfer object for presenting User entities.
+ */
 public class UserDTO {
     private String id;
     private String name;
@@ -16,9 +19,17 @@ public class UserDTO {
     private Set<String> wishlist;
     private Date creationDate;
 
+    /**
+     * Constructs an empty UserDTO.
+     */
     public UserDTO() {
     }
 
+    /**
+     * Constructs a UserDTO based on the provided User entity.
+     *
+     * @param user The User entity from which to construct the DTO.
+     */
     public UserDTO(User user) {
         this.id = user.getId();
         this.name = user.getFirstName() + " " + user.getLastName();
