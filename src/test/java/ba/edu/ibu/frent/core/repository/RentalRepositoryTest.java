@@ -20,13 +20,13 @@ class RentalRepositoryTest {
     public void shouldReturnAllRentals() {
         List<Rental> rentals = rentalRepository.findAll();
 
-        assertEquals(1, rentals.size());
-        assertEquals("username", rentals.get(0).getUsername());
+        assertEquals(5, rentals.size());
+        assertEquals("jon", rentals.get(0).getUsername());
     }
 
     @Test
     public void shouldFindRentalById() {
-        Optional<Rental> rental = rentalRepository.findById("6557eec58febc00c05b2382e");
+        Optional<Rental> rental = rentalRepository.findById("655a25068da8c42a66793550");
         assertNotNull(rental.orElse(null));
     }
 }
