@@ -9,6 +9,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.*;
 
+/**
+ * Represents a user in the system.
+ * Each user has a unique identifier, user type, first name, last name, email,
+ * username, password, shopping cart, wishlist, and creation date.
+ */
 @Document
 public class User implements UserDetails {
     @Id

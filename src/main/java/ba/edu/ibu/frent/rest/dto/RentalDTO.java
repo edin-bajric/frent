@@ -4,6 +4,9 @@ import ba.edu.ibu.frent.core.model.Rental;
 
 import java.time.LocalDate;
 
+/**
+ * RentalDTO represents the data transfer object for displaying Rental information.
+ */
 public class RentalDTO {
     private String id;
     private String username;
@@ -14,9 +17,17 @@ public class RentalDTO {
     private double rentalPrice;
     private boolean returned;
 
+    /**
+     * Constructs an empty RentalDTO.
+     */
     public RentalDTO() {
     }
 
+    /**
+     * Constructs a RentalDTO based on the provided Rental entity.
+     *
+     * @param rental The Rental entity from which to construct the DTO.
+     */
     public RentalDTO(Rental rental) {
         this.id = rental.getId();
         this.username = rental.getUsername();
