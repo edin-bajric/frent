@@ -59,4 +59,13 @@ public class MovieService {
         Optional<Movie> movie = movieRepository.findById(id);
         movie.ifPresent(movieRepository::delete);
     }
+
+    public List<MovieDTO> searchMovies(String keyword) {
+        List<Movie> movies = movieRepository.findByTitleContainingIgnoreCaseOrDirectorContainingIgnoreCase(keyword, keyword);
+
+        return movies
+                .stream()
+                .map(MovieDTO::new)
+                .collect(toList());
+    }
 }

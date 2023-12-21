@@ -49,4 +49,9 @@ public class MovieController {
         movieService.deleteMovie(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
+    @RequestMapping(method = RequestMethod.GET, path = "/search")
+    public ResponseEntity<List<MovieDTO>> searchMovies(@RequestParam String keyword) {
+        return ResponseEntity.ok(movieService.searchMovies(keyword));
+    }
 }
