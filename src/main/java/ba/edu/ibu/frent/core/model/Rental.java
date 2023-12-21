@@ -9,12 +9,28 @@ import java.time.LocalDate;
 public class Rental {
     @Id
     private String id;
-    private String userId;
+    private String username;
     private String movieId;
     private LocalDate rentalDate;
     private LocalDate returnDate;
     private double rentalPrice;
     private boolean returned;
+
+    public Rental() {
+    }
+
+    public Rental(String id, String username, String movieId, LocalDate rentalDate, LocalDate returnDate, double rentalPrice, boolean returned) {
+        this.id = id;
+        this.username = username;
+        this.movieId = movieId;
+        this.rentalDate = rentalDate;
+        this.returnDate = returnDate;
+        if (rentalPrice < 0) {
+            throw new IllegalArgumentException("Rental price cannot be negative");
+        }
+        this.rentalPrice = rentalPrice;
+        this.returned = returned;
+    }
 
     public String getId() {
         return id;
@@ -24,12 +40,12 @@ public class Rental {
         this.id = id;
     }
 
-    public String getUserId() {
-        return userId;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getMovieId() {

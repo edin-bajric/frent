@@ -1,6 +1,7 @@
 package ba.edu.ibu.frent.core.service;
 
 import ba.edu.ibu.frent.core.api.mailsender.MailSender;
+import ba.edu.ibu.frent.core.exceptions.auth.UserAlreadyExistsException;
 import ba.edu.ibu.frent.core.exceptions.repository.ResourceNotFoundException;
 import ba.edu.ibu.frent.core.model.User;
 import ba.edu.ibu.frent.core.repository.UserRepository;
@@ -12,8 +13,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static java.util.stream.Collectors.toList;
 
@@ -47,6 +47,11 @@ public class UserService {
     }
 
     public UserDTO addUser(UserRequestDTO payload) {
+
+        if (userRepository.existsByEmail(payload.getEmail()) || userRepository.existsByUsername(payload.getUsername())) {
+            throw new UserAlreadyExistsException("User already exists");
+        }
+
         User user = userRepository.save(payload.toEntity());
         return new UserDTO(user);
     }
@@ -80,5 +85,83 @@ public class UserService {
                         .orElseThrow(() -> new UsernameNotFoundException("User not found"));
             }
         };
+    }
+
+    public UserDTO addToCart(String movieId, String username) {
+        Optional<User> userOptional = userRepository.findByUsernameOrEmail(username);
+        if (userOptional.isEmpty()) {
+            throw new ResourceNotFoundException("The user with the given username does not exist.");
+        }
+
+        User user = userOptional.get();
+        Set<String> cart = user.getCart();
+        cart.add(movieId);
+        user.setCart(cart);
+
+        User updatedUser = userRepository.save(user);
+        return new UserDTO(updatedUser);
+    }
+
+    public UserDTO addToWishlist(String movieId, String username) {
+        Optional<User> userOptional = userRepository.findByUsernameOrEmail(username);
+        if (userOptional.isEmpty()) {
+            throw new ResourceNotFoundException("The user with the given username does not exist.");
+        }
+
+        User user = userOptional.get();
+        Set<String> wishlist = user.getWishlist();
+        wishlist.add(movieId);
+        user.setWishlist(wishlist);
+
+        User updatedUser = userRepository.save(user);
+        return new UserDTO(updatedUser);
+    }
+
+    public UserDTO removeFromCart(String movieId, String username) {
+        Optional<User> userOptional = userRepository.findByUsernameOrEmail(username);
+        if (userOptional.isEmpty()) {
+            throw new ResourceNotFoundException("The user with the given username does not exist.");
+        }
+
+        User user = userOptional.get();
+        Set<String> cart = user.getCart();
+        cart.remove(movieId);
+        user.setCart(cart);
+
+        User updatedUser = userRepository.save(user);
+        return new UserDTO(updatedUser);
+    }
+
+    public UserDTO removeFromWishlist(String movieId, String username) {
+        Optional<User> userOptional = userRepository.findByUsernameOrEmail(username);
+        if (userOptional.isEmpty()) {
+            throw new ResourceNotFoundException("The user with the given username does not exist.");
+        }
+
+        User user = userOptional.get();
+        Set<String> wishlist = user.getWishlist();
+        wishlist.remove(movieId);
+        user.setWishlist(wishlist);
+
+        User updatedUser = userRepository.save(user);
+        return new UserDTO(updatedUser);
+    }
+
+    public Set<String> getCart(String username) {
+        Optional<User> userOptional = userRepository.findByUsernameOrEmail(username);
+        if (userOptional.isEmpty()) {
+            throw new ResourceNotFoundException("The user with the given username does not exist.");
+        }
+        User user = userOptional.get();
+        return user.getCart() != null ? new HashSet<>(user.getCart()) : new HashSet<>();
+    }
+
+    public Set<String> getWishlist(String username) {
+        Optional<User> userOptional = userRepository.findByUsernameOrEmail(username);
+        if (userOptional.isEmpty()) {
+            throw new ResourceNotFoundException("The user with the given username does not exist.");
+        }
+        User user = userOptional.get();
+        return user.getWishlist() != null ? new HashSet<>(user.getWishlist()) : new HashSet<>();
     }
 }

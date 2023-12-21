@@ -6,16 +6,19 @@ import java.time.LocalDate;
 
 public class RentalDTO {
     private String id;
-    private String userId;
+    private String username;
     private String movieId;
     private LocalDate rentalDate;
     private LocalDate returnDate;
     private double rentalPrice;
     private boolean returned;
 
+    public RentalDTO() {
+    }
+
     public RentalDTO(Rental rental) {
         this.id = rental.getId();
-        this.userId = rental.getUserId();
+        this.username = rental.getUsername();
         this.movieId = rental.getMovieId();
         this.rentalDate = rental.getRentalDate();
         this.returnDate = rental.getReturnDate();
@@ -31,12 +34,12 @@ public class RentalDTO {
         this.id = id;
     }
 
-    public String getUserId() {
-        return userId;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getMovieId() {

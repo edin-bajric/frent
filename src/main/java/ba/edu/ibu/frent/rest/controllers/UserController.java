@@ -9,7 +9,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("api/users")
@@ -56,5 +58,53 @@ public class UserController {
     @PreAuthorize("hasAnyAuthority('EMPLOYEE', 'ADMIN')")
     public ResponseEntity<UserDTO> filterUser(@RequestParam String email) {
         return ResponseEntity.ok(userService.filterByEmail(email));
+    }
+
+    @RequestMapping(method = RequestMethod.PUT, path = "/addToCart/{movieId}")
+    @PreAuthorize("hasAnyAuthority('MEMBER', 'ADMIN')")
+    public ResponseEntity<UserDTO> addToCart(@PathVariable String movieId, Principal principal) {
+        String username = principal.getName();
+        UserDTO updatedUser = userService.addToCart(movieId, username);
+        return ResponseEntity.ok(updatedUser);
+    }
+
+    @RequestMapping(method = RequestMethod.PUT, path = "/addToWishlist/{movieId}")
+    @PreAuthorize("hasAnyAuthority('MEMBER', 'ADMIN')")
+    public ResponseEntity<UserDTO> addToWishlist(@PathVariable String movieId, Principal principal) {
+        String username = principal.getName();
+        UserDTO updatedUser = userService.addToWishlist(movieId, username);
+        return ResponseEntity.ok(updatedUser);
+    }
+
+    @RequestMapping(method = RequestMethod.PUT, path = "/removeFromCart/{movieId}")
+    @PreAuthorize("hasAnyAuthority('MEMBER', 'ADMIN')")
+    public ResponseEntity<UserDTO> removeFromCart(@PathVariable String movieId, Principal principal) {
+        String username = principal.getName();
+        UserDTO updatedUser = userService.removeFromCart(movieId, username);
+        return ResponseEntity.ok(updatedUser);
+    }
+
+    @RequestMapping(method = RequestMethod.PUT, path = "/removeFromWishlist/{movieId}")
+    @PreAuthorize("hasAnyAuthority('MEMBER', 'ADMIN')")
+    public ResponseEntity<UserDTO> removeFromWishlist(@PathVariable String movieId, Principal principal) {
+        String username = principal.getName();
+        UserDTO updatedUser = userService.removeFromWishlist(movieId, username);
+        return ResponseEntity.ok(updatedUser);
+    }
+
+    @RequestMapping(method = RequestMethod.GET, path = "/cart")
+    @PreAuthorize("hasAnyAuthority('MEMBER', 'ADMIN')")
+    public ResponseEntity<Set<String>> getCart(Principal principal) {
+        String username = principal.getName();
+        Set<String> cart = userService.getCart(username);
+        return new ResponseEntity<>(cart, HttpStatus.OK);
+    }
+
+    @RequestMapping(method = RequestMethod.GET, path = "/wishlist")
+    @PreAuthorize("hasAnyAuthority('MEMBER', 'ADMIN')")
+    public ResponseEntity<Set<String>> getWishlist(Principal principal) {
+        String username = principal.getName();
+        Set<String> wishlist = userService.getWishlist(username);
+        return new ResponseEntity<>(wishlist, HttpStatus.OK);
     }
  }
