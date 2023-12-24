@@ -10,6 +10,7 @@ import java.util.List;
  */
 public class MovieRequestDTO {
     private String title;
+    private String description;
     private String director;
     private List<Genre> genre;
     private int year;
@@ -29,6 +30,7 @@ public class MovieRequestDTO {
      */
     public MovieRequestDTO(Movie movie) {
         this.title = movie.getTitle();
+        this.description = movie.getDescription();
         this.director = movie.getDirector();
         this.genre = movie.getGenre();
         this.year = movie.getYear();
@@ -44,6 +46,7 @@ public class MovieRequestDTO {
     public Movie toEntity() {
         Movie movie = new Movie();
         movie.setTitle(title);
+        movie.setDescription(description);
         movie.setDirector(director);
         movie.setGenre(genre);
         movie.setYear(year);
@@ -58,6 +61,14 @@ public class MovieRequestDTO {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getDirector() {

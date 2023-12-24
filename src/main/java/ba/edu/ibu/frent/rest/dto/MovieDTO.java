@@ -11,6 +11,7 @@ import java.util.List;
 public class MovieDTO {
     private String id;
     private String title;
+    private String description;
     private String director;
     private List<Genre> genre;
     private int year;
@@ -31,6 +32,7 @@ public class MovieDTO {
     public MovieDTO(Movie movie) {
         this.id = movie.getId();
         this.title = movie.getTitle();
+        this.description = movie.getDescription();
         this.director = movie.getDirector();
         this.genre = movie.getGenre();
         this.year = movie.getYear();
@@ -52,6 +54,14 @@ public class MovieDTO {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getDirector() {
