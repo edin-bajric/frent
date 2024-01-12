@@ -2,18 +2,20 @@ import { Offcanvas, ListGroup, CloseButton } from 'react-bootstrap';
 import { Notification } from '../../utils/types';
 
 type NotificationsProps = {
+  show: boolean;
   notifications: Notification[];
   handleClose: () => void;
 };
 
 const Notifications: React.FC<NotificationsProps> = ({
+  show,
   notifications,
   handleClose,
 }) => {
   return (
     <Offcanvas
       data-bs-theme="dark"
-      show={true}
+      show={show}
       onHide={handleClose}
       placement="end"
     >
