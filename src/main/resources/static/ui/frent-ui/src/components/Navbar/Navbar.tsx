@@ -9,6 +9,7 @@ import { Movie, Notification } from "../../utils/types";
 import Cart from "../Cart";
 import Wishlist from "../Wishlist";
 import Notifications from "../Notification";
+import { Link } from "react-router-dom";
 
 type Props = {
   movies: Movie[];
@@ -53,30 +54,28 @@ const NavScrollExample = ({ movies, notifications }: Props) => {
         data-bs-theme="dark"
       >
         <Container fluid>
-          <Navbar.Brand href="#">Frent</Navbar.Brand>
+        <Navbar.Brand as={Link} to="/home">Frent</Navbar.Brand>
           <Navbar.Toggle aria-controls="navbarScroll" />
           <Navbar.Collapse id="navbarScroll">
             <Nav
               className="me-auto my-2 my-lg-0"
               style={{ maxHeight: "100px" }}
               navbarScroll
-              variant="pills"
-              defaultActiveKey="/home"
             >
-              <Nav.Link href="#">Movies</Nav.Link>
-              <Nav.Link href="##">Rentals</Nav.Link>
-              <Nav.Link href="###" onClick={handleCartClick}>
+             <Nav.Link as={Link} to="/movies">Movies</Nav.Link>
+              <Nav.Link as={Link} to="/rentals">Rentals</Nav.Link>
+              <Nav.Link onClick={handleCartClick}>
                 Cart
               </Nav.Link>
-              <Nav.Link href="####" onClick={handleWishlistClick}>
+              <Nav.Link onClick={handleWishlistClick}>
                 Wishlist
               </Nav.Link>
-              <Nav.Link href="#####" onClick={handleNotificationsClick}>
+              <Nav.Link onClick={handleNotificationsClick}>
                 Notifications
               </Nav.Link>
               <NavDropdown title="Account" id="navbarScrollingDropdown">
-                <NavDropdown.Item href="#####">Register</NavDropdown.Item>
-                <NavDropdown.Item href="######">Sign in</NavDropdown.Item>
+                <NavDropdown.Item as={Link} to="/register">Register</NavDropdown.Item>
+                <NavDropdown.Item as={Link} to="/signin">Sign in</NavDropdown.Item>
               </NavDropdown>
             </Nav>
             <Form className="d-flex">
