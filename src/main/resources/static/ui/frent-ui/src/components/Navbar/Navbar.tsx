@@ -54,7 +54,9 @@ const NavScrollExample = ({ movies, notifications }: Props) => {
         data-bs-theme="dark"
       >
         <Container fluid>
-        <Navbar.Brand as={Link} to="/home">Frent</Navbar.Brand>
+          <Navbar.Brand as={Link} to="/home">
+            Frent
+          </Navbar.Brand>
           <Navbar.Toggle aria-controls="navbarScroll" />
           <Navbar.Collapse id="navbarScroll">
             <Nav
@@ -62,20 +64,24 @@ const NavScrollExample = ({ movies, notifications }: Props) => {
               style={{ maxHeight: "100px" }}
               navbarScroll
             >
-             <Nav.Link as={Link} to="/movies">Movies</Nav.Link>
-              <Nav.Link as={Link} to="/rentals">Rentals</Nav.Link>
-              <Nav.Link onClick={handleCartClick}>
-                Cart
+              <Nav.Link as={Link} to="/movies">
+                Movies
               </Nav.Link>
-              <Nav.Link onClick={handleWishlistClick}>
-                Wishlist
+              <Nav.Link as={Link} to="/rentals">
+                Rentals
               </Nav.Link>
+              <Nav.Link onClick={handleCartClick}>Cart</Nav.Link>
+              <Nav.Link onClick={handleWishlistClick}>Wishlist</Nav.Link>
               <Nav.Link onClick={handleNotificationsClick}>
                 Notifications
               </Nav.Link>
               <NavDropdown title="Account" id="navbarScrollingDropdown">
-                <NavDropdown.Item as={Link} to="/register">Register</NavDropdown.Item>
-                <NavDropdown.Item as={Link} to="/signin">Sign in</NavDropdown.Item>
+                <NavDropdown.Item as={Link} to="/register">
+                  Register
+                </NavDropdown.Item>
+                <NavDropdown.Item as={Link} to="/signin">
+                  Sign in
+                </NavDropdown.Item>
               </NavDropdown>
             </Nav>
             <Form className="d-flex">
