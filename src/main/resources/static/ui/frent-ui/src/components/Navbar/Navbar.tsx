@@ -91,16 +91,17 @@ const NavScrollExample = ({ movies, notifications }: Props) => {
           </Navbar.Collapse>
         </Container>
       </Navbar>
-      {showCart && <Cart movies={movies} handleClose={handleCloseCart} />}
-      {showWishlist && (
-        <Wishlist movies={movies} handleClose={handleCloseWishlist} />
-      )}
-      {showNotifications && (
-        <Notifications
-          notifications={notifications}
-          handleClose={handleCloseNotifications}
-        />
-      )}
+      <Cart show={showCart} handleClose={handleCloseCart} movies={movies} />
+      <Wishlist
+        show={showWishlist}
+        handleClose={handleCloseWishlist}
+        movies={movies}
+      />
+      <Notifications
+        show={showNotifications}
+        handleClose={handleCloseNotifications}
+        notifications={notifications}
+      />
     </>
   );
 };

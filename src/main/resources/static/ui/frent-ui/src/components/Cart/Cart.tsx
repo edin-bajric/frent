@@ -2,11 +2,12 @@ import { Offcanvas, ListGroup, CloseButton, Button } from 'react-bootstrap';
 import { Movie } from '../../utils/types';
 
 type CartProps = {
-  movies: Movie[];
+  show: boolean; 
   handleClose: () => void;
+  movies: Movie[];
 };
 
-const Cart: React.FC<CartProps> = ({ movies, handleClose }) => {
+const Cart: React.FC<CartProps> = ({ show, movies, handleClose }) => {
   const calculateTotalPrice = (movies: any[]) => {
     return movies.reduce((total, movie) => total + movie.price, 0);
   };
@@ -14,7 +15,7 @@ const Cart: React.FC<CartProps> = ({ movies, handleClose }) => {
   return (
     <Offcanvas
       data-bs-theme="dark"
-      show={true}
+      show={show}
       onHide={handleClose}
       placement="end"
     >

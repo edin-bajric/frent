@@ -2,15 +2,16 @@ import { Offcanvas, ListGroup, Button, CloseButton } from 'react-bootstrap';
 import { Movie } from '../../utils/types';
 
 type WishlistProps = {
+  show: boolean;
   movies: Movie[];
   handleClose: () => void;
 };
 
-const Wishlist: React.FC<WishlistProps> = ({ movies, handleClose }) => {
+const Wishlist: React.FC<WishlistProps> = ({ show, movies, handleClose }) => {
   return (
     <Offcanvas
       data-bs-theme="dark"
-      show={true}
+      show={show}
       onHide={handleClose}
       placement="end"
     >
