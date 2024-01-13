@@ -1,13 +1,11 @@
-import { ChangeEvent, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Row, Col } from "react-bootstrap";
 import MovieCard from "../MovieCard";
 import { Movie } from "../../utils/types";
 import { MovieService } from "../../services";
 import Spinner from "../Spinner";
 
-type Props = {};
-
-const MoviesGrid = (props: Props) => {
+const MoviesGrid = () => {
   const [movies, setMovies] = useState<Movie[]>([]);
   const [loading, setIsLoading] = useState(true);
   const [error, setError] = useState<any>();
@@ -41,9 +39,17 @@ const MoviesGrid = (props: Props) => {
         </div>
       )}
       {!loading && (
-        <Row xs={1} md={2} lg={3} xl={4} xxl={5} className="g-4">
-          {movies.map((movie) => (
-            <Col key={movie.id}>
+        <Row
+          xs={1}
+          md={2}
+          lg={3}
+          xl={4}
+          xxl={5}
+          className="g-4"
+          style={{ width: "100%", padding: "16px"}}
+        >
+          {movies.map((movie, i) => (
+            <Col key={i}>
               <MovieCard movie={movie} />
             </Col>
           ))}

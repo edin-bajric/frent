@@ -1,4 +1,4 @@
-export type Movie = {
+export type Movie1 = {
     id: string,
     title: string, 
     price: number,
@@ -8,7 +8,7 @@ export type Movie = {
     isRented: boolean
 }
 
-export type Movie1 = {
+export type Movie = {
     id: string,
     title: string,
     description: string,

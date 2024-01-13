@@ -52,6 +52,7 @@ const NavScrollExample = ({ movies, notifications }: Props) => {
         className="bg-body-tertiary"
         bg="primary"
         data-bs-theme="dark"
+        sticky="top"
       >
         <Container fluid>
           <Navbar.Brand as={Link} to="/home">

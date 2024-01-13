@@ -1,7 +1,6 @@
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import Badge from 'react-bootstrap/Badge';
-import godfather from '../../assets/img/godfather.jpg';
 import { Movie } from '../../utils/types';
 import '../../assets/css/MovieCard.css';
 
@@ -11,13 +10,13 @@ type Props = {
 
 const BasicExample = ({ movie }: Props) => {
   return (
-    <Card style={{ width: '18rem', marginTop: '16px', marginLeft: '16px' }} bg='dark' text='light'>
-      <Card.Img variant="top" src={godfather} style={{ height: '18rem', objectFit: 'cover' }} />
+    <Card style={{ width: '18rem'}} bg='dark' text='light'>
+      <Card.Img variant="top" src={movie.smallImage} style={{ height: '18rem', objectFit: 'cover' }} />
       <Card.Body>
         <Card.Title as="h6">{movie.title}</Card.Title>
-        <Card.Text as="h6">{movie.price}KM</Card.Text>
-        <Badge bg={movie.isAvailable ? 'success' : 'danger'} style={{ marginBottom: '8px' }}>
-          {movie.isAvailable ? 'Available' : 'Unavailable'}
+        <Card.Text as="h6">{movie.rentalPrice}KM</Card.Text>
+        <Badge bg={movie.available ? 'success' : 'danger'} style={{ marginBottom: '8px' }}>
+          {movie.available ? 'Available' : 'Unavailable'}
         </Badge>
         <Card.Text className="clamp-two-lines">
           {movie.description}
