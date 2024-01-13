@@ -1,6 +1,6 @@
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
-import "../../assets/css/SignIn.css";
+import "../../assets/css/SingInAndRegister.css";
 
 function BasicExample() {
   return (
