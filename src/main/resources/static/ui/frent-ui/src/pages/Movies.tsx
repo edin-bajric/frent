@@ -1,23 +1,14 @@
-import { Row, Col } from "react-bootstrap";
-import MovieCard from "../components/MovieCard";
-import { Movie } from "../utils/types";
+import MovieGrid from '../components/MovieGrid';
+import { Movie } from '../utils/types.ts';
 
-type MoviesPageProps = {
+type Props = {
   movies: Movie[];
-};
+}
 
-const MoviesPage = ({ movies }: MoviesPageProps) => {
+const Movies = ({ movies }: Props) => {
   return (
-    <>
-      <Row xs={1} md={2} lg={3} xl={4} xxl={5} className="g-4">
-        {movies.map((movie) => (
-          <Col key={movie.id}>
-            <MovieCard movie={movie} />
-          </Col>
-        ))}
-      </Row>
-    </>
-  );
-};
+    <MovieGrid movies={movies}/>
+  )
+}
 
-export default MoviesPage;
+export default Movies
