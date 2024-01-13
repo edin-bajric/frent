@@ -8,7 +8,7 @@ import java.util.List;
 
 /**
  * Represents a movie entity in the system.
- * Each movie has a unique identifier, title, description, director, genre, release year, availability status,
+ * Each movie has a unique identifier, title, description, smallImage, bigImage, director, genre, release year, availability status,
  * and rental price associated with it.
  */
 @Document
@@ -17,6 +17,8 @@ public class Movie {
     private String id;
     private String title;
     private String description;
+    private String smallImage;
+    private String bigImage;
     private String director;
     private List<Genre> genre;
     private int year;
@@ -37,6 +39,8 @@ public class Movie {
      * @param id           The unique identifier of the movie.
      * @param title        The title of the movie.
      * @param description  The description of the movie.
+     * @param smallImage   The small image of the movie.
+     * @param bigImage     The big image of the movie.
      * @param director     The director of the movie.
      * @param genre        The list of genres associated with the movie.
      * @param year         The release year of the movie.
@@ -44,10 +48,12 @@ public class Movie {
      * @param rentalPrice  The rental price of the movie.
      * @throws IllegalArgumentException If the provided year or rental price is negative.
      */
-    public Movie(String id, String title, String description, String director, List<Genre> genre, int year, boolean available, double rentalPrice) {
+    public Movie(String id, String title, String description, String smallImage, String bigImage, String director, List<Genre> genre, int year, boolean available, double rentalPrice) {
         this.id = id;
         this.title = title;
         this.description = description;
+        this.smallImage = smallImage;
+        this.bigImage = bigImage;
         this.director = director;
         this.genre = genre;
         if (year < 0) {
@@ -83,6 +89,22 @@ public class Movie {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getSmallImage() {
+        return smallImage;
+    }
+
+    public void setSmallImage(String smallImage) {
+        this.smallImage = smallImage;
+    }
+
+    public String getBigImage() {
+        return bigImage;
+    }
+
+    public void setBigImage(String bigImage) {
+        this.bigImage = bigImage;
     }
 
     public String getDirector() {

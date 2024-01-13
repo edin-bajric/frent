@@ -12,6 +12,9 @@ public class MovieDTO {
     private String id;
     private String title;
     private String description;
+
+    private String smallImage;
+    private String bigImage;
     private String director;
     private List<Genre> genre;
     private int year;
@@ -33,6 +36,8 @@ public class MovieDTO {
         this.id = movie.getId();
         this.title = movie.getTitle();
         this.description = movie.getDescription();
+        this.smallImage = movie.getSmallImage();
+        this.bigImage = movie.getBigImage();
         this.director = movie.getDirector();
         this.genre = movie.getGenre();
         this.year = movie.getYear();
@@ -62,6 +67,22 @@ public class MovieDTO {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getSmallImage() {
+        return smallImage;
+    }
+
+    public void setSmallImage(String smallImage) {
+        this.smallImage = smallImage;
+    }
+
+    public String getBigImage() {
+        return bigImage;
+    }
+
+    public void setBigImage(String bigImage) {
+        this.bigImage = bigImage;
     }
 
     public String getDirector() {
