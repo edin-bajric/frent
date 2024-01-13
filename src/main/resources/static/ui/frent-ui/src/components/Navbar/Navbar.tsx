@@ -91,7 +91,9 @@ const NavScrollExample = ({ movies, notifications }: Props) => {
                 className="me-2"
                 aria-label="Search"
               />
-              <Button variant="outline-primary">Search</Button>
+              <Link to="/search">
+                <Button variant="outline-primary">Search</Button>
+              </Link>
             </Form>
           </Navbar.Collapse>
         </Container>

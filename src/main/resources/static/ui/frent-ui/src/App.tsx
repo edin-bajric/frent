@@ -1,7 +1,7 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import Navbar from "./components/Navbar";
 import { movie1, movie2, notification1, notification2 } from "./constants";
-import { Home, Movies, Rentals, SignInPage, RegisterPage, NotFound } from "./pages";
+import { Home, Movies, Rentals, SignInPage, RegisterPage, NotFound, SearchResult } from "./pages";
 import { Routes, Route } from "react-router-dom";
 
 export default function App() {
@@ -17,6 +17,7 @@ export default function App() {
         <Route path="/rentals" element={<Rentals />} />
         <Route path="/signin" element={<SignInPage />} />
         <Route path="/register" element={<RegisterPage />} />
+        <Route path="/search" element={<SearchResult />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </>
