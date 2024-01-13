@@ -1,6 +1,7 @@
 import { Movie, Notification } from './utils/types';
 
 export const movie1: Movie = {
+    id: '1',
     title: 'The Godfather',
     price: 10,
     isAvailable: true,
@@ -10,6 +11,7 @@ export const movie1: Movie = {
 }
 
 export const movie2: Movie = {
+    id: '2',
     title: 'The Shawshank Redemption',
     price: 10,
     isAvailable: true,
