@@ -1,13 +1,8 @@
 import MovieGrid from '../components/MovieGrid';
-import { Movie } from '../utils/types.ts';
 
-type Props = {
-  movies: Movie[];
-}
-
-const Movies = ({ movies }: Props) => {
+const Movies = () => {
   return (
-    <MovieGrid movies={movies}/>
+    <MovieGrid />
   )
 }
 
