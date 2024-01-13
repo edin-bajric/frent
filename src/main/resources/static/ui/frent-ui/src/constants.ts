@@ -25,3 +25,5 @@ export const notification1: Notification = {
 export const notification2: Notification = {
     message: 'Movie returned successfully!'
 }
+
+export const BASE_URL = 'http://localhost:8080/api'
