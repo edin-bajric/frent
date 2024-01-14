@@ -87,8 +87,8 @@ const NavScrollExample = ({ movies, notifications }: Props) => {
                 <NavDropdown.Item as={Link} to="/register">
                   Register
                 </NavDropdown.Item>
-                <NavDropdown.Item as={Link} to="/signin">
-                  Sign in
+                <NavDropdown.Item as={Link} to="/login">
+                  Log in
                 </NavDropdown.Item>
                 </>
                 ) : (
