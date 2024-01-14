@@ -1,5 +1,5 @@
-import { Offcanvas, ListGroup, Button, CloseButton } from 'react-bootstrap';
-import { Movie } from '../../utils/types';
+import { Offcanvas, ListGroup, Button, CloseButton } from "react-bootstrap";
+import { Movie } from "../../utils/types";
 
 type WishlistProps = {
   show: boolean;
@@ -31,7 +31,7 @@ const Wishlist: React.FC<WishlistProps> = ({ show, movies, handleClose }) => {
                 <div className="fw-bold">{movie.title}</div>
                 {movie.price}KM
               </div>
-              <Button variant="primary" style={{ marginRight: '16px' }}>
+              <Button variant="primary" style={{ marginRight: "16px" }}>
                 Rent
               </Button>
               <CloseButton />

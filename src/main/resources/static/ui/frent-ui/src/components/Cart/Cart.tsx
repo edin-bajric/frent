@@ -1,8 +1,8 @@
-import { Offcanvas, ListGroup, CloseButton, Button } from 'react-bootstrap';
-import { Movie } from '../../utils/types';
+import { Offcanvas, ListGroup, CloseButton, Button } from "react-bootstrap";
+import { Movie } from "../../utils/types";
 
 type CartProps = {
-  show: boolean; 
+  show: boolean;
   handleClose: () => void;
   movies: Movie[];
 };
