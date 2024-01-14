@@ -10,6 +10,9 @@ import Cart from "../Cart";
 import Wishlist from "../Wishlist";
 import Notifications from "../Notification";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../store';
+import { logout } from '../../store/authSlice';
 
 type Props = {
   movies: Movie[];
@@ -17,6 +20,8 @@ type Props = {
 };
 
 const NavScrollExample = ({ movies, notifications }: Props) => {
+  const { userToken } = useSelector((state: RootState) => state.auth)
+  const dispatch = useDispatch()
   const [showCart, setShowCart] = useState(false);
   const [showWishlist, setShowWishlist] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
@@ -77,12 +82,21 @@ const NavScrollExample = ({ movies, notifications }: Props) => {
                 Notifications
               </Nav.Link>
               <NavDropdown title="Account" id="navbarScrollingDropdown">
+                { !userToken ? (
+                  <>
                 <NavDropdown.Item as={Link} to="/register">
                   Register
                 </NavDropdown.Item>
                 <NavDropdown.Item as={Link} to="/signin">
                   Sign in
                 </NavDropdown.Item>
+                </>
+                ) : (
+                  <NavDropdown.Item onClick={() => dispatch(logout())}>
+                    Logout
+                  </NavDropdown.Item>
+                )
+}
               </NavDropdown>
             </Nav>
             <Form className="d-flex">

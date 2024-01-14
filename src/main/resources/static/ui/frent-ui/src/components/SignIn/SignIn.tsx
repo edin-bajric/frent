@@ -4,8 +4,14 @@ import "../../assets/css/SingInAndRegister.css";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from 'yup';
+import { login } from "../../store/authSlice";
+import LoadingButton from "../LoadingButton";
+import { useEffect } from "react";
+import { AppDispatch, RootState } from "../../store";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
-type SignInFormData = {
+export type SignInFormData = {
   email: string;
   password: string;
 };
@@ -20,8 +26,20 @@ function BasicExample() {
     resolver: yupResolver(schema)
   });
 
+  const { loading, userToken, error } = useSelector((state: RootState) => state.auth);
+
+  const dispatch = useDispatch<AppDispatch>();
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (userToken) {
+      navigate('/home')
+    }
+  }, [navigate, userToken]);
+
   const onSubmit = (data: SignInFormData) => {
-    console.log(data);
+    dispatch(login(data))
   };
 
   return (
@@ -37,10 +55,11 @@ function BasicExample() {
             <Form.Control type="password" placeholder="Password" {...register("password")}/>
             {errors.password && <p className="text-danger">{errors.password.message}</p>}
           </Form.Group>
-          <Button variant="primary" type="submit">
-            Sign in
+          <Button variant="primary" type="submit" disabled={loading}>
+            {loading ? <LoadingButton/> : "Sign in"}
           </Button>
         </Form>
+        {error && <span className="text-danger">{error}</span>}
       </div>
     </div>
   );
