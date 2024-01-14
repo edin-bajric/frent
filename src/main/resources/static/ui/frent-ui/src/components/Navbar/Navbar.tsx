@@ -13,6 +13,8 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store";
 import { logout } from "../../store/authSlice";
+import { useEffect } from "react";
+import { decodeJwtToken } from "../../utils/decoder";
 
 type Props = {
   movies: Movie[];
@@ -25,6 +27,14 @@ const NavScrollExample = ({ movies, notifications }: Props) => {
   const [showCart, setShowCart] = useState(false);
   const [showWishlist, setShowWishlist] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
+  const [decodedToken, setDecodedToken] = useState<any>(null);
+
+  useEffect(() => {
+    if (userToken) {
+      const decodedToken = decodeJwtToken(userToken);
+      setDecodedToken(decodedToken);
+    }
+  }, [userToken]);
 
   const handleCartClick = () => {
     setShowCart(true);
@@ -81,22 +91,22 @@ const NavScrollExample = ({ movies, notifications }: Props) => {
               <Nav.Link onClick={handleNotificationsClick}>
                 Notifications
               </Nav.Link>
-              <NavDropdown title="Account" id="navbarScrollingDropdown">
-                {!userToken ? (
-                  <>
-                    <NavDropdown.Item as={Link} to="/register">
-                      Register
-                    </NavDropdown.Item>
-                    <NavDropdown.Item as={Link} to="/login">
-                      Login
-                    </NavDropdown.Item>
-                  </>
-                ) : (
-                  <NavDropdown.Item onClick={() => dispatch(logout())}>
-                    Logout
-                  </NavDropdown.Item>
-                )}
-              </NavDropdown>
+              <NavDropdown title={userToken ? decodedToken?.sub : "Account"} id="navbarScrollingDropdown">
+          {!userToken ? (
+            <>
+              <NavDropdown.Item as={Link} to="/register">
+                Register
+              </NavDropdown.Item>
+              <NavDropdown.Item as={Link} to="/login">
+                Login
+              </NavDropdown.Item>
+            </>
+          ) : (
+            <NavDropdown.Item onClick={() => dispatch(logout())}>
+              Logout
+            </NavDropdown.Item>
+          )}
+        </NavDropdown>
             </Nav>
             <Form className="d-flex">
               <Form.Control
