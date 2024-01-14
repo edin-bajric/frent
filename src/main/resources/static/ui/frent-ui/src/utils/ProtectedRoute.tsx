@@ -5,17 +5,17 @@ import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 
 const ProtectedRoute = () => {
-    const { userToken } = useSelector((state: RootState) => state.auth);
+  const { userToken } = useSelector((state: RootState) => state.auth);
 
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
-    useEffect(() => {
-        if (!userToken) {
-          navigate("/login");
-        }
-      }, [navigate, userToken]);
-      
-    return <Outlet />;
+  useEffect(() => {
+    if (!userToken) {
+      navigate("/login");
+    }
+  }, [navigate, userToken]);
+
+  return <Outlet />;
 };
 
 export default ProtectedRoute;

@@ -1,26 +1,26 @@
-import Carousel from 'react-bootstrap/Carousel';
-import image from '../../assets/img/carousel.jpg';
-import '../../assets/css/Carousel.css';
+import Carousel from "react-bootstrap/Carousel";
+import image from "../../assets/img/carousel.jpg";
+import "../../assets/css/Carousel.css";
 
 function UncontrolledExample() {
   return (
     <Carousel>
       <Carousel.Item>
-        <img src={image} className='carousel-img'></img>
+        <img src={image} className="carousel-img"></img>
         <Carousel.Caption>
           <h3>First slide label</h3>
           <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
         </Carousel.Caption>
       </Carousel.Item>
       <Carousel.Item>
-      <img src={image} className='carousel-img'></img>
+        <img src={image} className="carousel-img"></img>
         <Carousel.Caption>
           <h3>Second slide label</h3>
           <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
         </Carousel.Caption>
       </Carousel.Item>
       <Carousel.Item>
-      <img src={image} className='carousel-img'></img>
+        <img src={image} className="carousel-img"></img>
         <Carousel.Caption>
           <h3>Third slide label</h3>
           <p>

@@ -3,8 +3,9 @@ import { RegisterFormData } from "../components/Register/Register";
 import { SignInFormData } from "../components/SignIn/SignIn";
 import appAxios from "../services/appAxios";
 
-const userToken = localStorage.getItem('userToken')
-? localStorage.getItem('userToken') : null
+const userToken = localStorage.getItem("userToken")
+  ? localStorage.getItem("userToken")
+  : null;
 
 const initialState = {
   loading: false,
@@ -19,12 +20,12 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     logout: (state) => {
-      localStorage.removeItem('userToken')
-      state.loading = false
-      state.userInfo = null
-      state.userToken = null
-      state.error = null
-    }
+      localStorage.removeItem("userToken");
+      state.loading = false;
+      state.userInfo = null;
+      state.userToken = null;
+      state.error = null;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(login.pending, (state) => {
@@ -43,49 +44,49 @@ const authSlice = createSlice({
     builder.addCase(registerUser.pending, (state) => {
       state.loading = true;
       state.error = null;
-    })
+    });
     builder.addCase(registerUser.fulfilled, (state) => {
       state.loading = false;
       state.success = true;
-    })
+    });
     builder.addCase(registerUser.rejected, (state, action: any) => {
       state.loading = false;
       state.error = action.payload;
-    })
-  }
+    });
+  },
 });
 
 export const registerUser = createAsyncThunk(
-  'auth/register',
+  "auth/register",
   async (data: RegisterFormData, { rejectWithValue }) => {
     try {
-      await appAxios.post('/auth/register', data,)
+      await appAxios.post("/auth/register", data);
     } catch (error: any) {
       if (error.response && error.response.data.message) {
-        return rejectWithValue(error.response.data.message)
+        return rejectWithValue(error.response.data.message);
       } else {
-        return rejectWithValue(error.message)
+        return rejectWithValue(error.message);
       }
     }
   }
-)
+);
 
 export const login = createAsyncThunk(
-  'auth/login',
+  "auth/login",
   async (body: SignInFormData, { rejectWithValue }) => {
     try {
-      const { data } = await appAxios.post('/auth/login', body)
-      localStorage.setItem('userToken', data.jwt)
-      return data
+      const { data } = await appAxios.post("/auth/login", body);
+      localStorage.setItem("userToken", data.jwt);
+      return data;
     } catch (error: any) {
       if (error.response && error.response.data.message) {
-        return rejectWithValue(error.response.data.message)
+        return rejectWithValue(error.response.data.message);
       } else {
-        return rejectWithValue(error.message)
+        return rejectWithValue(error.message);
       }
     }
   }
-)
+);
 
 export const { logout } = authSlice.actions;
 export default authSlice.reducer;

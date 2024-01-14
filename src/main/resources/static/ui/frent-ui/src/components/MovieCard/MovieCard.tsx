@@ -1,8 +1,8 @@
-import Button from 'react-bootstrap/Button';
-import Card from 'react-bootstrap/Card';
-import Badge from 'react-bootstrap/Badge';
-import { Movie } from '../../utils/types';
-import '../../assets/css/MovieCard.css';
+import Button from "react-bootstrap/Button";
+import Card from "react-bootstrap/Card";
+import Badge from "react-bootstrap/Badge";
+import { Movie } from "../../utils/types";
+import "../../assets/css/MovieCard.css";
 
 type Props = {
   movie: Movie;
@@ -10,24 +10,35 @@ type Props = {
 
 const BasicExample = ({ movie }: Props) => {
   return (
-    <Card style={{ width: '18rem'}} bg='dark' text='light'>
-      <Card.Img variant="top" src={movie.smallImage} style={{ height: '18rem', objectFit: 'cover' }} />
+    <Card style={{ width: "18rem" }} bg="dark" text="light">
+      <Card.Img
+        variant="top"
+        src={movie.smallImage}
+        style={{ height: "18rem", objectFit: "cover" }}
+      />
       <Card.Body>
         <Card.Title as="h6">{movie.title}</Card.Title>
         <Card.Text as="h6">{movie.rentalPrice}KM</Card.Text>
-        <Badge bg={movie.available ? 'success' : 'danger'} style={{ marginBottom: '8px' }}>
-          {movie.available ? 'Available' : 'Unavailable'}
+        <Badge
+          bg={movie.available ? "success" : "danger"}
+          style={{ marginBottom: "8px" }}
+        >
+          {movie.available ? "Available" : "Unavailable"}
         </Badge>
-        <Card.Text className="clamp-two-lines">
-          {movie.description}
-        </Card.Text>
-        <Button variant="primary" style={{ marginRight: '8px', marginBottom: '8px' }}>
+        <Card.Text className="clamp-two-lines">{movie.description}</Card.Text>
+        <Button
+          variant="primary"
+          style={{ marginRight: "8px", marginBottom: "8px" }}
+        >
           Rent
         </Button>
-        <Button variant="primary" style={{ marginRight: '8px', marginBottom: '8px' }}>
+        <Button
+          variant="primary"
+          style={{ marginRight: "8px", marginBottom: "8px" }}
+        >
           Add to cart
         </Button>
-        <Button variant="success" style={{ marginRight: '8px' }}>
+        <Button variant="success" style={{ marginRight: "8px" }}>
           Add to wishlist
         </Button>
       </Card.Body>

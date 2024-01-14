@@ -1,5 +1,5 @@
-import { Offcanvas, ListGroup, CloseButton } from 'react-bootstrap';
-import { Notification } from '../../utils/types';
+import { Offcanvas, ListGroup, CloseButton } from "react-bootstrap";
+import { Notification } from "../../utils/types";
 
 type NotificationsProps = {
   show: boolean;

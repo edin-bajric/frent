@@ -1,11 +1,9 @@
-import Carousel from "../components/Carousel"
+import Carousel from "../components/Carousel";
 
-type Props = {}
+type Props = {};
 
 const Home = (props: Props) => {
-  return (
-    <Carousel />
-  )
-}
+  return <Carousel />;
+};
 
-export default Home
+export default Home;

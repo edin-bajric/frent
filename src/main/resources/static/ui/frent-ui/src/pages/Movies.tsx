@@ -1,9 +1,7 @@
-import MovieGrid from '../components/MovieGrid';
+import MovieGrid from "../components/MovieGrid";
 
 const Movies = () => {
-  return (
-    <MovieGrid />
-  )
-}
+  return <MovieGrid />;
+};
 
-export default Movies
+export default Movies;
