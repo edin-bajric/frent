@@ -39,7 +39,7 @@ function BasicExample() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (success) navigate('/signin')
+    if (success) navigate('/login')
     if (userToken) navigate('/home')
 }, [navigate, userToken, success])
 

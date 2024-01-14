@@ -45,7 +45,7 @@ function BasicExample() {
   return (
     <div className="full-page-container">
       <div className="centered-form-container">
-        <h1 className="title">Sign in</h1>
+        <h1 className="title">Log in</h1>
         <Form onSubmit={handleSubmit(onSubmit)}>
           <Form.Group className="mb-3" controlId="formBasicEmail">
             <Form.Control type="email" placeholder="Email" {...register("email")}/>
@@ -56,7 +56,7 @@ function BasicExample() {
             {errors.password && <p className="text-danger">{errors.password.message}</p>}
           </Form.Group>
           <Button variant="primary" type="submit" disabled={loading}>
-            {loading ? <LoadingButton/> : "Sign in"}
+            {loading ? <LoadingButton/> : "Log in"}
           </Button>
         </Form>
         {error && <span className="text-danger">{error}</span>}
