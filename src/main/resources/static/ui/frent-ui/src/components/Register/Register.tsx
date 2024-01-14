@@ -2,6 +2,8 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import "../../assets/css/SingInAndRegister.css";
 import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from 'yup';
 
 export type RegisterFormData = {
   firstName: string;
@@ -11,8 +13,18 @@ export type RegisterFormData = {
   password: string;
 };
 
+const schema = yup.object({
+  firstName: yup.string().required("First name is required."),
+  lastName: yup.string().required("Last name is required."),
+  email: yup.string().email("Invalid email.").required("Email is required."),
+  username: yup.string().min(4, "Username must be at least 4 characters.").max(16, "Username must be at most 16 characters.").required(),
+  password: yup.string().min(8, "Password must be at least 8 characters.").required()
+}).required();
+
 function BasicExample() {
-  const { register, handleSubmit, formState: { errors } } = useForm<RegisterFormData>();
+  const { register, handleSubmit, formState: { errors } } = useForm<RegisterFormData>({
+    resolver: yupResolver(schema)
+  });
 
   const onSubmit = (data: RegisterFormData) => {
     console.log(data);
@@ -25,16 +37,21 @@ function BasicExample() {
         <Form onSubmit={handleSubmit(onSubmit)}>
           <div className="mb-3 d-flex">
             <Form.Control type="text" placeholder="First name" className="me-2" {...register("firstName")}/>
+            {errors.firstName && <p className="text-danger">{errors.firstName.message}</p>}
             <Form.Control type="text" placeholder="Last name" {...register("lastName")}/>
+            {errors.lastName && <p className="text-danger">{errors.lastName.message}</p>}
           </div>
           <Form.Group className="mb-3">
             <Form.Control type="text" placeholder="Username" {...register("username")}/>
+            {errors.username && <p className="text-danger">{errors.username.message}</p>}
           </Form.Group>
           <Form.Group className="mb-3" controlId="formBasicEmail">
             <Form.Control type="email" placeholder="Email" {...register("email")}/>
+            {errors.email && <p className="text-danger">{errors.email.message}</p>}
           </Form.Group>
           <Form.Group className="mb-3" controlId="formBasicPassword">
             <Form.Control type="password" placeholder="Password" {...register("password")}/>
+            {errors.password && <p className="text-danger">{errors.password.message}</p>}
           </Form.Group>
           <Button variant="primary" type="submit">
             Register
