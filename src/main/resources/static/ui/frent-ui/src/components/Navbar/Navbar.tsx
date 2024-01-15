@@ -91,22 +91,25 @@ const NavScrollExample = ({ movies, notifications }: Props) => {
               <Nav.Link onClick={handleNotificationsClick}>
                 Notifications
               </Nav.Link>
-              <NavDropdown title={userToken ? decodedToken?.sub : "Account"} id="navbarScrollingDropdown">
-          {!userToken ? (
-            <>
-              <NavDropdown.Item as={Link} to="/register">
-                Register
-              </NavDropdown.Item>
-              <NavDropdown.Item as={Link} to="/login">
-                Login
-              </NavDropdown.Item>
-            </>
-          ) : (
-            <NavDropdown.Item onClick={() => dispatch(logout())}>
-              Logout
-            </NavDropdown.Item>
-          )}
-        </NavDropdown>
+              <NavDropdown
+                title={userToken ? decodedToken?.sub : "Account"}
+                id="navbarScrollingDropdown"
+              >
+                {!userToken ? (
+                  <>
+                    <NavDropdown.Item as={Link} to="/register">
+                      Register
+                    </NavDropdown.Item>
+                    <NavDropdown.Item as={Link} to="/login">
+                      Login
+                    </NavDropdown.Item>
+                  </>
+                ) : (
+                  <NavDropdown.Item onClick={() => dispatch(logout())}>
+                    Logout
+                  </NavDropdown.Item>
+                )}
+              </NavDropdown>
             </Nav>
             <Form className="d-flex">
               <Form.Control
@@ -122,7 +125,7 @@ const NavScrollExample = ({ movies, notifications }: Props) => {
           </Navbar.Collapse>
         </Container>
       </Navbar>
-      <Cart show={showCart} handleClose={handleCloseCart} movies={movies} />
+      <Cart show={showCart} handleClose={handleCloseCart} />
       <Wishlist
         show={showWishlist}
         handleClose={handleCloseWishlist}
