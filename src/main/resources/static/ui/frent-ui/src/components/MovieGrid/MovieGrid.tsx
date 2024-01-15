@@ -21,8 +21,8 @@ const MoviesGrid = () => {
           className="g-4"
           style={{ width: "100%", padding: "16px" }}
         >
-          {movies?.map((movie, i) => (
-            <Col key={i}>
+          {movies?.map((movie) => (
+            <Col key={movie.id}>
               <MovieCard movie={movie} />
             </Col>
           ))}
