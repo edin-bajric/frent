@@ -1,13 +1,16 @@
 import { Offcanvas, ListGroup, Button, CloseButton } from "react-bootstrap";
-import { Movie } from "../../utils/types";
+import useWishlist from "../../hooks/useWishlist";
+import Spinner from "../Spinner";
+import Error from "../Error";
 
 type WishlistProps = {
   show: boolean;
-  movies: Movie[];
   handleClose: () => void;
 };
 
-const Wishlist: React.FC<WishlistProps> = ({ show, movies, handleClose }) => {
+const Wishlist: React.FC<WishlistProps> = ({ show, handleClose }) => {
+  const { data: movies, isLoading, isError } = useWishlist();
+
   return (
     <Offcanvas
       data-bs-theme="dark"
@@ -19,25 +22,29 @@ const Wishlist: React.FC<WishlistProps> = ({ show, movies, handleClose }) => {
         <Offcanvas.Title>Wishlist</Offcanvas.Title>
       </Offcanvas.Header>
       <Offcanvas.Body>
-        <ListGroup as="ol">
-          {movies.map((movie, index) => (
-            <ListGroup.Item
-              key={index}
-              as="li"
-              className="d-flex justify-content-between align-items-start"
-              variant="light"
-            >
-              <div className="ms-2 me-auto">
-                <div className="fw-bold">{movie.title}</div>
-                {movie.price}KM
-              </div>
-              <Button variant="primary" style={{ marginRight: "16px" }}>
-                Rent
-              </Button>
-              <CloseButton />
-            </ListGroup.Item>
-          ))}
-        </ListGroup>
+        {isLoading && <Spinner />}
+        {isError && <Error />}
+        {!isLoading && !isError && (
+          <ListGroup as="ol">
+            {movies?.map((movie) => (
+              <ListGroup.Item
+                key={movie.id}
+                as="li"
+                className="d-flex justify-content-between align-items-start"
+                variant="light"
+              >
+                <div className="ms-2 me-auto">
+                  <div className="fw-bold">{movie.title}</div>
+                  {movie.rentalPrice}KM
+                </div>
+                <Button variant="primary" style={{ marginRight: "16px" }}>
+                  Rent
+                </Button>
+                <CloseButton />
+              </ListGroup.Item>
+            ))}
+          </ListGroup>
+        )}
       </Offcanvas.Body>
     </Offcanvas>
   );
