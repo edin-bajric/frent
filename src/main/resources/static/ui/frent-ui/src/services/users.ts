@@ -16,10 +16,6 @@ const getCartForUser = async (): Promise<Movie[]> => {
       getMovieById(movieId)
     );
     const movies = await Promise.all(movieDetailsPromises);
-    movies.forEach((movie) => {
-      console.log(`Title: ${movie.title}, Rental Price: ${movie.rentalPrice}`);
-    });
-
     return movies;
   });
 };
@@ -35,4 +31,19 @@ const getCartTotalForUser = async (): Promise<number> => {
   });
 };
 
-export default { getCartForUser, getCartTotalForUser };
+const getWishlistForUser = async (): Promise<Movie[]> => {
+  const headers = {
+    Authorization: `Bearer ${token}`,
+  };
+
+  return appAxios.get("/users/wishlist", { headers }).then((response) => {
+    const movieIds: string[] = response.data;
+    const movieDetailsPromises = movieIds.map((movieId: string) =>
+      getMovieById(movieId)
+    );
+    const movies = Promise.all(movieDetailsPromises);
+    return movies;
+  });
+};
+
+export default { getCartForUser, getCartTotalForUser, getWishlistForUser };

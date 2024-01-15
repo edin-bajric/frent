@@ -5,7 +5,7 @@ import Form from "react-bootstrap/Form";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
-import { Movie, Notification } from "../../utils/types";
+import { Notification } from "../../utils/types";
 import Cart from "../Cart";
 import Wishlist from "../Wishlist";
 import Notifications from "../Notification";
@@ -17,11 +17,10 @@ import { useEffect } from "react";
 import { decodeJwtToken } from "../../utils/decoder";
 
 type Props = {
-  movies: Movie[];
   notifications: Notification[];
 };
 
-const NavScrollExample = ({ movies, notifications }: Props) => {
+const NavScrollExample = ({ notifications }: Props) => {
   const { userToken } = useSelector((state: RootState) => state.auth);
   const dispatch = useDispatch();
   const [showCart, setShowCart] = useState(false);
@@ -126,11 +125,7 @@ const NavScrollExample = ({ movies, notifications }: Props) => {
         </Container>
       </Navbar>
       <Cart show={showCart} handleClose={handleCloseCart} />
-      <Wishlist
-        show={showWishlist}
-        handleClose={handleCloseWishlist}
-        movies={movies}
-      />
+      <Wishlist show={showWishlist} handleClose={handleCloseWishlist} />
       <Notifications
         show={showNotifications}
         handleClose={handleCloseNotifications}
