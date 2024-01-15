@@ -85,11 +85,29 @@ const NavScrollExample = ({ notifications }: Props) => {
               <Nav.Link as={Link} to="/rentals">
                 Rentals
               </Nav.Link>
-              <Nav.Link onClick={handleCartClick}>Cart</Nav.Link>
-              <Nav.Link onClick={handleWishlistClick}>Wishlist</Nav.Link>
-              <Nav.Link onClick={handleNotificationsClick}>
-                Notifications
-              </Nav.Link>
+              {!userToken ? (
+                <Nav.Link as={Link} to={"/login"}>
+                  Cart
+                </Nav.Link>
+              ) : (
+                <Nav.Link onClick={handleCartClick}>Cart</Nav.Link>
+              )}
+              {!userToken ? (
+                <Nav.Link as={Link} to={"/login"}>
+                  Wishlist
+                </Nav.Link>
+              ) : (
+                <Nav.Link onClick={handleWishlistClick}>Wishlist</Nav.Link>
+              )}
+              {!userToken ? (
+                <Nav.Link as={Link} to={"/login"}>
+                  Notifications
+                </Nav.Link>
+              ) : (
+                <Nav.Link onClick={handleNotificationsClick}>
+                  Notifications
+                </Nav.Link>
+              )}
               <NavDropdown
                 title={userToken ? decodedToken?.sub : "Account"}
                 id="navbarScrollingDropdown"
