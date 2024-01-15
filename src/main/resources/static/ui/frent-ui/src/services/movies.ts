@@ -8,6 +8,13 @@ const getMovies = async (): Promise<Movie[]> => {
   });
 };
 
+const getMovieById = async (id: string): Promise<Movie> => {
+  return appAxios.get(`/movies/${id}`).then((response) => {
+    const data = response.data;
+    return data;
+  });
+};
+
 const addMovie = async (movie: Movie): Promise<Movie> => {
   return appAxios.post("/movies/", movie).then((response) => {
     const data = response.data;
@@ -15,7 +22,7 @@ const addMovie = async (movie: Movie): Promise<Movie> => {
   });
 };
 
-const deleteMovie = async (id: number): Promise<Movie> => {
+const deleteMovie = async (id: string): Promise<Movie> => {
   return appAxios.delete(`/movies/${id}`).then((response) => {
     const data = response.data;
     return data;
@@ -29,4 +36,4 @@ const updateMovie = async (movie: Movie): Promise<Movie> => {
   });
 };
 
-export default { getMovies, addMovie, deleteMovie, updateMovie };
+export default { getMovies, getMovieById, addMovie, deleteMovie, updateMovie };

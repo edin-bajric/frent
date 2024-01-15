@@ -2,7 +2,7 @@ import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import Badge from "react-bootstrap/Badge";
 import { Movie } from "../../utils/types";
-import "../../assets/css/MovieCard.css";
+import "../../assets/css/MovieRentalCard.css";
 
 type Props = {
   movie: Movie;

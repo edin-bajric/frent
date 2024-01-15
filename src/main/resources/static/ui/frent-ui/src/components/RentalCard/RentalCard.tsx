@@ -1,34 +1,32 @@
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import Badge from "react-bootstrap/Badge";
-import godfather from "../../assets/img/godfather.jpg";
-import { Movie } from "../../utils/types";
+import { RentalMovie } from "../../utils/types";
+import "../../assets/css/MovieRentalCard.css";
 
 type Props = {
-  movie: Movie;
+  rentalMovie: RentalMovie;
 };
 
-const BasicExample = ({ movie }: Props) => {
+const BasicExample = ({ rentalMovie }: Props) => {
   return (
-    <Card
-      style={{ width: "18rem", marginTop: "16px", marginLeft: "16px" }}
-      bg="dark"
-      text="light"
-    >
+    <Card style={{ width: "18rem" }} bg="dark" text="light">
       <Card.Img
         variant="top"
-        src={godfather}
+        src={rentalMovie.smallImage}
         style={{ height: "18rem", objectFit: "cover" }}
       />
       <Card.Body>
-        <Card.Title>{movie.title}</Card.Title>
+        <Card.Title as="h6">{rentalMovie.title}</Card.Title>
         <Card.Text style={{ color: "crimson" }} as="h5">
-          Valid until {movie.dueDate}
+          Valid until {rentalMovie.dueDate.toString()}
         </Card.Text>
         <Badge bg="secondary" style={{ marginBottom: "8px" }}>
-          {movie.isRented ? "Rented" : "Returned"}
+          {rentalMovie.returned ? "Returned" : "Rented"}
         </Badge>
-        <Card.Text>{movie.description}</Card.Text>
+        <Card.Text className="clamp-two-lines">
+          {rentalMovie.description}
+        </Card.Text>
         <Button variant="primary" style={{ marginRight: "8px" }}>
           Return
         </Button>

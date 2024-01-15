@@ -1,9 +1,7 @@
-import React from "react";
+import RentalGrid from "../components/RentalGrid";
 
-type Props = {};
-
-const Rentals = (props: Props) => {
-  return <div>Rentals</div>;
+const Rentals = () => {
+  return <RentalGrid />;
 };
 
 export default Rentals;
