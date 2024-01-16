@@ -1,31 +1,35 @@
 import Carousel from "react-bootstrap/Carousel";
-import image from "../../assets/img/carousel.jpg";
+import browseImage from "../../assets/img/browseImage.jpeg";
+import rentImage from "../../assets/img/rentImage.jpg";
+import enjoyImage from "../../assets/img/enjoyImage.jpg";
 import "../../assets/css/Carousel.css";
 
 function UncontrolledExample() {
   return (
-    <Carousel>
+    <Carousel className="carousel">
       <Carousel.Item>
-        <img src={image} className="carousel-img"></img>
+        <img
+          src={browseImage}
+          className="carousel-img"
+          alt="Browse Image"
+        ></img>
         <Carousel.Caption>
-          <h3>First slide label</h3>
-          <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
+          <h3>Browse</h3>
+          <p>Discover, Explore, Find Your Flick!</p>
         </Carousel.Caption>
       </Carousel.Item>
       <Carousel.Item>
-        <img src={image} className="carousel-img"></img>
+        <img src={rentImage} className="carousel-img" alt="Rent Image"></img>
         <Carousel.Caption>
-          <h3>Second slide label</h3>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+          <h3>Rent</h3>
+          <p>Grab the Popcorn, Rent the Fun!</p>
         </Carousel.Caption>
       </Carousel.Item>
       <Carousel.Item>
-        <img src={image} className="carousel-img"></img>
+        <img src={enjoyImage} className="carousel-img" alt="Enjoy Image"></img>
         <Carousel.Caption>
-          <h3>Third slide label</h3>
-          <p>
-            Praesent commodo cursus magna, vel scelerisque nisl consectetur.
-          </p>
+          <h3>Enjoy</h3>
+          <p>Sit Back, Relax, and Enjoy the Show!</p>
         </Carousel.Caption>
       </Carousel.Item>
     </Carousel>
