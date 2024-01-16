@@ -14,22 +14,22 @@ function UncontrolledExample() {
           alt="Browse Image"
         ></img>
         <Carousel.Caption>
-          <h3>Browse</h3>
-          <p>Discover, Explore, Find Your Flick!</p>
+          <h3 className="carousel-text">Browse</h3>
+          <p className="carousel-text">Discover, Explore, Find Your Flick!</p>
         </Carousel.Caption>
       </Carousel.Item>
       <Carousel.Item>
         <img src={rentImage} className="carousel-img" alt="Rent Image"></img>
         <Carousel.Caption>
-          <h3>Rent</h3>
-          <p>Grab the Popcorn, Rent the Fun!</p>
+          <h3 className="carousel-text">Rent</h3>
+          <p className="carousel-text">Grab the Popcorn, Rent the Fun!</p>
         </Carousel.Caption>
       </Carousel.Item>
       <Carousel.Item>
         <img src={enjoyImage} className="carousel-img" alt="Enjoy Image"></img>
         <Carousel.Caption>
-          <h3>Enjoy</h3>
-          <p>Sit Back, Relax, and Enjoy the Show!</p>
+          <h3 className="carousel-text">Enjoy</h3>
+          <p className="carousel-text">Sit Back, Relax, and Enjoy the Show!</p>
         </Carousel.Caption>
       </Carousel.Item>
     </Carousel>
