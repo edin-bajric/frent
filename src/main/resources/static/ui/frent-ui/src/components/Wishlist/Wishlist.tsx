@@ -1,3 +1,4 @@
+import React, { useEffect } from "react";
 import { Offcanvas, ListGroup, Button, CloseButton } from "react-bootstrap";
 import useWishlist from "../../hooks/useWishlist";
 import Spinner from "../Spinner";
@@ -9,7 +10,11 @@ type WishlistProps = {
 };
 
 const Wishlist: React.FC<WishlistProps> = ({ show, handleClose }) => {
-  const { data: movies, isLoading, isError } = useWishlist();
+  const { data: movies, isLoading, isError, refetch } = useWishlist();
+
+  useEffect(() => {
+    refetch();
+  }, [refetch]);
 
   return (
     <Offcanvas

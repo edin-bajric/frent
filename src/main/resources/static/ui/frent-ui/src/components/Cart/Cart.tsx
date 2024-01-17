@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Offcanvas, ListGroup, CloseButton, Button } from "react-bootstrap";
 import useCart from "../../hooks/useCart";
 import Spinner from "../Spinner";
@@ -11,8 +11,12 @@ type CartProps = {
 };
 
 const Cart: React.FC<CartProps> = ({ show, handleClose }) => {
-  const { data: movies, isLoading, isError } = useCart();
+  const { data: movies, refetch, isLoading, isError } = useCart();
   const { data: total } = useCartTotal();
+
+  useEffect(() => {
+    refetch();
+  }, [refetch]);
 
   return (
     <Offcanvas
