@@ -3,12 +3,24 @@ import Card from "react-bootstrap/Card";
 import Badge from "react-bootstrap/Badge";
 import { Movie } from "../../utils/types";
 import "../../assets/css/MovieRentalCard.css";
+import useAddRentalForUser from "../../hooks/useAddRentals";
 
 type Props = {
   movie: Movie;
 };
 
 const BasicExample = ({ movie }: Props) => {
+  const addRentalMutation = useAddRentalForUser();
+
+  const handleRentReturnClick = () => {
+    if (movie.available) {
+      const movieId = movie.id;
+      addRentalMutation.mutate({ movieId });
+    } else {
+      console.log("Movie is not available for rent.");
+    }
+  };
+
   return (
     <Card style={{ width: "18rem" }} bg="dark" text="light">
       <Card.Img
@@ -29,6 +41,7 @@ const BasicExample = ({ movie }: Props) => {
         <Button
           variant="primary"
           style={{ marginRight: "8px", marginBottom: "8px" }}
+          onClick={handleRentReturnClick}
         >
           Rent
         </Button>

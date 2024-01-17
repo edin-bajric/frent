@@ -3,12 +3,21 @@ import Card from "react-bootstrap/Card";
 import Badge from "react-bootstrap/Badge";
 import { RentalMovie } from "../../utils/types";
 import "../../assets/css/MovieRentalCard.css";
+import useReturnRentalForUser from "../../hooks/useReturnRentals";
 
 type Props = {
   rentalMovie: RentalMovie;
 };
 
 const BasicExample = ({ rentalMovie }: Props) => {
+  const returnRentalMutation = useReturnRentalForUser();
+
+  const handleReturnClick = () => {
+    const rentalId = rentalMovie.id;
+    console.log();
+
+    returnRentalMutation.mutate(rentalId);
+  };
   return (
     <Card style={{ width: "18rem" }} bg="dark" text="light">
       <Card.Img
@@ -27,7 +36,11 @@ const BasicExample = ({ rentalMovie }: Props) => {
         <Card.Text className="clamp-two-lines">
           {rentalMovie.description}
         </Card.Text>
-        <Button variant="primary" style={{ marginRight: "8px" }}>
+        <Button
+          variant="primary"
+          style={{ marginRight: "8px" }}
+          onClick={handleReturnClick}
+        >
           Return
         </Button>
       </Card.Body>
