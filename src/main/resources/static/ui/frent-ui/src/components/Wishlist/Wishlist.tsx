@@ -3,6 +3,7 @@ import { Offcanvas, ListGroup, Button, CloseButton } from "react-bootstrap";
 import useWishlist from "../../hooks/useWishlist";
 import Spinner from "../Spinner";
 import Error from "../Error";
+import useRemoveFromWishlistForUser from "../../hooks/useRemoveFromWishlist";
 
 type WishlistProps = {
   show: boolean;
@@ -11,6 +12,11 @@ type WishlistProps = {
 
 const Wishlist: React.FC<WishlistProps> = ({ show, handleClose }) => {
   const { data: movies, isLoading, isError, refetch } = useWishlist();
+  const removeFromWishlistMutation = useRemoveFromWishlistForUser();
+
+  const handleRemoveFromWishlistClick = (movieId: string) => {
+    removeFromWishlistMutation.mutate(movieId);
+  };
 
   useEffect(() => {
     refetch();
@@ -45,7 +51,7 @@ const Wishlist: React.FC<WishlistProps> = ({ show, handleClose }) => {
                 <Button variant="primary" style={{ marginRight: "16px" }}>
                   Rent
                 </Button>
-                <CloseButton />
+                <CloseButton onClick={() => handleRemoveFromWishlistClick(movie.id)} />
               </ListGroup.Item>
             ))}
           </ListGroup>
