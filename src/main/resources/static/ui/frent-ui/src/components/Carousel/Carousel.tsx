@@ -6,7 +6,7 @@ import "../../assets/css/Carousel.css";
 
 function UncontrolledExample() {
   return (
-    <Carousel className="carousel">
+    <Carousel className="carousel" pause={false}>
       <Carousel.Item interval={3000}>
         <img
           src={browseImage}
