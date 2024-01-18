@@ -5,6 +5,7 @@ import { Movie } from "../../utils/types";
 import "../../assets/css/MovieRentalCard.css";
 import useAddRentalForUser from "../../hooks/useAddRentals";
 import useAddToCartForUser from "../../hooks/useAddToCart";
+import useAddToWishlistForUser from "../../hooks/useAddToWishlist";
 
 type Props = {
   movie: Movie;
@@ -13,6 +14,7 @@ type Props = {
 const BasicExample = ({ movie }: Props) => {
   const addRentalMutation = useAddRentalForUser();
   const addToCartMutation = useAddToCartForUser();
+  const addToWishlistMutation = useAddToWishlistForUser();
 
   const handleRentReturnClick = () => {
     if (movie.available) {
@@ -22,9 +24,15 @@ const BasicExample = ({ movie }: Props) => {
       console.log("Movie is not available for rent.");
     }
   };
+
   const handleAddToCartClick = () => {
     const movieId = movie.id;
     addToCartMutation.mutate(movieId);
+  };
+
+  const handleAddToWishlistClick = () => {
+    const movieId = movie.id;
+    addToWishlistMutation.mutate(movieId);
   };
 
   return (
@@ -58,7 +66,7 @@ const BasicExample = ({ movie }: Props) => {
         >
           Add to cart
         </Button>
-        <Button variant="success" style={{ marginRight: "8px" }}>
+        <Button variant="success" style={{ marginRight: "8px" }} onClick={handleAddToWishlistClick}>
           Add to wishlist
         </Button>
       </Card.Body>

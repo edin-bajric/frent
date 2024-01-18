@@ -66,10 +66,32 @@ const removeFromCart = async (movieId: string): Promise<void> => {
   await appAxios.put(`/users/removeFromCart/${movieId}`, {}, { headers });
 };
 
+const addToWishlistForUser = async (movieId: string): Promise<void> => {
+  const token = localStorage.getItem("userToken");
+
+  const headers = {
+    Authorization: `Bearer ${token}`,
+  };
+
+  await appAxios.put(`/users/addToWishlist/${movieId}`, {}, { headers });
+};
+
+const removeFromWishlistForUser = async (movieId: string): Promise<void> => {
+  const token = localStorage.getItem("userToken");
+
+  const headers = {
+    Authorization: `Bearer ${token}`,
+  };
+
+  await appAxios.put(`/users/removeFromWishlist/${movieId}`, {}, { headers });
+};
+
 export default {
   getCartForUser,
   getCartTotalForUser,
   getWishlistForUser,
   addToCartForUser,
   removeFromCart,
+  addToWishlistForUser,
+  removeFromWishlistForUser,
 };
