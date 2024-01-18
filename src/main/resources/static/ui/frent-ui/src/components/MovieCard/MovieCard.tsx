@@ -4,6 +4,7 @@ import Badge from "react-bootstrap/Badge";
 import { Movie } from "../../utils/types";
 import "../../assets/css/MovieRentalCard.css";
 import useAddRentalForUser from "../../hooks/useAddRentals";
+import useAddToCartForUser from "../../hooks/useAddToCart";
 
 type Props = {
   movie: Movie;
@@ -11,6 +12,7 @@ type Props = {
 
 const BasicExample = ({ movie }: Props) => {
   const addRentalMutation = useAddRentalForUser();
+  const addToCartMutation = useAddToCartForUser();
 
   const handleRentReturnClick = () => {
     if (movie.available) {
@@ -19,6 +21,10 @@ const BasicExample = ({ movie }: Props) => {
     } else {
       console.log("Movie is not available for rent.");
     }
+  };
+  const handleAddToCartClick = () => {
+    const movieId = movie.id;
+    addToCartMutation.mutate(movieId);
   };
 
   return (
@@ -48,6 +54,7 @@ const BasicExample = ({ movie }: Props) => {
         <Button
           variant="primary"
           style={{ marginRight: "8px", marginBottom: "8px" }}
+          onClick={handleAddToCartClick}
         >
           Add to cart
         </Button>

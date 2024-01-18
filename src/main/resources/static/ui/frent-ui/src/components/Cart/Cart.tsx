@@ -4,6 +4,7 @@ import useCart from "../../hooks/useCart";
 import Spinner from "../Spinner";
 import Error from "../Error";
 import useCartTotal from "../../hooks/useCartTotal";
+import useRemoveFromCart from "../../hooks/useRemoveFromCart";
 
 type CartProps = {
   show: boolean;
@@ -11,12 +12,18 @@ type CartProps = {
 };
 
 const Cart: React.FC<CartProps> = ({ show, handleClose }) => {
-  const { data: movies, refetch, isLoading, isError } = useCart();
-  const { data: total } = useCartTotal();
+  const { data: movies, refetch: refetchCart, isLoading, isError } = useCart();
+  const { data: total, refetch: refetchCartTotal } = useCartTotal();
+  const removeFromCartMutation = useRemoveFromCart();
+
+  const handleRemoveFromCart = (movieId: string) => {
+    removeFromCartMutation.mutate(movieId);
+  };
 
   useEffect(() => {
-    refetch();
-  }, [refetch]);
+    refetchCart();
+    refetchCartTotal();
+  }, [refetchCart, refetchCartTotal]);
 
   return (
     <Offcanvas
@@ -43,7 +50,7 @@ const Cart: React.FC<CartProps> = ({ show, handleClose }) => {
                   <div className="fw-bold">{movie.title}</div>
                   {movie.rentalPrice}KM
                 </div>
-                <CloseButton />
+                <CloseButton onClick={() => handleRemoveFromCart(movie.id)} />
               </ListGroup.Item>
             ))}
             <ListGroup.Item
