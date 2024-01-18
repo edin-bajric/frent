@@ -7,7 +7,7 @@ import "../../assets/css/Carousel.css";
 function UncontrolledExample() {
   return (
     <Carousel className="carousel">
-      <Carousel.Item>
+      <Carousel.Item interval={3000}>
         <img
           src={browseImage}
           className="carousel-img"
@@ -18,14 +18,14 @@ function UncontrolledExample() {
           <p className="carousel-text">Discover, Explore, Find Your Flick!</p>
         </Carousel.Caption>
       </Carousel.Item>
-      <Carousel.Item>
+      <Carousel.Item interval={3000}>
         <img src={rentImage} className="carousel-img" alt="Rent Image"></img>
         <Carousel.Caption>
           <h3 className="carousel-text">Rent</h3>
           <p className="carousel-text">Grab the Popcorn, Rent the Fun!</p>
         </Carousel.Caption>
       </Carousel.Item>
-      <Carousel.Item>
+      <Carousel.Item interval={3000}>
         <img src={enjoyImage} className="carousel-img" alt="Enjoy Image"></img>
         <Carousel.Caption>
           <h3 className="carousel-text">Enjoy</h3>
