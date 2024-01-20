@@ -1,11 +1,32 @@
+import { useState, useEffect } from 'react';
 import Alert from 'react-bootstrap/Alert';
+
 type Props = {
-    message: string;
-    onClose: () => void;
+  message: string;
+  onClose: () => void;
+  autoCloseDuration?: number;
 };
-function BasicExample({ message }: Props) {
+
+function BasicExample({ message, onClose, autoCloseDuration = 2000 }: Props) {
+  const [show, setShow] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShow(false);
+      onClose();
+    }, autoCloseDuration);
+
+    return () => clearTimeout(timer);
+  }, [autoCloseDuration, onClose]);
+
+  const handleDismiss = () => {
+    setShow(false);
+    onClose();
+  };
+
   return (
-    <Alert variant="danger" dismissible={true}> {message}
+    <Alert show={show} variant="danger" dismissible onClose={handleDismiss}>
+      {message}
     </Alert>
   );
 }
