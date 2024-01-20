@@ -3,7 +3,6 @@ import Card from "react-bootstrap/Card";
 import Badge from "react-bootstrap/Badge";
 import { Movie } from "../../utils/types";
 import "../../assets/css/MovieRentalCard.css";
-import useAddRentalForUser from "../../hooks/useAddRentals";
 import useAddToCartForUser from "../../hooks/useAddToCart";
 import useAddToWishlistForUser from "../../hooks/useAddToWishlist";
 
@@ -12,18 +11,8 @@ type Props = {
 };
 
 const BasicExample = ({ movie }: Props) => {
-  const addRentalMutation = useAddRentalForUser();
   const addToCartMutation = useAddToCartForUser();
   const addToWishlistMutation = useAddToWishlistForUser();
-
-  const handleRentReturnClick = () => {
-    if (movie.available) {
-      const movieId = movie.id;
-      addRentalMutation.mutate({ movieId });
-    } else {
-      console.log("Movie is not available for rent.");
-    }
-  };
 
   const handleAddToCartClick = () => {
     const movieId = movie.id;
@@ -52,13 +41,7 @@ const BasicExample = ({ movie }: Props) => {
           {movie.available ? "Available" : "Unavailable"}
         </Badge>
         <Card.Text className="clamp-two-lines">{movie.description}</Card.Text>
-        <Button
-          variant="primary"
-          style={{ marginRight: "8px", marginBottom: "8px" }}
-          onClick={handleRentReturnClick}
-        >
-          Rent
-        </Button>
+        <div className="d-flex flex-column align-items-start justify-content-between">
         <Button
           variant="primary"
           style={{ marginRight: "8px", marginBottom: "8px" }}
@@ -69,6 +52,7 @@ const BasicExample = ({ movie }: Props) => {
         <Button variant="success" style={{ marginRight: "8px" }} onClick={handleAddToWishlistClick}>
           Add to wishlist
         </Button>
+        </div>
       </Card.Body>
     </Card>
   );
