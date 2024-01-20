@@ -4,6 +4,7 @@ import useWishlist from "../../hooks/useWishlist";
 import Spinner from "../Spinner";
 import Error from "../Error";
 import useRemoveFromWishlistForUser from "../../hooks/useRemoveFromWishlist";
+import useAddToCartForUser from "../../hooks/useAddToCart";
 
 type WishlistProps = {
   show: boolean;
@@ -13,9 +14,20 @@ type WishlistProps = {
 const Wishlist: React.FC<WishlistProps> = ({ show, handleClose }) => {
   const { data: movies, isLoading, isError, refetch } = useWishlist();
   const removeFromWishlistMutation = useRemoveFromWishlistForUser();
+  const addToCartMutation = useAddToCartForUser();
 
   const handleRemoveFromWishlistClick = (movieId: string) => {
     removeFromWishlistMutation.mutate(movieId);
+  };
+
+  const handleAddToCartClick = async (movieId: string) => {
+    try {
+      await addToCartMutation.mutateAsync(movieId);
+
+      await removeFromWishlistMutation.mutateAsync(movieId);
+    } catch (error) {
+      console.error("Error adding to cart:", error);
+    }
   };
 
   useEffect(() => {
@@ -48,10 +60,16 @@ const Wishlist: React.FC<WishlistProps> = ({ show, handleClose }) => {
                   <div className="fw-bold">{movie.title}</div>
                   {movie.rentalPrice}KM
                 </div>
-                <Button variant="primary" style={{ marginRight: "16px" }}>
+                <Button
+                  variant="primary"
+                  style={{ marginRight: "16px" }}
+                  onClick={() => handleAddToCartClick(movie.id)}
+                >
                   Add to cart
                 </Button>
-                <CloseButton onClick={() => handleRemoveFromWishlistClick(movie.id)} />
+                <CloseButton
+                  onClick={() => handleRemoveFromWishlistClick(movie.id)}
+                />
               </ListGroup.Item>
             ))}
           </ListGroup>
