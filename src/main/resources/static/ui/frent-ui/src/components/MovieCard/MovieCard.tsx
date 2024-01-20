@@ -5,6 +5,8 @@ import { Movie } from "../../utils/types";
 import "../../assets/css/MovieRentalCard.css";
 import useAddToCartForUser from "../../hooks/useAddToCart";
 import useAddToWishlistForUser from "../../hooks/useAddToWishlist";
+import useIsMovieInWishlist from "../../hooks/useIsMovieInWishlist";
+import useIsMovieInCart from "../../hooks/useIsMovieInCart";
 
 type Props = {
   movie: Movie;
@@ -13,6 +15,8 @@ type Props = {
 const BasicExample = ({ movie }: Props) => {
   const addToCartMutation = useAddToCartForUser();
   const addToWishlistMutation = useAddToWishlistForUser();
+  const isMovieInWishlistQuery = useIsMovieInWishlist(movie.id);
+  const isMovieInCartQuery = useIsMovieInCart(movie.id);
 
   const handleAddToCartClick = () => {
     const movieId = movie.id;
@@ -42,16 +46,22 @@ const BasicExample = ({ movie }: Props) => {
         </Badge>
         <Card.Text className="clamp-two-lines">{movie.description}</Card.Text>
         <div className="d-flex flex-column align-items-start justify-content-between">
-        <Button
-          variant="primary"
-          style={{ marginRight: "8px", marginBottom: "8px" }}
-          onClick={handleAddToCartClick}
-        >
-          Add to cart
-        </Button>
-        <Button variant="success" style={{ marginRight: "8px" }} onClick={handleAddToWishlistClick}>
-          Add to wishlist
-        </Button>
+          <Button
+            variant="primary"
+            style={{ marginRight: "8px", marginBottom: "8px" }}
+            disabled={isMovieInCartQuery.data}
+            onClick={handleAddToCartClick}
+          >
+            Add to cart
+          </Button>
+          <Button
+            variant="success"
+            style={{ marginRight: "8px" }}
+            onClick={handleAddToWishlistClick}
+            disabled={isMovieInWishlistQuery.data}
+          >
+            Add to wishlist
+          </Button>
         </div>
       </Card.Body>
     </Card>

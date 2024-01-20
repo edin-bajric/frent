@@ -86,6 +86,16 @@ const removeFromWishlistForUser = async (movieId: string): Promise<void> => {
   await appAxios.put(`/users/removeFromWishlist/${movieId}`, {}, { headers });
 };
 
+const isMovieInWishlist = async (movieId: string): Promise<boolean> => {
+  const wishlist = await getWishlistForUser();
+  return wishlist.some((movie) => movie.id === movieId);
+};
+
+const isMovieInCart = async (movieId: string): Promise<boolean> => {
+  const cart = await getCartForUser();
+  return cart.some((movie) => movie.id === movieId);
+};
+
 export default {
   getCartForUser,
   getCartTotalForUser,
@@ -94,4 +104,6 @@ export default {
   removeFromCart,
   addToWishlistForUser,
   removeFromWishlistForUser,
+  isMovieInWishlist,
+  isMovieInCart,
 };

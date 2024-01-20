@@ -6,6 +6,7 @@ import Error from "../Error";
 import useCartTotal from "../../hooks/useCartTotal";
 import useRemoveFromCart from "../../hooks/useRemoveFromCart";
 import useAddRentalForUser from "../../hooks/useAddRentals";
+
 type CartProps = {
   show: boolean;
   handleClose: () => void;
