@@ -1,3 +1,4 @@
+import { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import Badge from "react-bootstrap/Badge";
@@ -10,14 +11,19 @@ type Props = {
 };
 
 const BasicExample = ({ rentalMovie }: Props) => {
+  const [isReturned, setIsReturned] = useState(rentalMovie.returned);
   const returnRentalMutation = useReturnRentalForUser();
 
   const handleReturnClick = () => {
     const rentalId = rentalMovie.id;
-    console.log();
 
-    returnRentalMutation.mutate(rentalId);
+    returnRentalMutation.mutate(rentalId, {
+      onSuccess: () => {
+        setIsReturned(true);
+      },
+    });
   };
+
   return (
     <Card style={{ width: "18rem" }} bg="dark" text="light">
       <Card.Img
@@ -31,7 +37,7 @@ const BasicExample = ({ rentalMovie }: Props) => {
           Valid until {rentalMovie.dueDate.toString()}
         </Card.Text>
         <Badge bg="secondary" style={{ marginBottom: "8px" }}>
-          {rentalMovie.returned ? "Returned" : "Rented"}
+          {isReturned ? "Returned" : "Rented"}
         </Badge>
         <Card.Text className="clamp-two-lines">
           {rentalMovie.description}
@@ -40,6 +46,7 @@ const BasicExample = ({ rentalMovie }: Props) => {
           variant="primary"
           style={{ marginRight: "8px" }}
           onClick={handleReturnClick}
+          disabled={isReturned}
         >
           Return
         </Button>

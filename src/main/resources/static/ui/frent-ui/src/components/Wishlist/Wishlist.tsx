@@ -49,7 +49,7 @@ const Wishlist: React.FC<WishlistProps> = ({ show, handleClose }) => {
                   {movie.rentalPrice}KM
                 </div>
                 <Button variant="primary" style={{ marginRight: "16px" }}>
-                  Rent
+                  Add to cart
                 </Button>
                 <CloseButton onClick={() => handleRemoveFromWishlistClick(movie.id)} />
               </ListGroup.Item>
