@@ -5,7 +5,7 @@ import Spinner from "../Spinner";
 import Error from "../Error";
 import useCartTotal from "../../hooks/useCartTotal";
 import useRemoveFromCart from "../../hooks/useRemoveFromCart";
-
+import useAddRentalForUser from "../../hooks/useAddRentals";
 type CartProps = {
   show: boolean;
   handleClose: () => void;
@@ -15,9 +15,22 @@ const Cart: React.FC<CartProps> = ({ show, handleClose }) => {
   const { data: movies, refetch: refetchCart, isLoading, isError } = useCart();
   const { data: total, refetch: refetchCartTotal } = useCartTotal();
   const removeFromCartMutation = useRemoveFromCart();
+  const addRentalMutation = useAddRentalForUser();
 
   const handleRemoveFromCart = (movieId: string) => {
     removeFromCartMutation.mutate(movieId);
+  };
+
+  const handleRentAll = () => {
+    movies?.forEach((movie) => {
+      addRentalMutation.mutate({ movieId: movie.id });
+    });
+
+    movies?.forEach((movie) => {
+      removeFromCartMutation.mutate(movie.id);
+    });
+
+    handleClose();
   };
 
   useEffect(() => {
@@ -61,7 +74,9 @@ const Cart: React.FC<CartProps> = ({ show, handleClose }) => {
                 <div className="fw-bold">Total</div>
                 {total}KM
               </div>
-              <Button variant="primary">Rent</Button>
+              <Button variant="primary" onClick={handleRentAll}>
+                Rent
+              </Button>
             </ListGroup.Item>
           </ListGroup>
         )}
