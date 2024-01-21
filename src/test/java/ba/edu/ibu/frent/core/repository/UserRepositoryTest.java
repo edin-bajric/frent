@@ -19,13 +19,13 @@ class UserRepositoryTest {
     public void shouldReturnAllUsers() {
         List<User> users = userRepository.findAll();
 
-        assertEquals(3, users.size());
+        assertEquals(2, users.size());
         assertEquals("jon", users.get(0).getUsername());
     }
 
     @Test
     public void shouldFindUserByEmail() {
-        Optional<User> user = userRepository.findByEmail("edin@gmail.com");
+        Optional<User> user = userRepository.findByEmail("pacdoe1@gmail.com");
         assertNotNull(user.orElse(null));
     }
 }

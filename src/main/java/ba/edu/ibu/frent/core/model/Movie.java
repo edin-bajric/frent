@@ -6,23 +6,48 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.List;
 
+/**
+ * Represents a movie entity in the system.
+ * Each movie has a unique identifier, title, description, director, genre, release year, availability status,
+ * and rental price associated with it.
+ */
 @Document
 public class Movie {
     @Id
     private String id;
     private String title;
+    private String description;
     private String director;
     private List<Genre> genre;
     private int year;
     private boolean available;
     private double rentalPrice;
 
+    /**
+     * Default constructor for the Movie class.
+     * Initializes the movie entity with default values.
+     */
     public Movie() {
     }
 
-    public Movie(String id, String title, String director, List<Genre> genre, int year, boolean available, double rentalPrice) {
+    /**
+     * Parameterized constructor for the Movie class.
+     * Initializes the movie entity with the provided values.
+     *
+     * @param id           The unique identifier of the movie.
+     * @param title        The title of the movie.
+     * @param description  The description of the movie.
+     * @param director     The director of the movie.
+     * @param genre        The list of genres associated with the movie.
+     * @param year         The release year of the movie.
+     * @param available    The availability status of the movie.
+     * @param rentalPrice  The rental price of the movie.
+     * @throws IllegalArgumentException If the provided year or rental price is negative.
+     */
+    public Movie(String id, String title, String description, String director, List<Genre> genre, int year, boolean available, double rentalPrice) {
         this.id = id;
         this.title = title;
+        this.description = description;
         this.director = director;
         this.genre = genre;
         if (year < 0) {
@@ -50,6 +75,14 @@ public class Movie {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getDirector() {

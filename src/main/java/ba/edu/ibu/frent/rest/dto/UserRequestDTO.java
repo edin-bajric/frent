@@ -5,6 +5,9 @@ import ba.edu.ibu.frent.core.model.enums.UserType;
 
 import java.util.Date;
 
+/**
+ * UserRequestDTO represents the data transfer object for creating or updating User entities.
+ */
 public class UserRequestDTO {
     private UserType userType;
     private String firstName;
@@ -13,8 +16,16 @@ public class UserRequestDTO {
     private String username;
     private String password;
 
+    /**
+     * Constructs an empty UserRequestDTO.
+     */
     public UserRequestDTO() { }
 
+    /**
+     * Constructs a UserRequestDTO based on the provided User entity.
+     *
+     * @param user The User entity from which to construct the DTO.
+     */
     public UserRequestDTO(User user) {
         this.userType = user.getUserType();
         this.firstName = user.getFirstName();
@@ -24,6 +35,11 @@ public class UserRequestDTO {
         this.password = user.getPassword();
     }
 
+    /**
+     * Converts the UserRequestDTO to a User entity.
+     *
+     * @return The User entity created from the DTO.
+     */
     public User toEntity() {
         User user = new User();
         user.setUserType(userType);
