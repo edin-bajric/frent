@@ -18,7 +18,6 @@ const Wishlist: React.FC<WishlistProps> = ({ show, handleClose }) => {
   const addToCartMutation = useAddToCartForUser();
   const { refetch: refetchCartTotal } = useCartTotal();
 
-
   const handleRemoveFromWishlistClick = (movieId: string) => {
     removeFromWishlistMutation.mutate(movieId);
   };

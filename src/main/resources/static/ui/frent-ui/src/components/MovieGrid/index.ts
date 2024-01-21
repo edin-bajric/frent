@@ -1,1 +1,1 @@
-export { default } from './MovieGrid';
+export { default } from "./MovieGrid";

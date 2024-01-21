@@ -27,7 +27,7 @@ const BasicExample = ({ movie }: Props) => {
   const addToWishlistMutation = useAddToWishlistForUser();
   const isMovieInWishlistQuery = useIsMovieInWishlist(movie.id);
   const isMovieInCartQuery = useIsMovieInCart(movie.id);
-  const {refetch: refetchCartTotal } = useCartTotal();
+  const { refetch: refetchCartTotal } = useCartTotal();
 
   const handleAddToCartClick = () => {
     const movieId = movie.id;

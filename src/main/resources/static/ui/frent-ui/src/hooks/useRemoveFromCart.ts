@@ -1,4 +1,3 @@
-// useRemoveFromCart.ts
 import { useMutation, useQueryClient } from "react-query";
 import { UserService } from "../services";
 
