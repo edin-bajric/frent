@@ -1,8 +1,6 @@
 import Carousel from "../components/Carousel";
 
-type Props = {};
-
-const Home = (props: Props) => {
+const Home = () => {
   return <Carousel />;
 };
 
