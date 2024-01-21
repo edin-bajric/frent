@@ -1,1 +1,1 @@
-export const BASE_URL = "https://frent-api.onrender.com/";
+export const BASE_URL = "https://frent-ui.onrender.com/api";
