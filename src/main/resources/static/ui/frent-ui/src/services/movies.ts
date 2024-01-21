@@ -36,4 +36,20 @@ const updateMovie = async (movie: Movie): Promise<Movie> => {
   });
 };
 
-export default { getMovies, getMovieById, addMovie, deleteMovie, updateMovie };
+const searchMovies = async (keyword: string) => {
+  try {
+    const response = await appAxios.get(`/movies/search/${keyword}`);
+    return response.data;
+  } catch (error: any) {
+    throw error.response?.data || error.message || "Error searching movies";
+  }
+};
+
+export default {
+  getMovies,
+  getMovieById,
+  addMovie,
+  deleteMovie,
+  updateMovie,
+  searchMovies,
+};

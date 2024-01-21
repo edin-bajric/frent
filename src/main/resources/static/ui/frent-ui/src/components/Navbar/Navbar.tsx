@@ -7,7 +7,7 @@ import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import Cart from "../Cart";
 import Wishlist from "../Wishlist";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store";
 import { logout } from "../../store/authSlice";
@@ -20,6 +20,13 @@ const NavScrollExample = () => {
   const [showCart, setShowCart] = useState(false);
   const [showWishlist, setShowWishlist] = useState(false);
   const [decodedToken, setDecodedToken] = useState<any>(null);
+  const [searchKeyword, setSearchKeyword] = useState("");
+  const navigate = useNavigate();
+
+  const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    navigate(`/search/${searchKeyword}`);
+  };
 
   useEffect(() => {
     if (userToken) {
@@ -104,16 +111,17 @@ const NavScrollExample = () => {
                 )}
               </NavDropdown>
             </Nav>
-            <Form className="d-flex">
+            <Form className="d-flex" onSubmit={handleSearch}>
               <Form.Control
                 type="search"
                 placeholder="Search"
                 className="me-2"
                 aria-label="Search"
+                onChange={(e) => setSearchKeyword(e.target.value)}
               />
-              <Link to="/search">
-                <Button variant="outline-primary">Search</Button>
-              </Link>
+              <Button variant="outline-primary" type="submit">
+                Search
+              </Button>
             </Form>
           </Navbar.Collapse>
         </Container>

@@ -25,7 +25,7 @@ export default function App() {
         </Route>
         <Route path="/login" element={<SignInPage />} />
         <Route path="/register" element={<RegisterPage />} />
-        <Route path="/search" element={<SearchResult />} />
+        <Route path="/search/:keyword" element={<SearchResult />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </>
