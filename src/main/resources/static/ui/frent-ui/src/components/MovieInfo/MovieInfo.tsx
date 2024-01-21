@@ -21,10 +21,14 @@ const MovieInfo: React.FC<MovieInfoProps> = ({ show, handleClose, movie }) => {
           <Offcanvas.Title>{movie.title}</Offcanvas.Title>
         </Offcanvas.Header>
         <Offcanvas.Body>
-        <img src={movie.smallImage} alt={movie.title} style={{ width: "100%" }} />
-        <Badge
+          <img
+            src={movie.smallImage}
+            alt={movie.title}
+            style={{ width: "100%" }}
+          />
+          <Badge
             bg={movie.available ? "success" : "danger"}
-            style={{ marginBottom: "8px" }}
+            style={{ marginBottom: "8px", marginTop: "8px" }}
           >
             {movie.available ? "Available" : "Unavailable"}
           </Badge>
@@ -32,12 +36,11 @@ const MovieInfo: React.FC<MovieInfoProps> = ({ show, handleClose, movie }) => {
           <p>Year: {movie.year}</p>
           <p>Director: {movie.director}</p>
           <p>Genre: {movie.genre}</p>
-        <p>Price: {movie.rentalPrice}KM</p>
-        
+          <p>Price: {movie.rentalPrice}KM</p>
         </Offcanvas.Body>
       </Offcanvas>
     </>
   );
-}
+};
 
 export default MovieInfo;
