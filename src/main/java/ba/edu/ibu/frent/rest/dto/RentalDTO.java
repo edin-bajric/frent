@@ -4,23 +4,36 @@ import ba.edu.ibu.frent.core.model.Rental;
 
 import java.time.LocalDate;
 
+/**
+ * RentalDTO represents the data transfer object for displaying Rental information.
+ */
 public class RentalDTO {
     private String id;
     private String username;
     private String movieId;
     private LocalDate rentalDate;
+    private LocalDate dueDate;
     private LocalDate returnDate;
     private double rentalPrice;
     private boolean returned;
 
+    /**
+     * Constructs an empty RentalDTO.
+     */
     public RentalDTO() {
     }
 
+    /**
+     * Constructs a RentalDTO based on the provided Rental entity.
+     *
+     * @param rental The Rental entity from which to construct the DTO.
+     */
     public RentalDTO(Rental rental) {
         this.id = rental.getId();
         this.username = rental.getUsername();
         this.movieId = rental.getMovieId();
         this.rentalDate = rental.getRentalDate();
+        this.dueDate = rental.getDueDate();
         this.returnDate = rental.getReturnDate();
         this.rentalPrice = rental.getRentalPrice();
         this.returned = rental.isReturned();
@@ -56,6 +69,14 @@ public class RentalDTO {
 
     public void setRentalDate(LocalDate rentalDate) {
         this.rentalDate = rentalDate;
+    }
+
+    public LocalDate getDueDate() {
+        return dueDate;
+    }
+
+    public void setDueDate(LocalDate dueDate) {
+        this.dueDate = dueDate;
     }
 
     public LocalDate getReturnDate() {
