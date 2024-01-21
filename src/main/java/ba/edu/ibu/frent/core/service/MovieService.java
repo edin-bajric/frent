@@ -19,8 +19,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static java.util.stream.Collectors.toList;
-
 /**
  * Service class for managing movie-related operations.
  */
@@ -268,11 +266,11 @@ public class MovieService {
     }
 
     /**
-     * Check if a given substring matches the beginning of any word in the text.
+     * Check if a given substring matches the beginning of any word in the text or is contained in the text.
      *
      * @param substring The substring to match.
      * @param text      The text to search within.
-     * @return True if the substring matches the beginning of any word in the text, otherwise false.
+     * @return True if the substring matches the beginning of any word in the text or is contained in the text, otherwise false.
      */
     private boolean matchesSubstringInWord(String substring, String text) {
         String[] words = text.split("\\s+");
@@ -281,6 +279,6 @@ public class MovieService {
                 return true;
             }
         }
-        return false;
+        return text.toLowerCase().contains(substring.toLowerCase());
     }
 }

@@ -15,21 +15,24 @@ const SearchResults: React.FC = () => {
       {isLoading && <Spinner />}
       {error && <Error />}
       {!isLoading && movies && (
-        <Row
-          xs={1}
-          md={2}
-          lg={3}
-          xl={4}
-          xxl={5}
-          className="g-4"
-          style={{ width: "100%", padding: "16px" }}
-        >
-          {movies.map((movie: any) => (
-            <Col key={movie.id}>
-              <MovieCard movie={movie} />
-            </Col>
-          ))}
-        </Row>
+        <>
+          <h3 style={{padding: "16px"}}>Search Results for "{keyword}"</h3>
+          <Row
+            xs={1}
+            md={2}
+            lg={3}
+            xl={4}
+            xxl={5}
+            className="g-4"
+            style={{ width: "100%", paddingLeft: "16px" }}
+          >
+            {movies.map((movie: any) => (
+              <Col key={movie.id}>
+                <MovieCard movie={movie} />
+              </Col>
+            ))}
+          </Row>
+        </>
       )}
     </>
   );
