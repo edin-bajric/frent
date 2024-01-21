@@ -10,6 +10,7 @@ import useIsMovieInWishlist from "../../hooks/useIsMovieInWishlist";
 import useIsMovieInCart from "../../hooks/useIsMovieInCart";
 import DangerAlert from "../DangerAlert";
 import SuccessAlert from "../SuccessAlert";
+import MovieInfo from "../MovieInfo";
 
 type Props = {
   movie: Movie;
@@ -20,7 +21,7 @@ const BasicExample = ({ movie }: Props) => {
   const [showSuccessAlert, setShowSuccessAlert] = useState(false);
   const [showSuccessAlertWishlist, setShowSuccessAlertWishlist] =
     useState(false);
-
+  const [showMovieInfo, setShowMovieInfo] = useState(false);
   const addToCartMutation = useAddToCartForUser();
   const addToWishlistMutation = useAddToWishlistForUser();
   const isMovieInWishlistQuery = useIsMovieInWishlist(movie.id);
@@ -53,6 +54,10 @@ const BasicExample = ({ movie }: Props) => {
     });
   };
 
+  const handleMovieCardClick = () => {
+    setShowMovieInfo(true);
+  };
+
   return (
     <>
       {showSuccessAlertWishlist && (
@@ -77,7 +82,8 @@ const BasicExample = ({ movie }: Props) => {
         <Card.Img
           variant="top"
           src={movie.smallImage}
-          style={{ height: "18rem", objectFit: "cover" }}
+          style={{ height: "18rem", objectFit: "cover", cursor: "pointer" }}
+          onClick={handleMovieCardClick}
         />
         <Card.Body>
           <Card.Title as="h6">{movie.title}</Card.Title>
@@ -109,6 +115,11 @@ const BasicExample = ({ movie }: Props) => {
           </div>
         </Card.Body>
       </Card>
+      <MovieInfo
+        show={showMovieInfo}
+        handleClose={() => setShowMovieInfo(false)}
+        movie={movie}
+      />
     </>
   );
 };
