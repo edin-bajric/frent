@@ -1,1 +1,1 @@
-export { default } from './DangerAlert';
+export { default } from "./DangerAlert";

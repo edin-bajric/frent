@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import Alert from 'react-bootstrap/Alert';
+import { useState, useEffect } from "react";
+import Alert from "react-bootstrap/Alert";
 
 type Props = {
   message: string;

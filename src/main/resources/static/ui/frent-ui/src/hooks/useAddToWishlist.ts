@@ -1,5 +1,5 @@
-import { useMutation, useQueryClient } from 'react-query';
-import { UserService } from '../services';
+import { useMutation, useQueryClient } from "react-query";
+import { UserService } from "../services";
 
 const useAddToWishlistForUser = () => {
   const queryClient = useQueryClient();
@@ -8,7 +8,7 @@ const useAddToWishlistForUser = () => {
     (movieId: string) => UserService.addToWishlistForUser(movieId),
     {
       onSuccess: () => {
-        queryClient.invalidateQueries('wishlist');
+        queryClient.invalidateQueries("wishlist");
       },
     }
   );
