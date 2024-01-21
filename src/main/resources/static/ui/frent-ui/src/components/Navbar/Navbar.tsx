@@ -26,6 +26,7 @@ const NavScrollExample = () => {
   const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     navigate(`/search/${searchKeyword}`);
+    setSearchKeyword("");
   };
 
   useEffect(() => {
@@ -117,6 +118,7 @@ const NavScrollExample = () => {
                 placeholder="Search"
                 className="me-2"
                 aria-label="Search"
+                value={searchKeyword}
                 onChange={(e) => setSearchKeyword(e.target.value)}
               />
               <Button variant="outline-primary" type="submit">
