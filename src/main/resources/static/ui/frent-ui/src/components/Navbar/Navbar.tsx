@@ -5,10 +5,8 @@ import Form from "react-bootstrap/Form";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
-import { Notification } from "../../utils/types";
 import Cart from "../Cart";
 import Wishlist from "../Wishlist";
-import Notifications from "../Notification";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store";
@@ -16,16 +14,11 @@ import { logout } from "../../store/authSlice";
 import { useEffect } from "react";
 import { decodeJwtToken } from "../../utils/decoder";
 
-type Props = {
-  notifications: Notification[];
-};
-
-const NavScrollExample = ({ notifications }: Props) => {
+const NavScrollExample = () => {
   const { userToken } = useSelector((state: RootState) => state.auth);
   const dispatch = useDispatch();
   const [showCart, setShowCart] = useState(false);
   const [showWishlist, setShowWishlist] = useState(false);
-  const [showNotifications, setShowNotifications] = useState(false);
   const [decodedToken, setDecodedToken] = useState<any>(null);
 
   useEffect(() => {
@@ -49,14 +42,6 @@ const NavScrollExample = ({ notifications }: Props) => {
 
   const handleCloseWishlist = () => {
     setShowWishlist(false);
-  };
-
-  const handleNotificationsClick = () => {
-    setShowNotifications(true);
-  };
-
-  const handleCloseNotifications = () => {
-    setShowNotifications(false);
   };
 
   return (
@@ -99,15 +84,6 @@ const NavScrollExample = ({ notifications }: Props) => {
               ) : (
                 <Nav.Link onClick={handleWishlistClick}>Wishlist</Nav.Link>
               )}
-              {!userToken ? (
-                <Nav.Link as={Link} to={"/login"}>
-                  Notifications
-                </Nav.Link>
-              ) : (
-                <Nav.Link onClick={handleNotificationsClick}>
-                  Notifications
-                </Nav.Link>
-              )}
               <NavDropdown
                 title={userToken ? decodedToken?.sub : "Account"}
                 id="navbarScrollingDropdown"
@@ -144,11 +120,6 @@ const NavScrollExample = ({ notifications }: Props) => {
       </Navbar>
       <Cart show={showCart} handleClose={handleCloseCart} />
       <Wishlist show={showWishlist} handleClose={handleCloseWishlist} />
-      <Notifications
-        show={showNotifications}
-        handleClose={handleCloseNotifications}
-        notifications={notifications}
-      />
     </>
   );
 };

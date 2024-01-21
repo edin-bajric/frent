@@ -1,6 +1,5 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import Navbar from "./components/Navbar";
-import { notification1, notification2 } from "./constants";
 import {
   Home,
   Movies,
@@ -14,10 +13,9 @@ import { Routes, Route } from "react-router-dom";
 import ProtectedRoute from "./utils/ProtectedRoute";
 
 export default function App() {
-  const notifications = [notification1, notification2];
   return (
     <>
-      <Navbar notifications={notifications} />
+      <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/home" element={<Home />} />
