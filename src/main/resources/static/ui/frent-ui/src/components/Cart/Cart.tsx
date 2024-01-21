@@ -5,6 +5,7 @@ import Error from "../Error";
 import useCartTotal from "../../hooks/useCartTotal";
 import useRemoveFromCart from "../../hooks/useRemoveFromCart";
 import useAddRentalForUser from "../../hooks/useAddRentals";
+import useRentals from "../../hooks/useRentals";
 
 type CartProps = {
   show: boolean;
@@ -16,6 +17,7 @@ const Cart: React.FC<CartProps> = ({ show, handleClose }) => {
   const { data: total, refetch: refetchCartTotal } = useCartTotal();
   const removeFromCartMutation = useRemoveFromCart();
   const addRentalMutation = useAddRentalForUser();
+  const { refetch: refetchRentals } = useRentals();
 
   const handleRemoveFromCart = (movieId: string) => {
     removeFromCartMutation.mutate(movieId, {
@@ -26,29 +28,24 @@ const Cart: React.FC<CartProps> = ({ show, handleClose }) => {
     });
   };
 
-  const handleRentAll = () => {
-    movies?.forEach((movie) => {
-      addRentalMutation.mutate(
-        { movieId: movie.id },
-        {
-          onSuccess: () => {
-            refetchCart();
-            refetchCartTotal();
-          },
-        }
-      );
-    });
+  const handleRentAll = async () => {
+    try {
+      for (const movie of movies || []) {
+        await addRentalMutation.mutateAsync({ movieId: movie.id });
+      }
 
-    movies?.forEach((movie) => {
-      removeFromCartMutation.mutate(movie.id, {
-        onSuccess: () => {
-          refetchCart();
-          refetchCartTotal();
-        },
-      });
-    });
+      for (const movie of movies || []) {
+        await removeFromCartMutation.mutateAsync(movie.id);
+      }
 
-    handleClose();
+      refetchCart();
+      refetchCartTotal();
+      refetchRentals();
+
+      handleClose();
+    } catch (error) {
+      console.error("Error during rental and removal:", error);
+    }
   };
 
   return (
