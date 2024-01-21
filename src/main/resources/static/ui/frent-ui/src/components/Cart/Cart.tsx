@@ -1,4 +1,3 @@
-import React, { useEffect } from "react";
 import { Offcanvas, ListGroup, CloseButton, Button } from "react-bootstrap";
 import useCart from "../../hooks/useCart";
 import Spinner from "../Spinner";
@@ -19,25 +18,38 @@ const Cart: React.FC<CartProps> = ({ show, handleClose }) => {
   const addRentalMutation = useAddRentalForUser();
 
   const handleRemoveFromCart = (movieId: string) => {
-    removeFromCartMutation.mutate(movieId);
+    removeFromCartMutation.mutate(movieId, {
+      onSuccess: () => {
+        refetchCart();
+        refetchCartTotal();
+      },
+    });
   };
 
   const handleRentAll = () => {
     movies?.forEach((movie) => {
-      addRentalMutation.mutate({ movieId: movie.id });
+      addRentalMutation.mutate(
+        { movieId: movie.id },
+        {
+          onSuccess: () => {
+            refetchCart();
+            refetchCartTotal();
+          },
+        }
+      );
     });
 
     movies?.forEach((movie) => {
-      removeFromCartMutation.mutate(movie.id);
+      removeFromCartMutation.mutate(movie.id, {
+        onSuccess: () => {
+          refetchCart();
+          refetchCartTotal();
+        },
+      });
     });
 
     handleClose();
   };
-
-  useEffect(() => {
-    refetchCart();
-    refetchCartTotal();
-  }, [refetchCart, refetchCartTotal]);
 
   return (
     <Offcanvas
