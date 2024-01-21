@@ -75,7 +75,11 @@ const Cart: React.FC<CartProps> = ({ show, handleClose }) => {
                 <div className="fw-bold">Total</div>
                 {total}KM
               </div>
-              <Button variant="primary" onClick={handleRentAll}>
+              <Button
+                variant="primary"
+                onClick={handleRentAll}
+                disabled={!movies || movies.length === 0}
+              >
                 Rent
               </Button>
             </ListGroup.Item>
