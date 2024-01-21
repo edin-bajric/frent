@@ -11,6 +11,7 @@ import useIsMovieInCart from "../../hooks/useIsMovieInCart";
 import DangerAlert from "../DangerAlert";
 import SuccessAlert from "../SuccessAlert";
 import MovieInfo from "../MovieInfo";
+import useCartTotal from "../../hooks/useCartTotal";
 
 type Props = {
   movie: Movie;
@@ -26,12 +27,14 @@ const BasicExample = ({ movie }: Props) => {
   const addToWishlistMutation = useAddToWishlistForUser();
   const isMovieInWishlistQuery = useIsMovieInWishlist(movie.id);
   const isMovieInCartQuery = useIsMovieInCart(movie.id);
+  const {refetch: refetchCartTotal } = useCartTotal();
 
   const handleAddToCartClick = () => {
     const movieId = movie.id;
     addToCartMutation.mutate(movieId, {
       onSuccess: () => {
         setShowSuccessAlert(true);
+        refetchCartTotal();
       },
 
       onError: (error: any) => {
