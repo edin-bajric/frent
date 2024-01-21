@@ -16,7 +16,7 @@ const SearchResults: React.FC = () => {
       {error && <Error />}
       {!isLoading && movies && (
         <>
-          <h3 style={{padding: "16px"}}>Search Results for "{keyword}"</h3>
+          <h3 style={{padding: "16px"}}>Search results for "{keyword}"</h3>
           <Row
             xs={1}
             md={2}
