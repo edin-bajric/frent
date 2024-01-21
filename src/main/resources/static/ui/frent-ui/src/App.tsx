@@ -7,7 +7,7 @@ import {
   SignInPage,
   RegisterPage,
   NotFound,
-  SearchResult,
+  Search,
 } from "./pages";
 import { Routes, Route } from "react-router-dom";
 import ProtectedRoute from "./utils/ProtectedRoute";
@@ -25,7 +25,7 @@ export default function App() {
         </Route>
         <Route path="/login" element={<SignInPage />} />
         <Route path="/register" element={<RegisterPage />} />
-        <Route path="/search/:keyword" element={<SearchResult />} />
+        <Route path="/search/:keyword" element={<Search />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </>
