@@ -1,13 +1,3 @@
-export type Movie1 = {
-  id: string;
-  title: string;
-  price: number;
-  isAvailable: boolean;
-  description: string;
-  dueDate: string;
-  isRented: boolean;
-};
-
 export type Movie = {
   id: string;
   title: string;
@@ -49,8 +39,4 @@ export type RentalMovie = {
   genre: string;
   year: number;
   available: boolean;
-};
-
-export type Notification = {
-  message: string;
 };
