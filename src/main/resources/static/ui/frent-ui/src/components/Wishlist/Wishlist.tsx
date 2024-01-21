@@ -5,6 +5,7 @@ import Spinner from "../Spinner";
 import Error from "../Error";
 import useRemoveFromWishlistForUser from "../../hooks/useRemoveFromWishlist";
 import useAddToCartForUser from "../../hooks/useAddToCart";
+import useCartTotal from "../../hooks/useCartTotal";
 
 type WishlistProps = {
   show: boolean;
@@ -15,6 +16,8 @@ const Wishlist: React.FC<WishlistProps> = ({ show, handleClose }) => {
   const { data: movies, isLoading, isError, refetch } = useWishlist();
   const removeFromWishlistMutation = useRemoveFromWishlistForUser();
   const addToCartMutation = useAddToCartForUser();
+  const { refetch: refetchCartTotal } = useCartTotal();
+
 
   const handleRemoveFromWishlistClick = (movieId: string) => {
     removeFromWishlistMutation.mutate(movieId);
@@ -25,6 +28,7 @@ const Wishlist: React.FC<WishlistProps> = ({ show, handleClose }) => {
       await addToCartMutation.mutateAsync(movieId);
 
       await removeFromWishlistMutation.mutateAsync(movieId);
+      refetchCartTotal();
     } catch (error) {
       console.error("Error adding to cart:", error);
     }
