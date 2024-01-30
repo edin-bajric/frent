@@ -12,10 +12,13 @@ class MovieTest {
 
     @Test
     void shouldCreateNewMovie() {
-        Movie movie = new Movie("id", "Title", "Director", List.of(Genre.ADVENTURE), 2023, true, 5.99);
+        Movie movie = new Movie("id", "Title", "Description", "SmallImage", "BigImage", "Director", List.of(Genre.ADVENTURE), 2023, true, 5.99);
 
         assertEquals("id", movie.getId());
         assertEquals("Title", movie.getTitle());
+        assertEquals("Description", movie.getDescription());
+        assertEquals("SmallImage", movie.getSmallImage());
+        assertEquals("BigImage", movie.getBigImage());
         assertEquals("Director", movie.getDirector());
         assertEquals(List.of(Genre.ADVENTURE), movie.getGenre());
         assertEquals(2023, movie.getYear());
@@ -24,8 +27,8 @@ class MovieTest {
     }
     @Test
     void shouldCompareTwoMovies() {
-        Movie movie1 = new Movie("id", "Title", "Director", List.of(Genre.ADVENTURE), 2023, true, 5.99);
-        Movie movie2 = new Movie("id", "Title", "Director", List.of(Genre.ADVENTURE), 2023, true, 5.99);
+        Movie movie1 = new Movie("id", "Title", "Description", "SmallImage", "BigImage", "Director", List.of(Genre.ADVENTURE), 2023, true, 5.99);
+        Movie movie2 = new Movie("id", "Title", "Description", "SmallImage", "BigImage", "Director", List.of(Genre.ADVENTURE), 2023, true, 5.99);
 
         AssertionsForInterfaceTypes
                 .assertThat(movie1)
@@ -62,13 +65,13 @@ class MovieTest {
     @Test
     void shouldNotAllowNegativeYear() {
         assertThrows(IllegalArgumentException.class, () -> {
-            new Movie("id", "Title", "Director", List.of(Genre.ACTION), -2023, true, 5.99);
+            new Movie("id", "Title", "Description", "SmallImage", "BigImage", "Director", List.of(Genre.ACTION), -2023, true, 5.99);
         });
     }
     @Test
     void shouldNotAllowNegativeRentalPrice() {
         assertThrows(IllegalArgumentException.class, () -> {
-            new Movie("id", "Title", "Director", List.of(Genre.ACTION), 2023, true, -5.99);
+            new Movie("id", "Title", "Description", "SmallImage", "BigImage", "Director", List.of(Genre.ACTION), 2023, true, -5.99);
         });
     }
 

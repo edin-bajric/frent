@@ -1,19 +1,33 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import Navbar from "./components/Navbar";
-import MovieCard from "./components/MovieCard";
-import RentalCard from "./components/RentalCard";
-import { movie1, movie2, notification1, notification2 } from "./constants";
+import {
+  Home,
+  Movies,
+  Rentals,
+  SignInPage,
+  RegisterPage,
+  NotFound,
+  Search,
+} from "./pages";
+import { Routes, Route } from "react-router-dom";
+import ProtectedRoute from "./utils/ProtectedRoute";
 
 export default function App() {
-  const movies = [movie1, movie2];
-  const notifications = [notification1, notification2];
   return (
     <>
-      <Navbar movies={movies} notifications={notifications} />
-      <h1 style={{padding: "16px"}}>Card for movies page (there will be many cards like this one in the movies page)</h1>
-      <MovieCard movie={movie1} />
-      <h1 style={{padding: "16px"}}>Card for rentals page (there will be many cards like this one in the rentals page)</h1>
-      <RentalCard movie={movie1} />
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/home" element={<Home />} />
+        <Route path="/movies" element={<Movies />} />
+        <Route element={<ProtectedRoute />}>
+          <Route path="/rentals" element={<Rentals />} />
+        </Route>
+        <Route path="/login" element={<SignInPage />} />
+        <Route path="/register" element={<RegisterPage />} />
+        <Route path="/search/:keyword" element={<Search />} />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
     </>
   );
 }
