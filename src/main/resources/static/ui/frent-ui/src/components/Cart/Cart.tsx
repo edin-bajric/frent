@@ -1,15 +1,51 @@
-import { Offcanvas, ListGroup, CloseButton, Button } from 'react-bootstrap';
-import { Movie } from '../../utils/types';
+import { Offcanvas, ListGroup, CloseButton, Button } from "react-bootstrap";
+import useCart from "../../hooks/useCart";
+import Spinner from "../Spinner";
+import Error from "../Error";
+import useCartTotal from "../../hooks/useCartTotal";
+import useRemoveFromCart from "../../hooks/useRemoveFromCart";
+import useAddRentalForUser from "../../hooks/useAddRentals";
+import useRentals from "../../hooks/useRentals";
 
 type CartProps = {
-  show: boolean; 
+  show: boolean;
   handleClose: () => void;
-  movies: Movie[];
 };
 
-const Cart: React.FC<CartProps> = ({ show, movies, handleClose }) => {
-  const calculateTotalPrice = (movies: any[]) => {
-    return movies.reduce((total, movie) => total + movie.price, 0);
+const Cart: React.FC<CartProps> = ({ show, handleClose }) => {
+  const { data: movies, refetch: refetchCart, isLoading, isError } = useCart();
+  const { data: total, refetch: refetchCartTotal } = useCartTotal();
+  const removeFromCartMutation = useRemoveFromCart();
+  const addRentalMutation = useAddRentalForUser();
+  const { refetch: refetchRentals } = useRentals();
+
+  const handleRemoveFromCart = (movieId: string) => {
+    removeFromCartMutation.mutate(movieId, {
+      onSuccess: () => {
+        refetchCart();
+        refetchCartTotal();
+      },
+    });
+  };
+
+  const handleRentAll = async () => {
+    try {
+      for (const movie of movies || []) {
+        await addRentalMutation.mutateAsync({ movieId: movie.id });
+      }
+
+      for (const movie of movies || []) {
+        await removeFromCartMutation.mutateAsync(movie.id);
+      }
+
+      refetchCart();
+      refetchCartTotal();
+      refetchRentals();
+
+      handleClose();
+    } catch (error) {
+      console.error("Error during rental and removal:", error);
+    }
   };
 
   return (
@@ -23,31 +59,41 @@ const Cart: React.FC<CartProps> = ({ show, movies, handleClose }) => {
         <Offcanvas.Title>Cart</Offcanvas.Title>
       </Offcanvas.Header>
       <Offcanvas.Body>
-        <ListGroup as="ol">
-          {movies.map((movie, index) => (
+        {isLoading && <Spinner />}
+        {isError && <Error />}
+        {!isLoading && !isError && (
+          <ListGroup as="ol">
+            {movies?.map((movie) => (
+              <ListGroup.Item
+                key={movie.id}
+                as="li"
+                className="d-flex justify-content-between align-items-start"
+              >
+                <div className="ms-2 me-auto">
+                  <div className="fw-bold">{movie.title}</div>
+                  {movie.rentalPrice}KM
+                </div>
+                <CloseButton onClick={() => handleRemoveFromCart(movie.id)} />
+              </ListGroup.Item>
+            ))}
             <ListGroup.Item
-              key={index}
-              as="li"
+              variant="light"
               className="d-flex justify-content-between align-items-start"
             >
               <div className="ms-2 me-auto">
-                <div className="fw-bold">{movie.title}</div>
-                {movie.price}KM
+                <div className="fw-bold">Total</div>
+                {total}KM
               </div>
-              <CloseButton />
+              <Button
+                variant="primary"
+                onClick={handleRentAll}
+                disabled={!movies || movies.length === 0}
+              >
+                Rent
+              </Button>
             </ListGroup.Item>
-          ))}
-          <ListGroup.Item
-            variant="light"
-            className="d-flex justify-content-between align-items-start"
-          >
-            <div className="ms-2 me-auto">
-              <div className="fw-bold">Total</div>
-              {calculateTotalPrice(movies)}KM
-            </div>
-            <Button variant="primary">Rent</Button>
-          </ListGroup.Item>
-        </ListGroup>
+          </ListGroup>
+        )}
       </Offcanvas.Body>
     </Offcanvas>
   );

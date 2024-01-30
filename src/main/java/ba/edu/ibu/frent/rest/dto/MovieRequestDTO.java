@@ -11,6 +11,8 @@ import java.util.List;
 public class MovieRequestDTO {
     private String title;
     private String description;
+    private String smallImage;
+    private String bigImage;
     private String director;
     private List<Genre> genre;
     private int year;
@@ -31,6 +33,8 @@ public class MovieRequestDTO {
     public MovieRequestDTO(Movie movie) {
         this.title = movie.getTitle();
         this.description = movie.getDescription();
+        this.smallImage = movie.getSmallImage();
+        this.bigImage = movie.getBigImage();
         this.director = movie.getDirector();
         this.genre = movie.getGenre();
         this.year = movie.getYear();
@@ -47,6 +51,8 @@ public class MovieRequestDTO {
         Movie movie = new Movie();
         movie.setTitle(title);
         movie.setDescription(description);
+        movie.setSmallImage(smallImage);
+        movie.setBigImage(bigImage);
         movie.setDirector(director);
         movie.setGenre(genre);
         movie.setYear(year);
@@ -69,6 +75,22 @@ public class MovieRequestDTO {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getSmallImage() {
+        return smallImage;
+    }
+
+    public void setSmallImage(String smallImage) {
+        this.smallImage = smallImage;
+    }
+
+    public String getBigImage() {
+        return bigImage;
+    }
+
+    public void setBigImage(String bigImage) {
+        this.bigImage = bigImage;
     }
 
     public String getDirector() {

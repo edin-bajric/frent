@@ -44,6 +44,8 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
+                .cors() // Enable CORS
+                .and()
                 .authorizeHttpRequests(request -> request
                         .requestMatchers(HttpMethod.GET, "/api/movies/**").permitAll()
                         .requestMatchers("/api/movies/**").authenticated()
