@@ -5,6 +5,8 @@ import ba.edu.ibu.frent.core.model.enums.UserType;
 
 import java.util.Date;
 
+import static ba.edu.ibu.frent.core.model.enums.UserType.MEMBER;
+
 /**
  * UserRequestDTO represents the data transfer object for creating or updating User entities.
  */
@@ -42,7 +44,7 @@ public class UserRequestDTO {
      */
     public User toEntity() {
         User user = new User();
-        user.setUserType(userType);
+        user.setUserType(MEMBER);
         user.setFirstName(firstName);
         user.setLastName(lastName);
         user.setEmail(email);
