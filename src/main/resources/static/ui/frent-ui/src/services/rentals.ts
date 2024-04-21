@@ -6,7 +6,7 @@ const getMovieById = MovieService.getMovieById;
 
 const getRentalsForUser = async (): Promise<RentalMovie[]> => {
   const token = localStorage.getItem("userToken");
-
+  if(!token) return[];
   const headers = {
     Authorization: `Bearer ${token}`,
   };

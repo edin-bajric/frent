@@ -3,9 +3,10 @@ import { Movie } from "../utils/types";
 import { MovieService } from ".";
 
 const getMovieById = MovieService.getMovieById;
-const token = localStorage.getItem("userToken");
 
 const getCartForUser = async (): Promise<Movie[]> => {
+  const token = localStorage.getItem("userToken");
+  if(!token) return[];
   const headers = {
     Authorization: `Bearer ${token}`,
   };
@@ -21,10 +22,11 @@ const getCartForUser = async (): Promise<Movie[]> => {
 };
 
 const getCartTotalForUser = async (): Promise<number> => {
+  const token = localStorage.getItem("userToken");
+  if(!token) return 0;
   const headers = {
     Authorization: `Bearer ${token}`,
   };
-
   return appAxios.get("/users/cartTotal", { headers }).then((response) => {
     const cartTotal: number = response.data;
     return cartTotal;
@@ -32,6 +34,8 @@ const getCartTotalForUser = async (): Promise<number> => {
 };
 
 const getWishlistForUser = async (): Promise<Movie[]> => {
+  const token = localStorage.getItem("userToken");
+  if(!token) return[];
   const headers = {
     Authorization: `Bearer ${token}`,
   };
