@@ -13,7 +13,7 @@ const useAddRentalForUser = () => {
       RentalService.addRentalForUser(payload.movieId),
     {
       onSuccess: () => {
-        queryClient.invalidateQueries("rentals");
+        queryClient.invalidateQueries("rentalsMovies");
       },
     }
   );
