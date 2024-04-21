@@ -45,6 +45,24 @@ const searchMovies = async (keyword: string) => {
   }
 };
 
+const setMovieAvailable = async (movieId: string): Promise<void> => {
+  try {
+    await appAxios.put(`movies/setAvailable/${movieId}`, null, { headers: { Authorization: `Bearer ${localStorage.getItem('userToken')}` } });
+    console.log('Movie set as available successfully');
+  } catch (error: any) {
+    throw new Error('Failed to set movie available: ' + error.message);
+  }
+};
+
+const setMovieUnavailable = async (movieId: string): Promise<void> => {
+  try {
+    await appAxios.put(`movies/setUnavailable/${movieId}`, null, { headers: { Authorization: `Bearer ${localStorage.getItem('userToken')}` } });
+    console.log('Movie set as unavailable successfully');
+  } catch (error: any) {
+    throw new Error('Failed to set movie unavailable: ' + error.message);
+  }
+};
+
 export default {
   getMovies,
   getMovieById,
@@ -52,4 +70,6 @@ export default {
   deleteMovie,
   updateMovie,
   searchMovies,
+  setMovieAvailable,
+  setMovieUnavailable,
 };

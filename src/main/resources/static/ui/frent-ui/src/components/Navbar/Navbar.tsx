@@ -22,6 +22,7 @@ const NavScrollExample = () => {
   const [decodedToken, setDecodedToken] = useState<any>(null);
   const [searchKeyword, setSearchKeyword] = useState("");
   const navigate = useNavigate();
+  
 
   const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -106,9 +107,16 @@ const NavScrollExample = () => {
                     </NavDropdown.Item>
                   </>
                 ) : (
-                  <NavDropdown.Item onClick={() => dispatch(logout())}>
-                    Logout
-                  </NavDropdown.Item>
+                  <>
+                    {decodedToken?.iss === "admin" && (
+                      <NavDropdown.Item as={Link} to="/dashboard">
+                        Dashboard
+                      </NavDropdown.Item>
+                    )}
+                    <NavDropdown.Item onClick={() => dispatch(logout())}>
+                      Logout
+                    </NavDropdown.Item>
+                  </>
                 )}
               </NavDropdown>
             </Nav>
