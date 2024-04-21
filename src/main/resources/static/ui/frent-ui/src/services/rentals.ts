@@ -78,4 +78,20 @@ const returnRentalForUser = async (rentalId: string): Promise<Rental> => {
     .then((response) => response.data);
 };
 
-export default { getRentalsForUser, addRentalForUser, returnRentalForUser };
+const sendDueDateWarnings = async () => {
+  try {
+    const response = await appAxios.post('/rentals/sendDueDateWarnings',
+      null, { headers: { Authorization: `Bearer ${localStorage.getItem('userToken')}` } });
+      
+    if (response.status === 204) {
+      console.log('Due date warnings sent successfully');
+    } else {
+      console.error('Failed to send due date warnings');
+    }
+  } catch (error) {
+    console.error('Error sending due date warnings:', error);
+  }
+};
+
+
+export default { getRentalsForUser, addRentalForUser, returnRentalForUser, sendDueDateWarnings };
