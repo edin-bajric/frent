@@ -5,7 +5,7 @@ const useRentals = () => {
   return useQuery("rentalsMovies", async () => {
     const rentalsWithMovies = await RentalService.getRentalsForUser();
 
-    return rentalsWithMovies;
+    return rentalsWithMovies.reverse();
   });
 };
 
