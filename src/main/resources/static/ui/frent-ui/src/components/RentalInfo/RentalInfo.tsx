@@ -1,6 +1,6 @@
 import Offcanvas from "react-bootstrap/Offcanvas";
 import Badge from "react-bootstrap/Badge";
-import { RentalMovie } from "../../utils/types";
+import { RentalMovie, joinGenres } from "../../utils/types";
 
 type MovieInfoProps = {
   show: boolean;
@@ -21,6 +21,8 @@ const MovieInfo: React.FC<MovieInfoProps> = ({
     }
     return null;
   };
+  const genres = joinGenres(rentalMovie.genre);
+
   return (
     <>
       <Offcanvas
@@ -57,7 +59,7 @@ const MovieInfo: React.FC<MovieInfoProps> = ({
           <p>{rentalMovie.description}</p>
           <p>Year: {rentalMovie.year}</p>
           <p>Director: {rentalMovie.director}</p>
-          <p>Genre: {rentalMovie.genre}</p>
+          <p>Genre: {genres}</p>
           <p>Price: {rentalMovie.rentalPrice}KM</p>
         </Offcanvas.Body>
       </Offcanvas>
