@@ -22,7 +22,7 @@ const NavScrollExample = () => {
   const [decodedToken, setDecodedToken] = useState<any>(null);
   const [searchKeyword, setSearchKeyword] = useState("");
   const [page, setPage] = useState(1);
-  const [size] = useState(10);
+  const [size] = useState(5);
   const navigate = useNavigate();
 
   const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {

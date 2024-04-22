@@ -9,7 +9,7 @@ import Error from "../Error";
 const SearchResults: React.FC = () => {
   const { keyword, page, size } = useParams<{ keyword?: string; page?: string; size?: string }>();
   const [currentPage, setCurrentPage] = useState(Number(page) || 1);
-  const [pageSize, setPageSize] = useState(Number(size) || 10);
+  const [pageSize, setPageSize] = useState(Number(size) || 5);
   const { data: movies, error, isLoading } = useSearchMovies(keyword || "", currentPage, pageSize);
 
   const handlePageChange = (pageNumber: number) => {
@@ -31,9 +31,9 @@ const SearchResults: React.FC = () => {
           <Form.Group className="mt-3" style={{padding: "16px"}}>
            <h4>Results per page: </h4>
             <Form.Select onChange={handleSizeChange} value={pageSize} style={{width: "70px"}}>
+              <option value="5">5</option>
               <option value="10">10</option>
               <option value="15">15</option>
-              <option value="20">20</option>
             </Form.Select>
           </Form.Group>
           <h3 style={{ padding: "16px" }}>Search results for "{keyword}"</h3>

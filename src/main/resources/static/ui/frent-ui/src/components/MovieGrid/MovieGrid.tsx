@@ -3,8 +3,19 @@ import MovieCard from "../MovieCard";
 import Spinner from "../Spinner";
 import useMovies from "../../hooks/useMovies";
 import Error from "../Error";
+import { QueryClient, QueryClientProvider } from "react-query";
 
 const MoviesGrid = () => {
+  const queryClient = new QueryClient();
+
+  return (
+    <QueryClientProvider client={queryClient}>
+      <MoviesGridContent />
+    </QueryClientProvider>
+  );
+};
+
+const MoviesGridContent = () => {
   const { data: movies, error, isLoading, isError } = useMovies();
 
   return (
