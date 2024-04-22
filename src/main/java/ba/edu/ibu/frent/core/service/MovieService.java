@@ -15,6 +15,7 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -49,13 +50,20 @@ public class MovieService {
 
     /**
      * Get a list of all movies.
-     *
+     * @param page The page number
+     * @param size Number of results returned
      * @return List of MovieDTO representing all movies.
      */
-    public List<MovieDTO> getMovies() {
+    public List<MovieDTO> getMovies(int page, int size) {
+        int offset = (page - 1) * size;
         List<Movie> movies = movieRepository.findAll();
-        return movies
-                .stream()
+
+        // Reverse the order of movies
+        Collections.reverse(movies);
+
+        List<Movie> paginatedMovies = movies.stream().skip(offset).limit(size).toList();
+
+        return paginatedMovies.stream()
                 .map(MovieDTO::new)
                 .collect(Collectors.toList());
     }
@@ -259,7 +267,7 @@ public class MovieService {
     public List<MovieDTO> searchMovies(String keyword, int page, int size) {
         int offset = (page - 1) * size;
         List<Movie> movies = movieRepository.findByTitleIgnoreCaseContainingOrDirectorIgnoreCaseContaining(keyword, keyword);
-        List<Movie> paginatedMovies = movies.stream().skip(offset).limit(size).collect(Collectors.toList());
+        List<Movie> paginatedMovies = movies.stream().skip(offset).limit(size).toList();
         return paginatedMovies.stream()
                 .map(MovieDTO::new)
                 .collect(Collectors.toList());

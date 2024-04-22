@@ -1,8 +1,8 @@
 import appAxios from "./appAxios";
 import { Movie } from "../utils/types";
 
-const getMovies = async (): Promise<Movie[]> => {
-  return appAxios.get("/movies/").then((response) => {
+const getMovies = async (page: number, size: number): Promise<Movie[]> => {
+  return appAxios.get(`/movies/?page=${page}&size=${size}`).then((response) => {
     const data = response.data;
     return data;
   });

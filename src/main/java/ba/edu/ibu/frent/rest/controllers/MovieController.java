@@ -31,12 +31,13 @@ public class MovieController {
 
     /**
      * Retrieves a list of all movies.
-     *
+     * @param page The page number
+     * @param size Number of results returned
      * @return ResponseEntity with a list of MovieDTOs.
      */
     @RequestMapping(method = RequestMethod.GET, path = "/")
-    public ResponseEntity<List<MovieDTO>> getMovies() {
-        return ResponseEntity.ok(movieService.getMovies());
+    public ResponseEntity<List<MovieDTO>> getMovies(@RequestParam int page, @RequestParam int size) {
+        return ResponseEntity.ok(movieService.getMovies(page, size));
     }
 
     /**
