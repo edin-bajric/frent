@@ -43,7 +43,7 @@ export type RentalMovie = {
   smallImage: string;
   bigImage: string;
   director: string;
-  genre: string;
+  genre: string[];
   year: number;
   available: boolean;
 };
