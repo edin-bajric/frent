@@ -12,7 +12,6 @@ public class MovieDTO {
     private String id;
     private String title;
     private String description;
-
     private String smallImage;
     private String bigImage;
     private String director;
