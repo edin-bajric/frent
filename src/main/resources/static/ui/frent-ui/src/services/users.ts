@@ -6,7 +6,7 @@ const getMovieById = MovieService.getMovieById;
 
 const getCartForUser = async (): Promise<Movie[]> => {
   const token = localStorage.getItem("userToken");
-  if(!token) return[];
+  if (!token) return [];
   const headers = {
     Authorization: `Bearer ${token}`,
   };
@@ -23,7 +23,7 @@ const getCartForUser = async (): Promise<Movie[]> => {
 
 const getCartTotalForUser = async (): Promise<number> => {
   const token = localStorage.getItem("userToken");
-  if(!token) return 0;
+  if (!token) return 0;
   const headers = {
     Authorization: `Bearer ${token}`,
   };
@@ -35,7 +35,7 @@ const getCartTotalForUser = async (): Promise<number> => {
 
 const getWishlistForUser = async (): Promise<Movie[]> => {
   const token = localStorage.getItem("userToken");
-  if(!token) return[];
+  if (!token) return [];
   const headers = {
     Authorization: `Bearer ${token}`,
   };

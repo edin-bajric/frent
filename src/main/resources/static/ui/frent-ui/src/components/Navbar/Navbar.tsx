@@ -21,13 +21,15 @@ const NavScrollExample = () => {
   const [showWishlist, setShowWishlist] = useState(false);
   const [decodedToken, setDecodedToken] = useState<any>(null);
   const [searchKeyword, setSearchKeyword] = useState("");
+  const [page, setPage] = useState(1);
+  const [size] = useState(10);
   const navigate = useNavigate();
-  
 
   const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    navigate(`/search/${searchKeyword}`);
+    navigate(`/search/${searchKeyword}/${page}/${size}`);
     setSearchKeyword("");
+    setPage(1);
   };
 
   useEffect(() => {

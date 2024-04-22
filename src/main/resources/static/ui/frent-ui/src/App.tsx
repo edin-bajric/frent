@@ -27,7 +27,7 @@ export default function App() {
         </Route>
         <Route path="/login" element={<SignInPage />} />
         <Route path="/register" element={<RegisterPage />} />
-        <Route path="/search/:keyword" element={<Search />} />
+        <Route path="/search/:keyword/:page/:size" element={<Search />} />
         <Route element={<AdminProtectedRoute />}>
         <Route path="/dashboard" element={<AdminPanel />} />
         </Route>
