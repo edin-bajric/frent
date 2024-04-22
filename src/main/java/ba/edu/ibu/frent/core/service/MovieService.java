@@ -252,15 +252,15 @@ public class MovieService {
      * Search for movies by title or director that match the given keyword.
      *
      * @param keyword The keyword to search for in movie titles or directors.
+     * @param page The page number
+     * @param size Number of results returned
      * @return List of MovieDTOs representing the matched movies.
      */
-    public List<MovieDTO> searchMovies(String keyword) {
+    public List<MovieDTO> searchMovies(String keyword, int page, int size) {
+        int offset = (page - 1) * size;
         List<Movie> movies = movieRepository.findByTitleIgnoreCaseContainingOrDirectorIgnoreCaseContaining(keyword, keyword);
-        List<Movie> filteredMovies = movies.stream()
-                .filter(movie -> matchesSubstringInWord(keyword.toLowerCase(), movie.getTitle().toLowerCase())
-                        || matchesSubstringInWord(keyword.toLowerCase(), movie.getDirector().toLowerCase()))
-                .toList();
-        return filteredMovies.stream()
+        List<Movie> paginatedMovies = movies.stream().skip(offset).limit(size).collect(Collectors.toList());
+        return paginatedMovies.stream()
                 .map(MovieDTO::new)
                 .collect(Collectors.toList());
     }
