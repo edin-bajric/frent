@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Row, Col, Pagination, Form } from "react-bootstrap";
 import MovieCard from "../MovieCard";
 import Spinner from "../Spinner";
 import useMovies from "../../hooks/useMovies";
 import Error from "../Error";
+
 
 const MoviesGrid = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -20,6 +21,10 @@ const MoviesGrid = () => {
   };
 
   const hasNextPage = movies?.length === pageSize;
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [currentPage]);
 
   return (
     <>
