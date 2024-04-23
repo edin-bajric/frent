@@ -77,6 +77,10 @@ const Cart: React.FC<CartProps> = ({ show, handleClose }) => {
                 as="li"
                 className="d-flex justify-content-between align-items-start"
               >
+                <img
+                  src={movie.smallImage}
+                  width="50"
+                  height="50"/>
                 <div className="ms-2 me-auto">
                   <div className="fw-bold">{movie.title}</div>
                   {movie.rentalPrice}KM
