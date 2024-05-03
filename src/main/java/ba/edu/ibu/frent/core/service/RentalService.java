@@ -312,4 +312,20 @@ public class RentalService {
         LocalDate today = LocalDate.now();
         return (int) ChronoUnit.DAYS.between(today, dueDate);
     }
+
+    /**
+     * Get the total amount spent on rentals by a specific user.
+     *
+     * @param username The username of the user.
+     * @return The total amount spent on rentals.
+     */
+    public double getTotalSpentOnRentals(String username) {
+        List<RentalDTO> rentals = getRentalsForUser(username);
+        double totalSpent = 0;
+        for (RentalDTO rental : rentals) {
+            totalSpent += rental.getRentalPrice();
+        }
+
+        return totalSpent;
+    }
 }

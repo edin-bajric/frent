@@ -14,6 +14,7 @@ const useAddRentalForUser = () => {
     {
       onSuccess: () => {
         queryClient.invalidateQueries("rentalsMovies");
+        queryClient.invalidateQueries("rentalsTotal");
       },
     }
   );
