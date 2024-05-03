@@ -139,7 +139,7 @@ public class RentalService {
     }
 
     /**
-     * Get all rentals for a specific user.
+     * Get all rentals for a specific user and return overdue rentals.
      *
      * @param username The username of the user.
      * @return List of RentalDTOs representing all rentals for the user.
@@ -148,8 +148,15 @@ public class RentalService {
         Query query = new Query(Criteria.where("username").is(username));
         List<Rental> rentals = mongoTemplate.find(query, Rental.class);
 
-        return rentals
-                .stream()
+        LocalDate today = LocalDate.now();
+
+        rentals.forEach(rental -> {
+            if (rental.getDueDate().isBefore(today) && rental.getReturnDate() == null && !rental.isReturned()) {
+                returnRental(rental.getId());
+            }
+        });
+
+        return rentals.stream()
                 .map(RentalDTO::new)
                 .collect(toList());
     }
