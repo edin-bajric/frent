@@ -1,7 +1,7 @@
-import MovieGrid from "../components/MovieGrid";
+import MovieGridWithPagination from "../components/MovieGridWithPagination";
 
 const Movies = () => {
-  return <MovieGrid />;
+  return <MovieGridWithPagination />;
 };
 
 export default Movies;
