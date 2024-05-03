@@ -4,9 +4,11 @@ import RentalCard from "../RentalCard";
 import Spinner from "../Spinner";
 import useRentals from "../../hooks/useRentals";
 import Error from "../Error";
+import useRentalsTotal from "../../hooks/useRentalsTotal";
 
 const RentalGrid = () => {
   const { data: rentalsMovies, error, isLoading, isError } = useRentals();
+  const { data: rentalsTotal } = useRentalsTotal();
   const [page, setPage] = useState(1);
 
   const handleScroll = () => {
@@ -30,6 +32,8 @@ const RentalGrid = () => {
       {isLoading && <Spinner />}
       {error && <Error />}
       {!isLoading && !isError && (
+        <div>
+          <h4 style={{paddingLeft: "16px", paddingTop: "32px"}}>Total spent: {rentalsTotal}KM</h4>
         <Row
           xs={1}
           md={2}
@@ -45,6 +49,7 @@ const RentalGrid = () => {
             </Col>
           ))}
         </Row>
+        </div>
       )}
     </>
   );

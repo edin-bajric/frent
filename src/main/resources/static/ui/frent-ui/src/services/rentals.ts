@@ -94,9 +94,22 @@ const sendDueDateWarnings = async () => {
   }
 };
 
+const getTotalSpent = async (): Promise<number> => {
+  const token = localStorage.getItem("userToken");
+  if (!token) return 0;
+  const headers = {
+    Authorization: `Bearer ${token}`,
+  };
+
+  return appAxios
+    .get("/rentals/getTotalSpent", { headers })
+    .then((response) => response.data);
+};
+
 export default {
   getRentalsForUser,
   addRentalForUser,
   returnRentalForUser,
   sendDueDateWarnings,
+  getTotalSpent,
 };
