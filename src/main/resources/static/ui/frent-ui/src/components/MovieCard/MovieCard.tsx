@@ -111,10 +111,9 @@ const BasicExample = ({ movie }: Props) => {
             {movie.available ? "Available" : "Unavailable"}
           </Badge>
           <Card.Text className="clamp-two-lines">{movie.description}</Card.Text>
-          <div className="d-flex flex-column align-items-start justify-content-between">
+          <div className="d-flex justify-content-between">
             <Button
               variant="primary"
-              style={{ marginRight: "8px", marginBottom: "8px" }}
               disabled={isMovieInCartQuery.data}
               onClick={handleAddToCartClick}
             >
@@ -122,7 +121,6 @@ const BasicExample = ({ movie }: Props) => {
             </Button>
             <Button
               variant="success"
-              style={{ marginRight: "8px" }}
               onClick={handleAddToWishlistClick}
               disabled={isMovieInWishlistQuery.data}
             >
