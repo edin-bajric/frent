@@ -10,7 +10,7 @@ class RentalTest {
 
     @Test
     void shouldCreateNewRental() {
-        Rental rental = new Rental("id", "username", "movieId", LocalDate.now(), LocalDate.now().plusDays(10), LocalDate.now(), 5.99, true);
+        Rental rental = new Rental("id", "username", "movieId", LocalDate.now(), LocalDate.now().plusDays(10), LocalDate.now(), 5.99, true, "link");
 
         assertEquals("id", rental.getId());
         assertEquals("username", rental.getUsername());
@@ -23,7 +23,7 @@ class RentalTest {
     @Test
     void shouldNotAllowNegativeRentalPrice() {
         assertThrows(IllegalArgumentException.class, () -> {
-            new Rental("id", "username", "movieId", LocalDate.now(), LocalDate.now().plusDays(10), LocalDate.now(), -5.99, true);
+            new Rental("id", "username", "movieId", LocalDate.now(), LocalDate.now().plusDays(10), LocalDate.now(), -5.99, true, "link");
         });
     }
     @Test
