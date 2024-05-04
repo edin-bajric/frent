@@ -19,6 +19,7 @@ public class MovieDTO {
     private int year;
     private boolean available;
     private double rentalPrice;
+    private String video;
 
     /**
      * Constructs an empty MovieDTO.
@@ -42,6 +43,7 @@ public class MovieDTO {
         this.year = movie.getYear();
         this.available = movie.isAvailable();
         this.rentalPrice = movie.getRentalPrice();
+        this.video = movie.getVideo();
     }
 
     public String getId() {
@@ -122,5 +124,13 @@ public class MovieDTO {
 
     public void setRentalPrice(double rentalPrice) {
         this.rentalPrice = rentalPrice;
+    }
+
+    public String getVideo() {
+        return video;
+    }
+
+    public void setVideo(String video) {
+        this.video = video;
     }
 }
