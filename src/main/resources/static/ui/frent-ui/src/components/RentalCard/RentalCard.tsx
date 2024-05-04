@@ -23,7 +23,8 @@ const BasicExample = ({ rentalMovie }: Props) => {
     const rentalId = rentalMovie.id;
 
     returnRentalMutation.mutate(rentalId, {
-      onSuccess: () => {
+      onSuccess: (data) => {
+        rentalMovie.returnDate = data.returnDate;
         setIsReturned(true);
       },
     });
@@ -52,8 +53,13 @@ const BasicExample = ({ rentalMovie }: Props) => {
         />
         <Card.Body>
           <Card.Title as="h6">{rentalMovie.title}</Card.Title>
-          <Card.Text style={{ color: "crimson" }} as="h5">
-            Valid until {rentalMovie.dueDate.toString()}
+          <Card.Text style={{ color: isReturned ? "gray" : "crimson" }} as="h5">
+            {isReturned
+              ? 
+                returnRentalMutation.isLoading
+                ? "Loading..."
+                : "Returned on: " + rentalMovie.returnDate
+              : "Valid until: " + rentalMovie.dueDate}
           </Card.Text>
           <Badge bg="secondary" style={{ marginBottom: "8px" }}>
             {isReturned ? "Returned" : "Rented"}
@@ -73,6 +79,7 @@ const BasicExample = ({ rentalMovie }: Props) => {
               variant="success"
               onClick={handleWatchClick}
               disabled={isReturned}
+              style={{ display: isReturned ? "none" : "inline-block" }}
             >
               Watch
             </Button>

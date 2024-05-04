@@ -117,14 +117,14 @@ const BasicExample = ({ movie }: Props) => {
               disabled={isMovieInCartQuery.data}
               onClick={handleAddToCartClick}
             >
-              Add to cart
+              {isMovieInCartQuery.data ? "In cart" : "Add to cart"}
             </Button>
             <Button
               variant="success"
               onClick={handleAddToWishlistClick}
               disabled={isMovieInWishlistQuery.data}
             >
-              Add to wishlist
+              {isMovieInWishlistQuery.data ? "In wishlist" : "Add to wishlist"}
             </Button>
           </div>
         </Card.Body>
