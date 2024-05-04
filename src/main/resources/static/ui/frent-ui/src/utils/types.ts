@@ -9,6 +9,7 @@ export type Movie = {
   year: number;
   available: boolean;
   rentalPrice: number;
+  video: string;
 };
 
 export const joinGenres = (genres: string[]): string => {
@@ -46,4 +47,5 @@ export type RentalMovie = {
   genre: string[];
   year: number;
   available: boolean;
+  video: string;
 };

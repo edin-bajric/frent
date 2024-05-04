@@ -12,6 +12,7 @@ public class RentalRequestDTO {
     private String movieId;
 
     private double rentalPrice;
+    private String video;
 
     /**
      * Constructs an empty RentalRequestDTO.
@@ -43,6 +44,7 @@ public class RentalRequestDTO {
         rental.setReturnDate(null);
         rental.setRentalPrice(rentalPrice);
         rental.setReturned(false);
+        rental.setVideo(video);
         return rental;
     }
 
@@ -68,5 +70,13 @@ public class RentalRequestDTO {
 
     public void setRentalPrice(double rentalPrice) {
         this.rentalPrice = rentalPrice;
+    }
+
+    public String getVideo() {
+        return video;
+    }
+
+    public void setVideo(String video) {
+        this.video = video;
     }
 }

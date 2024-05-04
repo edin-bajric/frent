@@ -6,6 +6,8 @@ import { RentalMovie } from "../../utils/types";
 import "../../assets/css/MovieRentalCard.css";
 import useReturnRentalForUser from "../../hooks/useReturnRentals";
 import RentalInfo from "../RentalInfo";
+import MoviePlayer from "../MoviePlayer";
+import Modal from "react-bootstrap/Modal";
 
 type Props = {
   rentalMovie: RentalMovie;
@@ -14,6 +16,7 @@ type Props = {
 const BasicExample = ({ rentalMovie }: Props) => {
   const [isReturned, setIsReturned] = useState(rentalMovie.returned);
   const [showRentalInfo, setShowRentalInfo] = useState(false);
+  const [showMoviePlayer, setShowMoviePlayer] = useState(false);
   const returnRentalMutation = useReturnRentalForUser();
 
   const handleReturnClick = () => {
@@ -28,6 +31,14 @@ const BasicExample = ({ rentalMovie }: Props) => {
 
   const handleRentalCardClick = () => {
     setShowRentalInfo(true);
+  };
+
+  const handleWatchClick = () => {
+    setShowMoviePlayer(true);
+  };
+
+  const handleCloseMoviePlayer = () => {
+    setShowMoviePlayer(false);
   };
 
   return (
@@ -50,14 +61,22 @@ const BasicExample = ({ rentalMovie }: Props) => {
           <Card.Text className="clamp-two-lines">
             {rentalMovie.description}
           </Card.Text>
-          <Button
-            variant="primary"
-            style={{ marginRight: "8px" }}
-            onClick={handleReturnClick}
-            disabled={isReturned}
-          >
-            Return
-          </Button>
+          <div className="d-flex justify-content-between">
+            <Button
+              variant="primary"
+              onClick={handleReturnClick}
+              disabled={isReturned}
+            >
+              Return
+            </Button>
+            <Button
+              variant="success"
+              onClick={handleWatchClick}
+              disabled={isReturned}
+            >
+              Watch
+            </Button>
+          </div>
         </Card.Body>
       </Card>
       <RentalInfo
@@ -66,6 +85,22 @@ const BasicExample = ({ rentalMovie }: Props) => {
         rentalMovie={rentalMovie}
         isReturned={isReturned}
       />
+      <Modal
+        show={showMoviePlayer}
+        onHide={handleCloseMoviePlayer}
+        size={"lg"}
+        centered={true}
+        data-bs-theme="dark"
+      >
+        <Modal.Header closeButton style={{ background: "#2b3035" }}>
+          <Modal.Title style={{ color: "white" }}>
+            {rentalMovie.title}
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body style={{ height: "500px" }}>
+          <MoviePlayer video={rentalMovie.video} />
+        </Modal.Body>
+      </Modal>
     </>
   );
 };

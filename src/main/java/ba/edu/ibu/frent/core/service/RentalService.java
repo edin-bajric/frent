@@ -182,7 +182,9 @@ public class RentalService {
             throw new IllegalStateException("The movie is not available for rental.");
         }
         double rentalPrice = movie.getRentalPrice();
+        String video = movie.getVideo();
         payload.setRentalPrice(rentalPrice);
+        payload.setVideo(video);
         payload.setUsername(username);
         payload.setMovieId(movie.getId());
         Rental rental = rentalRepository.save(payload.toEntity());

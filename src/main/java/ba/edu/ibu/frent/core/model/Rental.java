@@ -8,7 +8,7 @@ import java.time.LocalDate;
 /**
  * Represents a rental transaction in the system.
  * Each rental has a unique identifier, associated username, movie ID, rental date, due date,
- * return date, rental price, and return status.
+ * return date, rental price, return status and video;
  */
 @Document
 public class Rental {
@@ -21,6 +21,7 @@ public class Rental {
     private LocalDate returnDate;
     private double rentalPrice;
     private boolean returned;
+    private String video;
 
     /**
      * Default constructor for the Rental class.
@@ -41,9 +42,11 @@ public class Rental {
      * @param returnDate   The date when the movie is returned.
      * @param rentalPrice  The rental price associated with the transaction.
      * @param returned     The return status of the rental transaction.
+     * @param video        The video associated with the rental transaction.
+     *
      * @throws IllegalArgumentException If the provided rental price is negative.
      */
-    public Rental(String id, String username, String movieId, LocalDate rentalDate, LocalDate dueDate, LocalDate returnDate, double rentalPrice, boolean returned) {
+    public Rental(String id, String username, String movieId, LocalDate rentalDate, LocalDate dueDate, LocalDate returnDate, double rentalPrice, boolean returned, String video) {
         this.id = id;
         this.username = username;
         this.movieId = movieId;
@@ -55,6 +58,7 @@ public class Rental {
         }
         this.rentalPrice = rentalPrice;
         this.returned = returned;
+        this.video = video;
     }
 
     public String getId() {
@@ -119,5 +123,13 @@ public class Rental {
 
     public void setReturned(boolean returned) {
         this.returned = returned;
+    }
+
+    public String getVideo() {
+        return video;
+    }
+
+    public void setVideo(String video) {
+        this.video = video;
     }
 }
