@@ -18,6 +18,7 @@ public class MovieRequestDTO {
     private int year;
     private boolean available;
     private double rentalPrice;
+    private String video;
 
     /**
      * Constructs an empty MovieRequestDTO.
@@ -40,6 +41,7 @@ public class MovieRequestDTO {
         this.year = movie.getYear();
         this.available = movie.isAvailable();
         this.rentalPrice = movie.getRentalPrice();
+        this.video = movie.getVideo();
     }
 
     /**
@@ -58,6 +60,7 @@ public class MovieRequestDTO {
         movie.setYear(year);
         movie.setAvailable(available);
         movie.setRentalPrice(rentalPrice);
+        movie.setVideo(video);
         return movie;
     }
 
@@ -131,5 +134,13 @@ public class MovieRequestDTO {
 
     public void setRentalPrice(double rentalPrice) {
         this.rentalPrice = rentalPrice;
+    }
+
+    public String getVideo() {
+        return video;
+    }
+
+    public void setVideo(String video) {
+        this.video = video;
     }
 }

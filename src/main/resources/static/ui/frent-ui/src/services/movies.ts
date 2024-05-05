@@ -1,8 +1,8 @@
 import appAxios from "./appAxios";
 import { Movie } from "../utils/types";
 
-const getMovies = async (): Promise<Movie[]> => {
-  return appAxios.get("/movies/").then((response) => {
+const getMovies = async (page: number, size: number): Promise<Movie[]> => {
+  return appAxios.get(`/movies/?page=${page}&size=${size}`).then((response) => {
     const data = response.data;
     return data;
   });
@@ -36,12 +36,36 @@ const updateMovie = async (movie: Movie): Promise<Movie> => {
   });
 };
 
-const searchMovies = async (keyword: string) => {
+const searchMovies = async (keyword: string, page: number, size: number) => {
   try {
-    const response = await appAxios.get(`/movies/search/${keyword}`);
+    const response = await appAxios.get(
+      `/movies/search/${keyword}/${page}/${size}`
+    );
     return response.data;
   } catch (error: any) {
     throw error.response?.data || error.message || "Error searching movies";
+  }
+};
+
+const setMovieAvailable = async (movieId: string): Promise<void> => {
+  try {
+    await appAxios.put(`movies/setAvailable/${movieId}`, null, {
+      headers: { Authorization: `Bearer ${localStorage.getItem("userToken")}` },
+    });
+    console.log("Movie set as available successfully");
+  } catch (error: any) {
+    throw new Error("Failed to set movie available: " + error.message);
+  }
+};
+
+const setMovieUnavailable = async (movieId: string): Promise<void> => {
+  try {
+    await appAxios.put(`movies/setUnavailable/${movieId}`, null, {
+      headers: { Authorization: `Bearer ${localStorage.getItem("userToken")}` },
+    });
+    console.log("Movie set as unavailable successfully");
+  } catch (error: any) {
+    throw new Error("Failed to set movie unavailable: " + error.message);
   }
 };
 
@@ -52,4 +76,6 @@ export default {
   deleteMovie,
   updateMovie,
   searchMovies,
+  setMovieAvailable,
+  setMovieUnavailable,
 };

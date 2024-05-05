@@ -1,4 +1,3 @@
-import React from "react";
 import { Row, Col } from "react-bootstrap";
 import MovieCard from "../MovieCard";
 import Spinner from "../Spinner";
@@ -6,9 +5,18 @@ import useSearchMovies from "../../hooks/useSearchMovies";
 import { useParams } from "react-router-dom";
 import Error from "../Error";
 
-const SearchResults: React.FC = () => {
+type SearchResultsProps = {
+  page: number;
+  size: number;
+};
+
+const SearchResults = ({ page, size }: SearchResultsProps) => {
   const { keyword } = useParams<{ keyword?: string }>();
-  const { data: movies, error, isLoading } = useSearchMovies(keyword || "");
+  const {
+    data: movies,
+    error,
+    isLoading,
+  } = useSearchMovies(keyword || "", page, size);
 
   return (
     <>
@@ -16,7 +24,6 @@ const SearchResults: React.FC = () => {
       {error && <Error />}
       {!isLoading && movies && (
         <>
-          <h3 style={{ padding: "16px" }}>Search results for "{keyword}"</h3>
           <Row
             xs={1}
             md={2}

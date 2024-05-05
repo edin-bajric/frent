@@ -6,7 +6,7 @@ const getMovieById = MovieService.getMovieById;
 
 const getRentalsForUser = async (): Promise<RentalMovie[]> => {
   const token = localStorage.getItem("userToken");
-
+  if (!token) return [];
   const headers = {
     Authorization: `Bearer ${token}`,
   };
@@ -78,4 +78,38 @@ const returnRentalForUser = async (rentalId: string): Promise<Rental> => {
     .then((response) => response.data);
 };
 
-export default { getRentalsForUser, addRentalForUser, returnRentalForUser };
+const sendDueDateWarnings = async () => {
+  try {
+    const response = await appAxios.post("/rentals/sendDueDateWarnings", null, {
+      headers: { Authorization: `Bearer ${localStorage.getItem("userToken")}` },
+    });
+
+    if (response.status === 204) {
+      console.log("Due date warnings sent successfully");
+    } else {
+      console.error("Failed to send due date warnings");
+    }
+  } catch (error) {
+    console.error("Error sending due date warnings:", error);
+  }
+};
+
+const getTotalSpent = async (): Promise<number> => {
+  const token = localStorage.getItem("userToken");
+  if (!token) return 0;
+  const headers = {
+    Authorization: `Bearer ${token}`,
+  };
+
+  return appAxios
+    .get("/rentals/getTotalSpent", { headers })
+    .then((response) => response.data);
+};
+
+export default {
+  getRentalsForUser,
+  addRentalForUser,
+  returnRentalForUser,
+  sendDueDateWarnings,
+  getTotalSpent,
+};

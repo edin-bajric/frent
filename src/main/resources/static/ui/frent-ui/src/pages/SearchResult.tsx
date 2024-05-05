@@ -1,7 +1,7 @@
-import SearchResult from "../components/SearchResult";
+import SearchResultWithPagination from "../components/SearchResultWithPagination";
 
 const Search = () => {
-  return <SearchResult />;
+  return <SearchResultWithPagination />;
 };
 
 export default Search;

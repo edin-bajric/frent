@@ -31,12 +31,13 @@ public class MovieController {
 
     /**
      * Retrieves a list of all movies.
-     *
+     * @param page The page number
+     * @param size Number of results returned
      * @return ResponseEntity with a list of MovieDTOs.
      */
     @RequestMapping(method = RequestMethod.GET, path = "/")
-    public ResponseEntity<List<MovieDTO>> getMovies() {
-        return ResponseEntity.ok(movieService.getMovies());
+    public ResponseEntity<List<MovieDTO>> getMovies(@RequestParam int page, @RequestParam int size) {
+        return ResponseEntity.ok(movieService.getMovies(page, size));
     }
 
     /**
@@ -92,11 +93,13 @@ public class MovieController {
      * Searches for movies based on a keyword.
      *
      * @param keyword The keyword to search for in movie titles or directors.
+     * @param page The page number
+     * @param size Number of results returned
      * @return ResponseEntity with a list of matching MovieDTOs.
      */
-    @RequestMapping(method = RequestMethod.GET, path = "/search/{keyword}")
-    public ResponseEntity<List<MovieDTO>> searchMovies(@PathVariable String keyword) {
-        return ResponseEntity.ok(movieService.searchMovies(keyword));
+    @RequestMapping(method = RequestMethod.GET, path = "/search/{keyword}/{page}/{size}")
+    public ResponseEntity<List<MovieDTO>> searchMovies(@PathVariable String keyword, @PathVariable int page, @PathVariable int size) {
+        return ResponseEntity.ok(movieService.searchMovies(keyword, page, size));
     }
 
     /**

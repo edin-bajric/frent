@@ -139,7 +139,7 @@ public class RentalService {
     }
 
     /**
-     * Get all rentals for a specific user.
+     * Get all rentals for a specific user and return overdue rentals.
      *
      * @param username The username of the user.
      * @return List of RentalDTOs representing all rentals for the user.
@@ -148,8 +148,15 @@ public class RentalService {
         Query query = new Query(Criteria.where("username").is(username));
         List<Rental> rentals = mongoTemplate.find(query, Rental.class);
 
-        return rentals
-                .stream()
+        LocalDate today = LocalDate.now();
+
+        rentals.forEach(rental -> {
+            if (rental.getDueDate().isBefore(today) && rental.getReturnDate() == null && !rental.isReturned()) {
+                returnRental(rental.getId());
+            }
+        });
+
+        return rentals.stream()
                 .map(RentalDTO::new)
                 .collect(toList());
     }
@@ -175,7 +182,9 @@ public class RentalService {
             throw new IllegalStateException("The movie is not available for rental.");
         }
         double rentalPrice = movie.getRentalPrice();
+        String video = movie.getVideo();
         payload.setRentalPrice(rentalPrice);
+        payload.setVideo(video);
         payload.setUsername(username);
         payload.setMovieId(movie.getId());
         Rental rental = rentalRepository.save(payload.toEntity());
@@ -311,5 +320,21 @@ public class RentalService {
     private int calculateDaysUntilDue(LocalDate dueDate) {
         LocalDate today = LocalDate.now();
         return (int) ChronoUnit.DAYS.between(today, dueDate);
+    }
+
+    /**
+     * Get the total amount spent on rentals by a specific user.
+     *
+     * @param username The username of the user.
+     * @return The total amount spent on rentals.
+     */
+    public double getTotalSpentOnRentals(String username) {
+        List<RentalDTO> rentals = getRentalsForUser(username);
+        double totalSpent = 0;
+        for (RentalDTO rental : rentals) {
+            totalSpent += rental.getRentalPrice();
+        }
+
+        return totalSpent;
     }
 }

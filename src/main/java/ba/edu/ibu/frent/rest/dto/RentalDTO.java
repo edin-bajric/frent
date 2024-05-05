@@ -16,6 +16,7 @@ public class RentalDTO {
     private LocalDate returnDate;
     private double rentalPrice;
     private boolean returned;
+    private String video;
 
     /**
      * Constructs an empty RentalDTO.
@@ -37,6 +38,7 @@ public class RentalDTO {
         this.returnDate = rental.getReturnDate();
         this.rentalPrice = rental.getRentalPrice();
         this.returned = rental.isReturned();
+        this.video = rental.getVideo();
     }
 
     public String getId() {
@@ -101,5 +103,13 @@ public class RentalDTO {
 
     public void setReturned(boolean returned) {
         this.returned = returned;
+    }
+
+    public String getVideo() {
+        return video;
+    }
+
+    public void setVideo(String video) {
+        this.video = video;
     }
 }

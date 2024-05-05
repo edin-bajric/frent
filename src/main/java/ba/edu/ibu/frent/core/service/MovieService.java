@@ -15,6 +15,7 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -49,13 +50,20 @@ public class MovieService {
 
     /**
      * Get a list of all movies.
-     *
+     * @param page The page number
+     * @param size Number of results returned
      * @return List of MovieDTO representing all movies.
      */
-    public List<MovieDTO> getMovies() {
+    public List<MovieDTO> getMovies(int page, int size) {
+        int offset = (page - 1) * size;
         List<Movie> movies = movieRepository.findAll();
-        return movies
-                .stream()
+
+        // Reverse the order of movies
+        Collections.reverse(movies);
+
+        List<Movie> paginatedMovies = movies.stream().skip(offset).limit(size).toList();
+
+        return paginatedMovies.stream()
                 .map(MovieDTO::new)
                 .collect(Collectors.toList());
     }
@@ -252,15 +260,15 @@ public class MovieService {
      * Search for movies by title or director that match the given keyword.
      *
      * @param keyword The keyword to search for in movie titles or directors.
+     * @param page The page number
+     * @param size Number of results returned
      * @return List of MovieDTOs representing the matched movies.
      */
-    public List<MovieDTO> searchMovies(String keyword) {
+    public List<MovieDTO> searchMovies(String keyword, int page, int size) {
+        int offset = (page - 1) * size;
         List<Movie> movies = movieRepository.findByTitleIgnoreCaseContainingOrDirectorIgnoreCaseContaining(keyword, keyword);
-        List<Movie> filteredMovies = movies.stream()
-                .filter(movie -> matchesSubstringInWord(keyword.toLowerCase(), movie.getTitle().toLowerCase())
-                        || matchesSubstringInWord(keyword.toLowerCase(), movie.getDirector().toLowerCase()))
-                .toList();
-        return filteredMovies.stream()
+        List<Movie> paginatedMovies = movies.stream().skip(offset).limit(size).toList();
+        return paginatedMovies.stream()
                 .map(MovieDTO::new)
                 .collect(Collectors.toList());
     }

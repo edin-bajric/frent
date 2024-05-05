@@ -50,8 +50,10 @@ class MovieControllerTest {
         movie.setTitle("Title");
         movie.setDirector("Director");
         movie.setYear(2023);
+        int page = 1;
+        int size = 10;
 
-        Mockito.when(movieService.getMovies()).thenReturn(List.of(movie));
+        Mockito.when(movieService.getMovies(page, size)).thenReturn(List.of(movie));
 
         MvcResult result = mockMvc.perform(
                 MockMvcRequestBuilders

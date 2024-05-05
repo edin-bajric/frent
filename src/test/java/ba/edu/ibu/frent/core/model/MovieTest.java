@@ -12,7 +12,7 @@ class MovieTest {
 
     @Test
     void shouldCreateNewMovie() {
-        Movie movie = new Movie("id", "Title", "Description", "SmallImage", "BigImage", "Director", List.of(Genre.ADVENTURE), 2023, true, 5.99);
+        Movie movie = new Movie("id", "Title", "Description", "SmallImage", "BigImage", "Director", List.of(Genre.ADVENTURE), 2023, true, 5.99, "link");
 
         assertEquals("id", movie.getId());
         assertEquals("Title", movie.getTitle());
@@ -27,8 +27,8 @@ class MovieTest {
     }
     @Test
     void shouldCompareTwoMovies() {
-        Movie movie1 = new Movie("id", "Title", "Description", "SmallImage", "BigImage", "Director", List.of(Genre.ADVENTURE), 2023, true, 5.99);
-        Movie movie2 = new Movie("id", "Title", "Description", "SmallImage", "BigImage", "Director", List.of(Genre.ADVENTURE), 2023, true, 5.99);
+        Movie movie1 = new Movie("id", "Title", "Description", "SmallImage", "BigImage", "Director", List.of(Genre.ADVENTURE), 2023, true, 5.99, "link");
+        Movie movie2 = new Movie("id", "Title", "Description", "SmallImage", "BigImage", "Director", List.of(Genre.ADVENTURE), 2023, true, 5.99, "link");
 
         AssertionsForInterfaceTypes
                 .assertThat(movie1)
@@ -65,13 +65,13 @@ class MovieTest {
     @Test
     void shouldNotAllowNegativeYear() {
         assertThrows(IllegalArgumentException.class, () -> {
-            new Movie("id", "Title", "Description", "SmallImage", "BigImage", "Director", List.of(Genre.ACTION), -2023, true, 5.99);
+            new Movie("id", "Title", "Description", "SmallImage", "BigImage", "Director", List.of(Genre.ACTION), -2023, true, 5.99, "link");
         });
     }
     @Test
     void shouldNotAllowNegativeRentalPrice() {
         assertThrows(IllegalArgumentException.class, () -> {
-            new Movie("id", "Title", "Description", "SmallImage", "BigImage", "Director", List.of(Genre.ACTION), 2023, true, -5.99);
+            new Movie("id", "Title", "Description", "SmallImage", "BigImage", "Director", List.of(Genre.ACTION), 2023, true, -5.99, "link");
         });
     }
 

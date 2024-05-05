@@ -8,8 +8,8 @@ import java.util.List;
 
 /**
  * Represents a movie entity in the system.
- * Each movie has a unique identifier, title, description, smallImage, bigImage, director, genre, release year, availability status,
- * and rental price associated with it.
+ * Each movie has a unique identifier, title, description, smallImage, bigImage, director, genre, release year, availability status, rental price
+ * and video associated with it.
  */
 @Document
 public class Movie {
@@ -24,6 +24,7 @@ public class Movie {
     private int year;
     private boolean available;
     private double rentalPrice;
+    private String video;
 
     /**
      * Default constructor for the Movie class.
@@ -46,9 +47,10 @@ public class Movie {
      * @param year         The release year of the movie.
      * @param available    The availability status of the movie.
      * @param rentalPrice  The rental price of the movie.
+     * @param video        The video associated with the movie.
      * @throws IllegalArgumentException If the provided year or rental price is negative.
      */
-    public Movie(String id, String title, String description, String smallImage, String bigImage, String director, List<Genre> genre, int year, boolean available, double rentalPrice) {
+    public Movie(String id, String title, String description, String smallImage, String bigImage, String director, List<Genre> genre, int year, boolean available, double rentalPrice, String video) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -65,6 +67,7 @@ public class Movie {
             throw new IllegalArgumentException("Rental price cannot be negative");
         }
         this.rentalPrice = rentalPrice;
+        this.video = video;
     }
 
     public String getId() {
@@ -145,5 +148,13 @@ public class Movie {
 
     public void setRentalPrice(double rentalPrice) {
         this.rentalPrice = rentalPrice;
+    }
+
+    public String getVideo() {
+        return video;
+    }
+
+    public void setVideo(String video) {
+        this.video = video;
     }
 }
