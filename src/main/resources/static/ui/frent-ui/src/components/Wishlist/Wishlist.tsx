@@ -6,6 +6,9 @@ import Error from "../Error";
 import useRemoveFromWishlistForUser from "../../hooks/useRemoveFromWishlist";
 import useAddToCartForUser from "../../hooks/useAddToCart";
 import useCartTotal from "../../hooks/useCartTotal";
+import DangerAlert from "../DangerAlert";
+import SuccessAlert from "../SuccessAlert";
+import { useState } from "react";
 
 type WishlistProps = {
   show: boolean;
@@ -13,6 +16,8 @@ type WishlistProps = {
 };
 
 const Wishlist: React.FC<WishlistProps> = ({ show, handleClose }) => {
+  const [showDangerAlert, setShowDangerAlert] = useState(false);
+  const [showSuccessAlert, setShowSuccessAlert] = useState(false);
   const { data: movies, isLoading, isError, refetch } = useWishlist();
   const removeFromWishlistMutation = useRemoveFromWishlistForUser();
   const addToCartMutation = useAddToCartForUser();
@@ -27,15 +32,19 @@ const Wishlist: React.FC<WishlistProps> = ({ show, handleClose }) => {
       await addToCartMutation.mutateAsync(movieId);
 
       await removeFromWishlistMutation.mutateAsync(movieId);
+      setShowSuccessAlert(true);
       refetchCartTotal();
     } catch (error) {
       console.error("Error adding to cart:", error);
+      setShowDangerAlert(true);
     }
   };
 
-  useEffect(() => {
-    refetch();
-  }, [refetch]);
+  useEffect(()=>{
+    if(show){
+      refetch();
+    }
+  },[show]);
 
   return (
     <Offcanvas
@@ -78,6 +87,18 @@ const Wishlist: React.FC<WishlistProps> = ({ show, handleClose }) => {
           </ListGroup>
         )}
       </Offcanvas.Body>
+      {showSuccessAlert && (
+        <SuccessAlert
+          message="Movie successfully added to cart."
+          onClose={() => setShowSuccessAlert(false)}
+        />
+      )}
+      {showDangerAlert && (
+        <DangerAlert
+          message="Movie is not available."
+          onClose={() => setShowDangerAlert(false)}
+        />
+      )}
     </Offcanvas>
   );
 };

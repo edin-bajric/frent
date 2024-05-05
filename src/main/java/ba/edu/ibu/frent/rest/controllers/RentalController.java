@@ -174,4 +174,18 @@ public class RentalController {
         rentalService.checkDueDatesAndSendWarnings();
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
+    /**
+     * Retrieves the total amount spent on rentals by the currently authenticated user.
+     *
+     * @param principal The authenticated user's Principal object.
+     * @return ResponseEntity containing the total amount spent.
+     */
+    @RequestMapping(method = RequestMethod.GET, path = "/getTotalSpent")
+    @PreAuthorize("hasAnyAuthority('MEMBER', 'EMPLOYEE', 'ADMIN')")
+    public ResponseEntity<Double> getTotalSpent(Principal principal) {
+        String username = principal.getName();
+        Double totalSpent = rentalService.getTotalSpentOnRentals(username);
+        return ResponseEntity.ok(totalSpent);
+    }
 }

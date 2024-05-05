@@ -6,6 +6,7 @@ import useCartTotal from "../../hooks/useCartTotal";
 import useRemoveFromCart from "../../hooks/useRemoveFromCart";
 import useAddRentalForUser from "../../hooks/useAddRentals";
 import useRentals from "../../hooks/useRentals";
+import { useEffect } from "react";
 
 type CartProps = {
   show: boolean;
@@ -28,6 +29,13 @@ const Cart: React.FC<CartProps> = ({ show, handleClose }) => {
     });
   };
 
+  useEffect(()=>{
+    if(show){
+      refetchCart();
+      refetchCartTotal();
+    }
+  },[show]);
+  
   const handleRentAll = async () => {
     try {
       for (const movie of movies || []) {
@@ -69,6 +77,10 @@ const Cart: React.FC<CartProps> = ({ show, handleClose }) => {
                 as="li"
                 className="d-flex justify-content-between align-items-start"
               >
+                <img
+                  src={movie.smallImage}
+                  width="50"
+                  height="50"/>
                 <div className="ms-2 me-auto">
                   <div className="fw-bold">{movie.title}</div>
                   {movie.rentalPrice}KM

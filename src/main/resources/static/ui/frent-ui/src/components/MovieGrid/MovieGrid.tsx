@@ -4,8 +4,13 @@ import Spinner from "../Spinner";
 import useMovies from "../../hooks/useMovies";
 import Error from "../Error";
 
-const MoviesGrid = () => {
-  const { data: movies, error, isLoading, isError } = useMovies();
+type MoviesGridProps = {
+  page: number;
+  size: number;
+};
+
+const MoviesGrid = ({ page, size }: MoviesGridProps) => {
+  const { data: movies, error, isLoading, isError } = useMovies(page, size);
 
   return (
     <>

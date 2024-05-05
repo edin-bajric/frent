@@ -8,7 +8,7 @@ const useReturnRentalForUser = () => {
     (rentalId: string) => RentalService.returnRentalForUser(rentalId),
     {
       onSuccess: () => {
-        queryClient.invalidateQueries("rentals");
+        queryClient.invalidateQueries("rentalsMovies");
       },
     }
   );

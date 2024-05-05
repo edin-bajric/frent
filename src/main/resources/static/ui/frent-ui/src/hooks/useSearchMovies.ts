@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { MovieService } from "../services";
 
-const useSearchMovies = (keyword: string) => {
+const useSearchMovies = (keyword: string, page: number, size: number) => {
   const [data, setData] = useState<any>(null);
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -10,7 +10,7 @@ const useSearchMovies = (keyword: string) => {
     const fetchData = async () => {
       try {
         setIsLoading(true);
-        const result = await MovieService.searchMovies(keyword);
+        const result = await MovieService.searchMovies(keyword, page, size);
         setData(result);
       } catch (err) {
         setError("Error searching movies");
@@ -28,7 +28,7 @@ const useSearchMovies = (keyword: string) => {
       setError(null);
       setIsLoading(true);
     };
-  }, [keyword]);
+  }, [keyword, page, size]);
 
   return { data, error, isLoading };
 };

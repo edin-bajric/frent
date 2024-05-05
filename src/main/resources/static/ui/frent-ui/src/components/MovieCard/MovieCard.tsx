@@ -12,12 +12,17 @@ import DangerAlert from "../DangerAlert";
 import SuccessAlert from "../SuccessAlert";
 import MovieInfo from "../MovieInfo";
 import useCartTotal from "../../hooks/useCartTotal";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store";
+import { useNavigate } from "react-router-dom";
 
 type Props = {
   movie: Movie;
 };
 
 const BasicExample = ({ movie }: Props) => {
+  const navigate = useNavigate();
+  const { userToken } = useSelector((state: RootState) => state.auth);
   const [showDangerAlert, setShowDangerAlert] = useState(false);
   const [showSuccessAlert, setShowSuccessAlert] = useState(false);
   const [showSuccessAlertWishlist, setShowSuccessAlertWishlist] =
@@ -30,6 +35,10 @@ const BasicExample = ({ movie }: Props) => {
   const { refetch: refetchCartTotal } = useCartTotal();
 
   const handleAddToCartClick = () => {
+    if (!userToken) {
+      navigate("/login");
+      return;
+    }
     const movieId = movie.id;
     addToCartMutation.mutate(movieId, {
       onSuccess: () => {
@@ -49,6 +58,10 @@ const BasicExample = ({ movie }: Props) => {
   };
 
   const handleAddToWishlistClick = () => {
+    if (!userToken) {
+      navigate("/login");
+      return;
+    }
     const movieId = movie.id;
     addToWishlistMutation.mutate(movieId, {
       onSuccess: () => {
@@ -98,22 +111,20 @@ const BasicExample = ({ movie }: Props) => {
             {movie.available ? "Available" : "Unavailable"}
           </Badge>
           <Card.Text className="clamp-two-lines">{movie.description}</Card.Text>
-          <div className="d-flex flex-column align-items-start justify-content-between">
+          <div className="d-flex justify-content-between">
             <Button
               variant="primary"
-              style={{ marginRight: "8px", marginBottom: "8px" }}
               disabled={isMovieInCartQuery.data}
               onClick={handleAddToCartClick}
             >
-              Add to cart
+              {isMovieInCartQuery.data ? "In cart" : "Add to cart"}
             </Button>
             <Button
               variant="success"
-              style={{ marginRight: "8px" }}
               onClick={handleAddToWishlistClick}
               disabled={isMovieInWishlistQuery.data}
             >
-              Add to wishlist
+              {isMovieInWishlistQuery.data ? "In wishlist" : "Add to wishlist"}
             </Button>
           </div>
         </Card.Body>
