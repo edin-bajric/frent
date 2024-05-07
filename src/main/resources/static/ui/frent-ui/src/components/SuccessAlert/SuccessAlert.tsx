@@ -25,7 +25,7 @@ function SuccessAlert({ message, onClose, autoCloseDuration = 2000 }: Props) {
   };
 
   return (
-    <Alert show={show} variant="success" dismissible onClose={handleDismiss}>
+    <Alert show={show} variant="success" dismissible onClose={handleDismiss} style={{width: "18rem"}}>
       {message}
     </Alert>
   );

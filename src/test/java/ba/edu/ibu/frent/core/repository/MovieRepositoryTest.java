@@ -20,8 +20,8 @@ class MovieRepositoryTest {
     public void shouldReturnAllMovies() {
         List<Movie> movies = movieRepository.findAll();
 
-        assertEquals(4, movies.size());
-        assertEquals("Title", movies.get(0).getTitle());
+        assertEquals(27, movies.size());
+        assertEquals("The Godfather", movies.get(0).getTitle());
     }
 
     @Test

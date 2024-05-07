@@ -1,5 +1,6 @@
 package ba.edu.ibu.frent.rest.controllers;
 
+import ba.edu.ibu.frent.core.model.enums.Genre;
 import ba.edu.ibu.frent.core.service.JwtService;
 import ba.edu.ibu.frent.core.service.MovieService;
 import ba.edu.ibu.frent.core.service.UserService;
@@ -48,16 +49,21 @@ class MovieControllerTest {
         MovieDTO movie = new MovieDTO();
         movie.setId("id");
         movie.setTitle("Title");
+        movie.setDescription("Description");
+        movie.setSmallImage("SmallImage");
+        movie.setBigImage("BigImage");
         movie.setDirector("Director");
+        movie.setGenre(List.of(Genre.COMEDY));
         movie.setYear(2023);
-        int page = 1;
-        int size = 10;
+        movie.setAvailable(false);
+        movie.setRentalPrice(10.0);
+        movie.setVideo("Video");
 
-        Mockito.when(movieService.getMovies(page, size)).thenReturn(List.of(movie));
+        Mockito.when(movieService.getMovies(1, 1)).thenReturn(List.of(movie));
 
         MvcResult result = mockMvc.perform(
                 MockMvcRequestBuilders
-                        .get("/api/movies/")
+                        .get("/api/movies/?page=1&size=1")
                         .contentType(MediaType.APPLICATION_JSON)
         ).andReturn();
 

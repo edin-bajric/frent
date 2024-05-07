@@ -114,7 +114,7 @@ const BasicExample = ({ movie }: Props) => {
           <div className="d-flex justify-content-between">
             <Button
               variant="primary"
-              disabled={isMovieInCartQuery.data}
+              disabled={isMovieInCartQuery.data || !movie.available}
               onClick={handleAddToCartClick}
             >
               {isMovieInCartQuery.data ? "In cart" : "Add to cart"}
