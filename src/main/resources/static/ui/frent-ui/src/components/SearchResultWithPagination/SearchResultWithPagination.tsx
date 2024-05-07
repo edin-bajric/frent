@@ -35,7 +35,13 @@ const SearchResults = () => {
 
   return (
     <>
-      <Form.Group className="mt-3" style={{ padding: "16px" }}>
+      <Form.Group
+        className="mt-3"
+        style={{
+          padding: "16px",
+          display: movies?.length === 0 ? "none" : "block",
+        }}
+      >
         <h4>Results per page: </h4>
         <Form.Select
           onChange={handleSizeChange}
@@ -47,10 +53,14 @@ const SearchResults = () => {
           <option value="15">15</option>
         </Form.Select>
       </Form.Group>
-      <h3 style={{ padding: "16px" }}>Search results for "{keyword}"</h3>
+      <h3 style={{ padding: "16px" }}>
+        {movies?.length === 0
+          ? `No results found for "${keyword}"`
+          : `Search results for "${keyword}"`}
+      </h3>
       <SearchResult page={currentPage} size={pageSize} />
       <div className="d-flex justify-content-center mt-3">
-        <Pagination>
+        <Pagination style={{ display: movies?.length === 0 ? "none" : "flex" }}>
           <Pagination.Prev
             onClick={() =>
               handlePageChange(currentPage > 1 ? currentPage - 1 : 1)
