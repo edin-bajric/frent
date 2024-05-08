@@ -76,6 +76,7 @@ const Wishlist: React.FC<WishlistProps> = ({ show, handleClose }) => {
                   variant="primary"
                   style={{ marginRight: "16px" }}
                   onClick={() => handleAddToCartClick(movie.id)}
+                  disabled={!movie.available}
                 >
                   Add to cart
                 </Button>
