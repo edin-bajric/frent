@@ -92,6 +92,7 @@ const Wishlist: React.FC<WishlistProps> = ({ show, handleClose }) => {
         <SuccessAlert
           message="Movie successfully added to cart."
           onClose={() => setShowSuccessAlert(false)}
+          width = "100%"
         />
       )}
       {showDangerAlert && (

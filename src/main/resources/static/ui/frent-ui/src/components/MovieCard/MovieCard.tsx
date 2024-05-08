@@ -80,12 +80,14 @@ const BasicExample = ({ movie }: Props) => {
         <SuccessAlert
           message="Movie successfully added to wishlist."
           onClose={() => setShowSuccessAlertWishlist(false)}
+          width="18rem"
         />
       )}
       {showSuccessAlert && (
         <SuccessAlert
           message="Movie successfully added to cart."
           onClose={() => setShowSuccessAlert(false)}
+          width="18rem"
         />
       )}
       {showDangerAlert && (
