@@ -5,9 +5,10 @@ type Props = {
   message: string;
   onClose: () => void;
   autoCloseDuration?: number;
+  width: string;
 };
 
-function SuccessAlert({ message, onClose, autoCloseDuration = 2000 }: Props) {
+function SuccessAlert({ message, onClose, autoCloseDuration = 2000, width }: Props) {
   const [show, setShow] = useState(true);
 
   useEffect(() => {
@@ -25,7 +26,7 @@ function SuccessAlert({ message, onClose, autoCloseDuration = 2000 }: Props) {
   };
 
   return (
-    <Alert show={show} variant="success" dismissible onClose={handleDismiss} style={{width: "100%"}}>
+    <Alert show={show} variant="success" dismissible onClose={handleDismiss} style={{ width }}>
       {message}
     </Alert>
   );
