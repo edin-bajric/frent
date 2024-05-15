@@ -49,3 +49,15 @@ export type RentalMovie = {
   available: boolean;
   video: string;
 };
+
+export type User = {
+  id: string;
+  userType: string;
+  name: string;
+  email: string;
+  username: string;
+  password: string;
+  cart: string[];
+  wishlist: string[];
+  creationDate: Date;
+}

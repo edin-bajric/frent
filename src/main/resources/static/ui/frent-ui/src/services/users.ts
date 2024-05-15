@@ -1,5 +1,5 @@
 import appAxios from "./appAxios";
-import { Movie } from "../utils/types";
+import { Movie, User } from "../utils/types";
 import { MovieService } from ".";
 
 const getMovieById = MovieService.getMovieById;
@@ -100,6 +100,33 @@ const isMovieInCart = async (movieId: string): Promise<boolean> => {
   return cart.some((movie) => movie.id === movieId);
 };
 
+const getUsers = async (): Promise<User[]> => {
+  try {
+    const response = await appAxios.get("users/", {
+      headers: { Authorization: `Bearer ${localStorage.getItem("userToken")}` },
+    });
+    return response.data;
+  } catch (error: any) {
+    throw new Error("Failed to fetch all users: " + error.message);
+  }
+};
+
+const deleteUser = async (id: string): Promise<User> => {
+  try {
+    const token = localStorage.getItem("userToken");
+    if (!token) {
+      throw new Error("User token not found.");
+    }
+
+    const response = await appAxios.delete(`/users/${id}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    return response.data;
+  } catch (error: any) {
+    throw new Error("Failed to delete user: " + error.message);
+  }
+};
+
 export default {
   getCartForUser,
   getCartTotalForUser,
@@ -110,4 +137,6 @@ export default {
   removeFromWishlistForUser,
   isMovieInWishlist,
   isMovieInCart,
+  getUsers,
+  deleteUser,
 };
