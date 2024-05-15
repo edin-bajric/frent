@@ -49,6 +49,8 @@ public class UserService {
     public List<UserDTO> getUsers() {
         List<User> users = userRepository.findAll();
 
+        Collections.reverse(users);
+
         return users
                 .stream()
                 .map(UserDTO::new)
