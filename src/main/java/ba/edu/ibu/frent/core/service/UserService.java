@@ -291,4 +291,40 @@ public class UserService {
                 .mapToDouble(Movie::getRentalPrice)
                 .sum();
     }
+
+    /**
+     * Suspend a user.
+     *
+     * @param id The ID of the user to be suspended.
+     * @return UserDTO representing the suspended user.
+     * @throws ResourceNotFoundException If the user with the given username does not exist.
+     */
+    public UserDTO suspendUser (String id) {
+        Optional<User> userOptional = userRepository.findById(id);
+        if (userOptional.isEmpty()) {
+            throw new ResourceNotFoundException("The user with the given username does not exist.");
+        }
+        User user = userOptional.get();
+        user.setIsSuspended(true);
+        User updatedUser = userRepository.save(user);
+        return new UserDTO(updatedUser);
+    }
+
+    /**
+     * Unsuspend a user.
+     *
+     * @param id The ID of the user to be unsuspended.
+     * @return UserDTO representing the unsuspended user.
+     * @throws ResourceNotFoundException If the user with the given username does not exist.
+     */
+    public UserDTO unsuspendUser (String id) {
+        Optional<User> userOptional = userRepository.findById(id);
+        if (userOptional.isEmpty()) {
+            throw new ResourceNotFoundException("The user with the given username does not exist.");
+        }
+        User user = userOptional.get();
+        user.setIsSuspended(false);
+        User updatedUser = userRepository.save(user);
+        return new UserDTO(updatedUser);
+    }
 }

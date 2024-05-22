@@ -4,12 +4,16 @@ import DataTable, { TableColumn } from "react-data-table-component";
 import useUsers from "../../hooks/useUsers";
 import { User } from "../../utils/types";
 import useDeleteUser from "../../hooks/useDeleteUser";
+import useSuspendUser from "../../hooks/useSuspendUser";
+import useUnsuspendUser from "../../hooks/useUnsuspendUser";
 
 const UserDashboard = () => {
   const { data: users = [], isLoading } = useUsers();
   const { mutate: deleteUser } = useDeleteUser();
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [userIdToDelete, setUserIdToDelete] = useState("");
+  const { mutate: suspendUser } = useSuspendUser();
+  const { mutate: unsuspendUser } = useUnsuspendUser();
 
   const handleDeleteConfirmation = (userId: any) => {
     setUserIdToDelete(userId);
@@ -30,6 +34,22 @@ const UserDashboard = () => {
     }
   };
 
+  const handleSuspendUser = async (user: User) => {
+    try {
+      await suspendUser(user);
+    } catch (error) {
+      console.error("Error suspending user:", error);
+    }
+  };
+
+  const handleUnsuspendUser = async (user: User) => {
+    try {
+      await unsuspendUser(user);
+    } catch (error) {
+      console.error("Error unsuspending user:", error);
+    }
+  };
+
   const deleteButtonColumn: TableColumn<User> = {
     name: "Delete",
     button: true,
@@ -45,8 +65,43 @@ const UserDashboard = () => {
     ),
   };
 
+  const suspendButtonColumn: TableColumn<User> = {
+    name: "Suspend",
+    button: true,
+    cell: (row: User) => (
+      <>
+        <Button
+          {...row.isSuspended && { disabled: true }}
+          variant="warning"
+          onClick={() => handleSuspendUser(row)}
+        >
+          Suspend
+        </Button>
+      </>
+    ),
+  };
+
+  const unsuspendButtonColumn: TableColumn<User> = {
+    name: "Unsuspend",
+    button: true,
+    width: "130px",
+    cell: (row: User) => (
+      <>
+        <Button
+          {...!row.isSuspended && { disabled: true }}
+          variant="success"
+          onClick={() => handleUnsuspendUser(row)}
+        >
+          Unsuspend
+        </Button>
+      </>
+    ),
+  };
+
   const columns: TableColumn<User>[] = [
     deleteButtonColumn,
+    suspendButtonColumn,
+    unsuspendButtonColumn,
     {
       name: "ID",
       selector: (row: User) => row.id,
