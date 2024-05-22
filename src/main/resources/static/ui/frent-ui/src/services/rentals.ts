@@ -126,6 +126,36 @@ export const getTotalSpentById = async (id: string): Promise<number> => {
   }
 };
 
+const getRentalsForUserById = async (id: string): Promise<RentalMovie[]> => {
+  const token = localStorage.getItem("userToken");
+  if (!token) return [];
+  const headers = {
+    Authorization: `Bearer ${token}`,
+  };
+
+  return appAxios
+    .get(`/rentals/getAllForUser/${id}`, { headers })
+    .then(async (response) => {
+      const rentalsMovies: RentalMovie[] = response.data;
+
+      const rentalsWithMovieDetails = await Promise.all(
+        rentalsMovies.map(async (rentalMovie) => {
+          const movieId = rentalMovie.movieId;
+          const movieDetails = await getMovieById(movieId);
+
+          const combinedDetails = {
+            ...rentalMovie,
+            ...movieDetails,
+            id: rentalMovie.id,
+          };
+
+          return combinedDetails;
+        })
+      );
+
+      return rentalsWithMovieDetails;
+    });
+};
 
 export default {
   getRentalsForUser,
@@ -134,4 +164,5 @@ export default {
   sendDueDateWarnings,
   getTotalSpent,
   getTotalSpentById,
+  getRentalsForUserById,
 };

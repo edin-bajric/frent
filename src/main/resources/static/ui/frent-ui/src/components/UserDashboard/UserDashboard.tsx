@@ -6,6 +6,7 @@ import useDeleteUser from '../../hooks/useDeleteUser';
 import useSuspendUser from '../../hooks/useSuspendUser';
 import useUnsuspendUser from '../../hooks/useUnsuspendUser';
 import UserTotalSpent from '../UserTotalSpent';
+import RentalHistoryModal from '../RentalHistoryModal';
 import { User } from '../../utils/types';
 
 const UserDashboard = () => {
@@ -15,6 +16,8 @@ const UserDashboard = () => {
   const [userIdToDelete, setUserIdToDelete] = useState('');
   const { mutate: suspendUser } = useSuspendUser();
   const { mutate: unsuspendUser } = useUnsuspendUser();
+  const [showRentalHistory, setShowRentalHistory] = useState(false);
+  const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
 
   const handleDeleteConfirmation = (userId: string) => {
     setUserIdToDelete(userId);
@@ -49,6 +52,16 @@ const UserDashboard = () => {
     } catch (error) {
       console.error('Error unsuspending user:', error);
     }
+  };
+
+  const handleShowRentalHistory = (userId: string) => {
+    setSelectedUserId(userId);
+    setShowRentalHistory(true);
+  };
+
+  const handleCloseRentalHistory = () => {
+    setShowRentalHistory(false);
+    setSelectedUserId(null);
   };
 
   const deleteButtonColumn: TableColumn<User> = {
@@ -96,10 +109,22 @@ const UserDashboard = () => {
     sortable: true,
   };
 
+  const rentalHistoryButtonColumn: TableColumn<User> = {
+    name: 'Rental History',
+    button: true,
+    width: '130px',
+    cell: (row: User) => (
+      <Button variant='info' onClick={() => handleShowRentalHistory(row.id)}>
+        View Rentals
+      </Button>
+    ),
+  };
+
   const columns: TableColumn<User>[] = [
     deleteButtonColumn,
     suspendButtonColumn,
     unsuspendButtonColumn,
+    rentalHistoryButtonColumn,
     {
       name: 'ID',
       selector: (row: User) => row.id,
@@ -163,6 +188,13 @@ const UserDashboard = () => {
           </Button>
         </Modal.Footer>
       </Modal>
+      {selectedUserId && (
+        <RentalHistoryModal
+          show={showRentalHistory}
+          onHide={handleCloseRentalHistory}
+          userId={selectedUserId}
+        />
+      )}
     </>
   );
 };
