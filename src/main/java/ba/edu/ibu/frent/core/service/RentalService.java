@@ -362,4 +362,22 @@ public class RentalService {
 
         return totalSpent;
     }
+
+    /**
+     * Get all rentals for a specific user by user ID.
+     *
+     * @param userId The ID of the user.
+     * @return List of RentalDTOs representing all rentals for the user.
+     * @throws ResourceNotFoundException If the user with the given ID does not exist.
+     */
+    public List<RentalDTO> getRentalsForUserByUserId(String userId) {
+        Optional<User> userOptional = userRepository.findById(userId);
+        if (userOptional.isEmpty()) {
+            throw new ResourceNotFoundException("User with ID " + userId + " not found.");
+        }
+        List<Rental> rentals = rentalRepository.findAllByUsername(userOptional.get().getUsername());
+        return rentals.stream()
+                .map(RentalDTO::new)
+                .collect(toList());
+    }
 }

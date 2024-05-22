@@ -201,4 +201,17 @@ public class RentalController {
         Double totalSpent = rentalService.getTotalSpentOnRentalsById(id);
         return ResponseEntity.ok(totalSpent);
     }
+
+    /**
+     * Retrieves rentals associated with a user with the specified ID.
+     *
+     * @param id The ID of the user to retrieve rentals for.
+     * @return ResponseEntity containing a list of RentalDTOs.
+     */
+    @RequestMapping(method = RequestMethod.GET, path = "/getAllForUser/{id}")
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
+    public ResponseEntity<List<RentalDTO>> getRentalsForUser(@PathVariable String id) {
+        List<RentalDTO> rentals = rentalService.getRentalsForUserByUserId(id);
+        return ResponseEntity.ok(rentals);
+    }
 }
