@@ -188,4 +188,17 @@ public class RentalController {
         Double totalSpent = rentalService.getTotalSpentOnRentals(username);
         return ResponseEntity.ok(totalSpent);
     }
+
+    /**
+     * Retrieves the total amount spent on rentals by a user with the specified ID.
+     *
+     * @param id The ID of the user to retrieve the total amount spent for.
+     * @return ResponseEntity containing the total amount spent.
+     */
+    @RequestMapping(method = RequestMethod.GET, path = "/getTotalSpentByUser/{id}")
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
+    public ResponseEntity<Double> getTotalSpentByUser(@PathVariable String id) {
+        Double totalSpent = rentalService.getTotalSpentOnRentalsById(id);
+        return ResponseEntity.ok(totalSpent);
+    }
 }

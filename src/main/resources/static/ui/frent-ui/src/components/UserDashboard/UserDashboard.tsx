@@ -1,28 +1,29 @@
-import { useState } from "react";
-import { Button, Modal } from "react-bootstrap";
-import DataTable, { TableColumn } from "react-data-table-component";
-import useUsers from "../../hooks/useUsers";
-import { User } from "../../utils/types";
-import useDeleteUser from "../../hooks/useDeleteUser";
-import useSuspendUser from "../../hooks/useSuspendUser";
-import useUnsuspendUser from "../../hooks/useUnsuspendUser";
+import { useState } from 'react';
+import { Button, Modal } from 'react-bootstrap';
+import DataTable, { TableColumn } from 'react-data-table-component';
+import useUsers from '../../hooks/useUsers';
+import useDeleteUser from '../../hooks/useDeleteUser';
+import useSuspendUser from '../../hooks/useSuspendUser';
+import useUnsuspendUser from '../../hooks/useUnsuspendUser';
+import UserTotalSpent from '../UserTotalSpent';
+import { User } from '../../utils/types';
 
 const UserDashboard = () => {
   const { data: users = [], isLoading } = useUsers();
   const { mutate: deleteUser } = useDeleteUser();
   const [showConfirmation, setShowConfirmation] = useState(false);
-  const [userIdToDelete, setUserIdToDelete] = useState("");
+  const [userIdToDelete, setUserIdToDelete] = useState('');
   const { mutate: suspendUser } = useSuspendUser();
   const { mutate: unsuspendUser } = useUnsuspendUser();
 
-  const handleDeleteConfirmation = (userId: any) => {
+  const handleDeleteConfirmation = (userId: string) => {
     setUserIdToDelete(userId);
     setShowConfirmation(true);
   };
 
   const handleCloseConfirmation = () => {
     setShowConfirmation(false);
-    setUserIdToDelete("");
+    setUserIdToDelete('');
   };
 
   const handleDeleteUser = async () => {
@@ -30,7 +31,7 @@ const UserDashboard = () => {
       await deleteUser(userIdToDelete);
       handleCloseConfirmation();
     } catch (error) {
-      console.error("Error deleting user:", error);
+      console.error('Error deleting user:', error);
     }
   };
 
@@ -38,7 +39,7 @@ const UserDashboard = () => {
     try {
       await suspendUser(user);
     } catch (error) {
-      console.error("Error suspending user:", error);
+      console.error('Error suspending user:', error);
     }
   };
 
@@ -46,56 +47,53 @@ const UserDashboard = () => {
     try {
       await unsuspendUser(user);
     } catch (error) {
-      console.error("Error unsuspending user:", error);
+      console.error('Error unsuspending user:', error);
     }
   };
 
   const deleteButtonColumn: TableColumn<User> = {
-    name: "Delete",
+    name: 'Delete',
     button: true,
     cell: (row: User) => (
-      <>
-        <Button
-          variant="danger"
-          onClick={() => handleDeleteConfirmation(row.id)}
-        >
-          Delete
-        </Button>
-      </>
+      <Button variant='danger' onClick={() => handleDeleteConfirmation(row.id)}>
+        Delete
+      </Button>
     ),
   };
 
   const suspendButtonColumn: TableColumn<User> = {
-    name: "Suspend",
+    name: 'Suspend',
     button: true,
     cell: (row: User) => (
-      <>
-        <Button
-          {...row.isSuspended && { disabled: true }}
-          variant="warning"
-          onClick={() => handleSuspendUser(row)}
-        >
-          Suspend
-        </Button>
-      </>
+      <Button
+        {...(row.isSuspended && { disabled: true })}
+        variant='warning'
+        onClick={() => handleSuspendUser(row)}
+      >
+        Suspend
+      </Button>
     ),
   };
 
   const unsuspendButtonColumn: TableColumn<User> = {
-    name: "Unsuspend",
+    name: 'Unsuspend',
     button: true,
-    width: "130px",
+    width: '130px',
     cell: (row: User) => (
-      <>
-        <Button
-          {...!row.isSuspended && { disabled: true }}
-          variant="success"
-          onClick={() => handleUnsuspendUser(row)}
-        >
-          Unsuspend
-        </Button>
-      </>
+      <Button
+        {...(!row.isSuspended && { disabled: true })}
+        variant='success'
+        onClick={() => handleUnsuspendUser(row)}
+      >
+        Unsuspend
+      </Button>
     ),
+  };
+
+  const totalSpentColumn: TableColumn<User> = {
+    name: 'Total Spent',
+    cell: (row: User) => <UserTotalSpent userId={row.id} />,
+    sortable: true,
   };
 
   const columns: TableColumn<User>[] = [
@@ -103,38 +101,39 @@ const UserDashboard = () => {
     suspendButtonColumn,
     unsuspendButtonColumn,
     {
-      name: "ID",
+      name: 'ID',
       selector: (row: User) => row.id,
       sortable: true,
     },
     {
-      name: "User Type",
+      name: 'User Type',
       selector: (row: User) => row.userType,
       sortable: true,
     },
     {
-      name: "Name",
+      name: 'Name',
       selector: (row: User) => row.name,
     },
     {
-      name: "Email",
+      name: 'Email',
       selector: (row: User) => row.email,
     },
     {
-      name: "Username",
+      name: 'Username',
       selector: (row: User) => row.username,
       sortable: true,
     },
     {
-      name: "Creation Date",
+      name: 'Creation Date',
       selector: (row: User) => row.creationDate.toString(),
       sortable: true,
     },
     {
-      name: "Suspended",
+      name: 'Suspended',
       selector: (row: User) => row.isSuspended.toString(),
       sortable: true,
-    }
+    },
+    totalSpentColumn,
   ];
 
   return (
@@ -156,10 +155,10 @@ const UserDashboard = () => {
         </Modal.Header>
         <Modal.Body>Are you sure you want to delete this user?</Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleCloseConfirmation}>
+          <Button variant='secondary' onClick={handleCloseConfirmation}>
             Cancel
           </Button>
-          <Button variant="danger" onClick={handleDeleteUser}>
+          <Button variant='danger' onClick={handleDeleteUser}>
             Delete
           </Button>
         </Modal.Footer>
