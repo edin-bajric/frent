@@ -60,4 +60,5 @@ export type User = {
   cart: string[];
   wishlist: string[];
   creationDate: Date;
+  isSuspended: boolean;
 }
