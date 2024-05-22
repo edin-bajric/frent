@@ -127,6 +127,38 @@ const deleteUser = async (id: string): Promise<User> => {
   }
 };
 
+const suspendUser = async (user: User): Promise<User> => {
+  try {
+    const token = localStorage.getItem("userToken");
+    if (!token) {
+      throw new Error("User token not found.");
+    }
+
+    const response = await appAxios.patch(`/users/suspend/${user.id}`, user, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    return response.data;
+  } catch (error: any) {
+    throw new Error("Failed to suspend user: " + error.message);
+  }
+};
+
+const unsuspendUser = async (user: User): Promise<User> => {
+  try {
+    const token = localStorage.getItem("userToken");
+    if (!token) {
+      throw new Error("User token not found.");
+    }
+
+    const response = await appAxios.patch(`/users/unsuspend/${user.id}`, user, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    return response.data;
+  } catch (error: any) {
+    throw new Error("Failed to unsuspend user: " + error.message);
+  }
+};
+
 export default {
   getCartForUser,
   getCartTotalForUser,
@@ -139,4 +171,6 @@ export default {
   isMovieInCart,
   getUsers,
   deleteUser,
+  suspendUser,
+  unsuspendUser,
 };
