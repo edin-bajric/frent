@@ -106,10 +106,32 @@ const getTotalSpent = async (): Promise<number> => {
     .then((response) => response.data);
 };
 
+export const getTotalSpentById = async (id: string): Promise<number> => {
+  const token = localStorage.getItem('userToken');
+  if (!token) {
+    console.error('No token found in localStorage');
+    return 0;
+  }
+
+  const headers = {
+    Authorization: `Bearer ${token}`,
+  };
+
+  try {
+    const response = await appAxios.get(`/rentals/getTotalSpentByUser/${id}`, { headers });
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching total spent:', error);
+    return 0;
+  }
+};
+
+
 export default {
   getRentalsForUser,
   addRentalForUser,
   returnRentalForUser,
   sendDueDateWarnings,
   getTotalSpent,
+  getTotalSpentById,
 };
