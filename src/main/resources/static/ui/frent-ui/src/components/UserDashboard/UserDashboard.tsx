@@ -75,6 +75,11 @@ const UserDashboard = () => {
       selector: (row: User) => row.creationDate.toString(),
       sortable: true,
     },
+    {
+      name: "Suspended",
+      selector: (row: User) => row.isSuspended.toString(),
+      sortable: true,
+    }
   ];
 
   return (
