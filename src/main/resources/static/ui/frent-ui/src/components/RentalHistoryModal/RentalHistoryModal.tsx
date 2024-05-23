@@ -1,5 +1,5 @@
 import React from 'react';
-import { Modal, Button } from 'react-bootstrap';
+import { Modal, Button, Badge } from 'react-bootstrap';
 import DataTable, { TableColumn } from 'react-data-table-component';
 import useGetAllRentalsByUserId from '../../hooks/useGetAllRentalsByUserId';
 import { RentalMovie } from '../../utils/types';
@@ -18,8 +18,12 @@ const RentalHistoryModal: React.FC<RentalHistoryModalProps> = ({ show, onHide, u
     { name: 'Rental Date', selector: (row) => new Date(row.rentalDate).toLocaleDateString(), sortable: true },
     { name: 'Due Date', selector: (row) => new Date(row.dueDate).toLocaleDateString(), sortable: true },
     { name: 'Return Date', selector: (row) => row.returnDate ? new Date(row.returnDate).toLocaleDateString() : 'Not Returned', sortable: true },
-    { name: 'Rental Price', selector: (row) => `$${row.rentalPrice.toFixed(2)}`, sortable: true },
-    { name: 'Returned', selector: (row) => row.returned.toString(), sortable: true },
+    { name: 'Rental Price', selector: (row) => `${row.rentalPrice.toFixed(2)}KM`, sortable: true },
+    { name: 'Returned', cell: (row: RentalMovie) => (
+      <Badge bg={row.returned ? "success" : "danger"}>
+        {row.returned ? "Returned" : "Rented"}
+      </Badge>
+    ), sortable: true },
   ];
 
   return (

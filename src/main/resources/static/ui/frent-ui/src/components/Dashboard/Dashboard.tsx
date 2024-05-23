@@ -1,15 +1,27 @@
-import MovieDashboard from "../MovieDashboard";
-import UserDashboard from "../UserDashboard";
+import { useState } from 'react';
+import { Tabs, Tab, Container } from 'react-bootstrap';
+import MovieDashboard from '../MovieDashboard';
+import UserDashboard from '../UserDashboard';
 
 const Dashboard = () => {
+  const [key, setKey] = useState('movies');
+
   return (
-    <>
-      <h3 style={{ padding: "16px" }}>Dashboard</h3>
-      <h4 style={{ padding: "16px" }}>Movies</h4>
-      <MovieDashboard />
-      <h4 style={{ padding: "16px" }}>Users</h4>
-      <UserDashboard />
-    </>
+    <Container style={{paddingTop: "16px"}}>
+      <Tabs
+        id="dashboard-tabs"
+        activeKey={key}
+        onSelect={(k) => setKey(k || 'movies')}
+        className="mb-3"
+      >
+        <Tab eventKey="movies" title="Movies">
+          <MovieDashboard />
+        </Tab>
+        <Tab eventKey="users" title="Users">
+          <UserDashboard />
+        </Tab>
+      </Tabs>
+    </Container>
   );
 };
 

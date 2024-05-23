@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button, Modal } from "react-bootstrap";
+import { Button, Modal, Badge } from "react-bootstrap";
 import DataTable, { TableColumn } from "react-data-table-component";
 import useAllMovies from "../../hooks/useAllMovies";
 import { Movie } from "../../utils/types";
@@ -79,11 +79,6 @@ const MovieDashboard = () => {
     deleteButtonColumn,
     updateButtonColumn,
     {
-      name: "ID",
-      selector: (row: Movie) => row.id,
-      sortable: true,
-    },
-    {
       name: "Title",
       selector: (row: Movie) => row.title,
       sortable: true,
@@ -94,11 +89,15 @@ const MovieDashboard = () => {
     },
     {
       name: "Small Image",
-      selector: (row: Movie) => row.smallImage,
+      cell: (row: Movie) => (
+        <a href={row.smallImage}><img src={row.smallImage} alt="small" style={{ width: 50, height: 50 }} /></a>
+      ),
     },
     {
       name: "Big Image",
-      selector: (row: Movie) => row.bigImage,
+      cell: (row: Movie) => (
+        <a href={row.bigImage}><img src={row.bigImage} alt="big" style={{ width: 100, height: 50 }} /></a>
+      ),
     },
     {
       name: "Director",
@@ -117,7 +116,11 @@ const MovieDashboard = () => {
     },
     {
       name: "Available",
-      selector: (row: Movie) => row.available.toString(),
+      cell: (row: Movie) => (
+        <Badge bg={row.available ? "success" : "danger"}>
+          {row.available ? "Available" : "Unavailable"}
+        </Badge>
+      ),
       sortable: true,
     },
     {

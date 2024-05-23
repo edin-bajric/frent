@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Button, Modal } from 'react-bootstrap';
+import { Button, Modal, Badge } from 'react-bootstrap';
 import DataTable, { TableColumn } from 'react-data-table-component';
 import useUsers from '../../hooks/useUsers';
 import useDeleteUser from '../../hooks/useDeleteUser';
@@ -38,19 +38,15 @@ const UserDashboard = () => {
     }
   };
 
-  const handleSuspendUser = async (user: User) => {
+  const handleToggleSuspendUser = async (user: User) => {
     try {
-      await suspendUser(user);
+      if (user.isSuspended) {
+        await unsuspendUser(user);
+      } else {
+        await suspendUser(user);
+      }
     } catch (error) {
-      console.error('Error suspending user:', error);
-    }
-  };
-
-  const handleUnsuspendUser = async (user: User) => {
-    try {
-      await unsuspendUser(user);
-    } catch (error) {
-      console.error('Error unsuspending user:', error);
+      console.error('Error toggling user suspension:', error);
     }
   };
 
@@ -74,31 +70,16 @@ const UserDashboard = () => {
     ),
   };
 
-  const suspendButtonColumn: TableColumn<User> = {
-    name: 'Suspend',
+  const suspendToggleColumn: TableColumn<User> = {
+    name: 'Suspend/Unsuspend',
     button: true,
+    width: '110px',
     cell: (row: User) => (
       <Button
-        {...(row.isSuspended && { disabled: true })}
-        variant='warning'
-        onClick={() => handleSuspendUser(row)}
+        variant={row.isSuspended ? 'success' : 'warning'}
+        onClick={() => handleToggleSuspendUser(row)}
       >
-        Suspend
-      </Button>
-    ),
-  };
-
-  const unsuspendButtonColumn: TableColumn<User> = {
-    name: 'Unsuspend',
-    button: true,
-    width: '130px',
-    cell: (row: User) => (
-      <Button
-        {...(!row.isSuspended && { disabled: true })}
-        variant='success'
-        onClick={() => handleUnsuspendUser(row)}
-      >
-        Unsuspend
+        {row.isSuspended ? 'Unsuspend' : 'Suspend'}
       </Button>
     ),
   };
@@ -122,12 +103,15 @@ const UserDashboard = () => {
 
   const columns: TableColumn<User>[] = [
     deleteButtonColumn,
-    suspendButtonColumn,
-    unsuspendButtonColumn,
+    suspendToggleColumn,
     rentalHistoryButtonColumn,
     {
-      name: 'ID',
-      selector: (row: User) => row.id,
+      name: 'Email',
+      selector: (row: User) => row.email,
+    },
+    {
+      name: 'Username',
+      selector: (row: User) => row.username,
       sortable: true,
     },
     {
@@ -140,22 +124,17 @@ const UserDashboard = () => {
       selector: (row: User) => row.name,
     },
     {
-      name: 'Email',
-      selector: (row: User) => row.email,
-    },
-    {
-      name: 'Username',
-      selector: (row: User) => row.username,
-      sortable: true,
-    },
-    {
       name: 'Creation Date',
       selector: (row: User) => row.creationDate.toString(),
       sortable: true,
     },
     {
-      name: 'Suspended',
-      selector: (row: User) => row.isSuspended.toString(),
+      name: 'Status',
+      cell: (row: User) => (
+        <Badge bg={row.isSuspended ? 'danger' : 'success'}>
+          {row.isSuspended ? 'Suspended' : 'Active'}
+        </Badge>
+      ),
       sortable: true,
     },
     totalSpentColumn,
