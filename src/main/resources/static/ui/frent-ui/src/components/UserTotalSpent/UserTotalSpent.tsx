@@ -9,7 +9,7 @@ const UserTotalSpent: React.FC<UserTotalSpentProps> = ({ userId }) => {
   const { data: totalSpent, isLoading } = useRentalsTotalByUser(userId);
 
   if (isLoading) return <span>Loading...</span>;
-  return <span>${totalSpent}</span>;
+  return <span>{totalSpent}KM</span>;
 };
 
 export default UserTotalSpent;
