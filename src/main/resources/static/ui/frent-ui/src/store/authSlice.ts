@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { RegisterFormData } from "../components/Register/Register";
 import { SignInFormData } from "../components/SignIn/SignIn";
 import appAxios from "../services/appAxios";
+import { decodeJwtToken } from "../utils/decoder";
 
 const userToken = localStorage.getItem("userToken")
   ? localStorage.getItem("userToken")
@@ -26,21 +27,42 @@ const authSlice = createSlice({
       state.userToken = null;
       state.error = null;
     },
+    checkTokenValidity: (state) => {
+      const token = state.userToken;
+      if (token) {
+        try {
+          const decodedToken: any = decodeJwtToken(token);
+          const currentTime = Date.now() / 1000;
+          if (decodedToken.exp < currentTime) {
+            localStorage.removeItem("userToken");
+            state.loading = false;
+            state.userInfo = null;
+            state.userToken = null;
+            state.error = null;
+          }
+        } catch (error) {
+          console.error("Error decoding token:", error);
+          state.userToken = null;
+          state.userInfo = null;
+          localStorage.removeItem("userToken");
+        }
+      }
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(login.pending, (state) => {
       state.loading = true;
       state.error = null;
-    }),
-      builder.addCase(login.fulfilled, (state, action: any) => {
-        state.loading = false;
-        state.userInfo = action.payload;
-        state.userToken = action.payload.jwt;
-      }),
-      builder.addCase(login.rejected, (state, action: any) => {
-        state.loading = false;
-        state.error = action.payload;
-      });
+    });
+    builder.addCase(login.fulfilled, (state, action: any) => {
+      state.loading = false;
+      state.userInfo = action.payload;
+      state.userToken = action.payload.jwt;
+    });
+    builder.addCase(login.rejected, (state, action: any) => {
+      state.loading = false;
+      state.error = action.payload;
+    });
     builder.addCase(registerUser.pending, (state) => {
       state.loading = true;
       state.error = null;
@@ -88,5 +110,5 @@ export const login = createAsyncThunk(
   }
 );
 
-export const { logout } = authSlice.actions;
+export const { logout, checkTokenValidity } = authSlice.actions;
 export default authSlice.reducer;
