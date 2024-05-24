@@ -92,12 +92,14 @@ const MovieDashboard = () => {
       cell: (row: Movie) => (
         <a href={row.smallImage}><img src={row.smallImage} alt="small" style={{ width: 50, height: 50 }} /></a>
       ),
+      center: true,
     },
     {
       name: "Big Image",
       cell: (row: Movie) => (
         <a href={row.bigImage}><img src={row.bigImage} alt="big" style={{ width: 100, height: 50 }} /></a>
       ),
+      center: true,
     },
     {
       name: "Director",
