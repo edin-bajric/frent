@@ -1,19 +1,19 @@
-import { useState } from 'react';
-import { Button, Modal, Badge } from 'react-bootstrap';
-import DataTable, { TableColumn } from 'react-data-table-component';
-import useUsers from '../../hooks/useUsers';
-import useDeleteUser from '../../hooks/useDeleteUser';
-import useSuspendUser from '../../hooks/useSuspendUser';
-import useUnsuspendUser from '../../hooks/useUnsuspendUser';
-import UserTotalSpent from '../UserTotalSpent';
-import RentalHistoryModal from '../RentalHistoryModal';
-import { User } from '../../utils/types';
+import { useState } from "react";
+import { Button, Modal, Badge } from "react-bootstrap";
+import DataTable, { TableColumn } from "react-data-table-component";
+import useUsers from "../../hooks/useUsers";
+import useDeleteUser from "../../hooks/useDeleteUser";
+import useSuspendUser from "../../hooks/useSuspendUser";
+import useUnsuspendUser from "../../hooks/useUnsuspendUser";
+import UserTotalSpent from "../UserTotalSpent";
+import RentalHistoryModal from "../RentalHistoryModal";
+import { User } from "../../utils/types";
 
 const UserDashboard = () => {
   const { data: users = [], isLoading } = useUsers();
   const { mutate: deleteUser } = useDeleteUser();
   const [showConfirmation, setShowConfirmation] = useState(false);
-  const [userIdToDelete, setUserIdToDelete] = useState('');
+  const [userIdToDelete, setUserIdToDelete] = useState("");
   const { mutate: suspendUser } = useSuspendUser();
   const { mutate: unsuspendUser } = useUnsuspendUser();
   const [showRentalHistory, setShowRentalHistory] = useState(false);
@@ -26,7 +26,7 @@ const UserDashboard = () => {
 
   const handleCloseConfirmation = () => {
     setShowConfirmation(false);
-    setUserIdToDelete('');
+    setUserIdToDelete("");
   };
 
   const handleDeleteUser = async () => {
@@ -34,7 +34,7 @@ const UserDashboard = () => {
       await deleteUser(userIdToDelete);
       handleCloseConfirmation();
     } catch (error) {
-      console.error('Error deleting user:', error);
+      console.error("Error deleting user:", error);
     }
   };
 
@@ -46,7 +46,7 @@ const UserDashboard = () => {
         await suspendUser(user);
       }
     } catch (error) {
-      console.error('Error toggling user suspension:', error);
+      console.error("Error toggling user suspension:", error);
     }
   };
 
@@ -61,41 +61,41 @@ const UserDashboard = () => {
   };
 
   const deleteButtonColumn: TableColumn<User> = {
-    name: 'Delete',
+    name: "Delete",
     button: true,
     cell: (row: User) => (
-      <Button variant='danger' onClick={() => handleDeleteConfirmation(row.id)}>
+      <Button variant="danger" onClick={() => handleDeleteConfirmation(row.id)}>
         Delete
       </Button>
     ),
   };
 
   const suspendToggleColumn: TableColumn<User> = {
-    name: 'Suspend/Unsuspend',
+    name: "Suspend/Unsuspend",
     button: true,
-    width: '110px',
+    width: "110px",
     cell: (row: User) => (
       <Button
-        variant={row.isSuspended ? 'success' : 'warning'}
+        variant={row.isSuspended ? "success" : "warning"}
         onClick={() => handleToggleSuspendUser(row)}
       >
-        {row.isSuspended ? 'Unsuspend' : 'Suspend'}
+        {row.isSuspended ? "Unsuspend" : "Suspend"}
       </Button>
     ),
   };
 
   const totalSpentColumn: TableColumn<User> = {
-    name: 'Total Spent',
+    name: "Total Spent",
     cell: (row: User) => <UserTotalSpent userId={row.id} />,
     sortable: true,
   };
 
   const rentalHistoryButtonColumn: TableColumn<User> = {
-    name: 'Rental History',
+    name: "Rental History",
     button: true,
-    width: '130px',
+    width: "130px",
     cell: (row: User) => (
-      <Button variant='info' onClick={() => handleShowRentalHistory(row.id)}>
+      <Button variant="info" onClick={() => handleShowRentalHistory(row.id)}>
         View Rentals
       </Button>
     ),
@@ -106,33 +106,33 @@ const UserDashboard = () => {
     suspendToggleColumn,
     rentalHistoryButtonColumn,
     {
-      name: 'Email',
+      name: "Email",
       selector: (row: User) => row.email,
     },
     {
-      name: 'Username',
+      name: "Username",
       selector: (row: User) => row.username,
       sortable: true,
     },
     {
-      name: 'User Type',
+      name: "User Type",
       selector: (row: User) => row.userType,
       sortable: true,
     },
     {
-      name: 'Name',
+      name: "Name",
       selector: (row: User) => row.name,
     },
     {
-      name: 'Creation Date',
+      name: "Creation Date",
       selector: (row: User) => row.creationDate.toString(),
       sortable: true,
     },
     {
-      name: 'Status',
+      name: "Status",
       cell: (row: User) => (
-        <Badge bg={row.isSuspended ? 'danger' : 'success'}>
-          {row.isSuspended ? 'Suspended' : 'Active'}
+        <Badge bg={row.isSuspended ? "danger" : "success"}>
+          {row.isSuspended ? "Suspended" : "Active"}
         </Badge>
       ),
       sortable: true,
@@ -159,10 +159,10 @@ const UserDashboard = () => {
         </Modal.Header>
         <Modal.Body>Are you sure you want to delete this user?</Modal.Body>
         <Modal.Footer>
-          <Button variant='secondary' onClick={handleCloseConfirmation}>
+          <Button variant="secondary" onClick={handleCloseConfirmation}>
             Cancel
           </Button>
-          <Button variant='danger' onClick={handleDeleteUser}>
+          <Button variant="danger" onClick={handleDeleteUser}>
             Delete
           </Button>
         </Modal.Footer>
