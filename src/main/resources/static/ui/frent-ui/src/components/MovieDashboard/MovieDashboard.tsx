@@ -6,6 +6,8 @@ import { Movie } from "../../utils/types";
 import AddMovie from "../AddMovie";
 import useDeleteMovie from "../../hooks/useDeleteMovie";
 import UpdateMovie from "../UpdateMovie";
+import useSetMovieAvailable from "../../hooks/useSetMovieAvailable";
+import useSetMovieUnavailable from "../../hooks/useSetMovieUnavailable";
 
 const MovieDashboard = () => {
   const { data: movies = [], isLoading } = useAllMovies();
@@ -15,6 +17,8 @@ const MovieDashboard = () => {
   const [movieIdToDelete, setMovieIdToDelete] = useState("");
   const [showUpdateMovie, setShowUpdateMovie] = useState(false);
   const [selectedMovie, setSelectedMovie] = useState<Movie | null>(null);
+  const { mutate: setMovieAvailable } = useSetMovieAvailable();
+  const { mutate: setMovieUnavailable } = useSetMovieUnavailable();
 
   const handleAddMovieClick = () => {
     setShowAddMovie(true);
@@ -46,6 +50,18 @@ const MovieDashboard = () => {
   const handleUpdateMovieClick = (movie: Movie) => {
     setSelectedMovie(movie);
     setShowUpdateMovie(true);
+  };
+
+  const handleToggleAvailability = async (movie: Movie) => {
+    try {
+      if (movie.available) {
+        await setMovieUnavailable(movie.id);
+      } else {
+        await setMovieAvailable(movie.id);
+      }
+    } catch (error) {
+      console.error("Error toggling movie availability:", error);
+    }
   };
 
   const deleteButtonColumn: TableColumn<Movie> = {
@@ -81,6 +97,19 @@ const MovieDashboard = () => {
     {
       name: "Title",
       selector: (row: Movie) => row.title,
+      sortable: true,
+    },
+    {
+      name: "Available",
+      cell: (row: Movie) => (
+        <Badge
+          bg={row.available ? "success" : "danger"}
+          onClick={() => handleToggleAvailability(row)}
+          style={{ cursor: "pointer" }}
+        >
+          {row.available ? "Available" : "Unavailable"}
+        </Badge>
+      ),
       sortable: true,
     },
     {
@@ -126,15 +155,6 @@ const MovieDashboard = () => {
     {
       name: "Year",
       selector: (row: Movie) => row.year,
-      sortable: true,
-    },
-    {
-      name: "Available",
-      cell: (row: Movie) => (
-        <Badge bg={row.available ? "success" : "danger"}>
-          {row.available ? "Available" : "Unavailable"}
-        </Badge>
-      ),
       sortable: true,
     },
     {

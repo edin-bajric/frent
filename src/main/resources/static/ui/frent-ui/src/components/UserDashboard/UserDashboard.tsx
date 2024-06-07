@@ -8,6 +8,7 @@ import useUnsuspendUser from "../../hooks/useUnsuspendUser";
 import UserTotalSpent from "../UserTotalSpent";
 import RentalHistoryModal from "../RentalHistoryModal";
 import { User } from "../../utils/types";
+import useSendDueDateWarnings from "../../hooks/useSendDueDateWarnings";
 
 const UserDashboard = () => {
   const { data: users = [], isLoading } = useUsers();
@@ -18,6 +19,11 @@ const UserDashboard = () => {
   const { mutate: unsuspendUser } = useUnsuspendUser();
   const [showRentalHistory, setShowRentalHistory] = useState(false);
   const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
+  const sendDueDateWarningsMutation = useSendDueDateWarnings();
+
+  const handleSendDueDateWarnings = () => {
+    sendDueDateWarningsMutation.mutate();
+  };
 
   const handleDeleteConfirmation = (userId: string) => {
     setUserIdToDelete(userId);
@@ -142,6 +148,13 @@ const UserDashboard = () => {
 
   return (
     <>
+      <Button
+        onClick={handleSendDueDateWarnings}
+        style={{ margin: "16px" }}
+        variant="primary"
+      >
+        Send Warnings
+      </Button>
       <DataTable
         columns={columns}
         data={users}
