@@ -25,14 +25,11 @@ import java.io.IOException;
  */
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
-    private final JwtService jwtService;
 
     @Autowired
+    private JwtService jwtService;
+    @Autowired
     private UserService userService;
-
-    public JwtAuthenticationFilter(JwtService jwtService) {
-        this.jwtService = jwtService;
-    }
 
     /**
      * Performs the actual filter logic to extract, validate, and process JWT authentication.
