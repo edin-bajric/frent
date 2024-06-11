@@ -150,7 +150,7 @@ public class MovieService {
                 notificationService.sendMessage(username, notificationMessage);
             }
             List<String> userEmails = userRepository.findEmailsByWishlistContaining(id);
-            String message = movie.getTitle() + " is now available for rental!";
+            String message = movie.getTitle() + " from your wishlist is now available for rental!";
             String subject = movie.getTitle() + " is now available for rental!";
             mailgunSender.send(userEmails, message, subject);
         }
@@ -178,7 +178,7 @@ public class MovieService {
         }
         updateAvailability(id, false);
         List<String> userEmails = userRepository.findEmailsByWishlistContaining(id);
-        String message = movie.get().getTitle() + " is now unavailable for rental.";
+        String message = movie.get().getTitle() + " from your wishlist is now unavailable for rental.";
         String subject = movie.get().getTitle() + " is now unavailable for rental.";
         mailgunSender.send(userEmails, message, subject);
         return movieRepository.findById(id)
