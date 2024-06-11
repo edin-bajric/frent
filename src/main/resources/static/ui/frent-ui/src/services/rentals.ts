@@ -106,10 +106,63 @@ const getTotalSpent = async (): Promise<number> => {
     .then((response) => response.data);
 };
 
+export const getTotalSpentById = async (id: string): Promise<number> => {
+  const token = localStorage.getItem('userToken');
+  if (!token) {
+    console.error('No token found in localStorage');
+    return 0;
+  }
+
+  const headers = {
+    Authorization: `Bearer ${token}`,
+  };
+
+  try {
+    const response = await appAxios.get(`/rentals/getTotalSpentByUser/${id}`, { headers });
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching total spent:', error);
+    return 0;
+  }
+};
+
+const getRentalsForUserById = async (id: string): Promise<RentalMovie[]> => {
+  const token = localStorage.getItem("userToken");
+  if (!token) return [];
+  const headers = {
+    Authorization: `Bearer ${token}`,
+  };
+
+  return appAxios
+    .get(`/rentals/getAllForUser/${id}`, { headers })
+    .then(async (response) => {
+      const rentalsMovies: RentalMovie[] = response.data;
+
+      const rentalsWithMovieDetails = await Promise.all(
+        rentalsMovies.map(async (rentalMovie) => {
+          const movieId = rentalMovie.movieId;
+          const movieDetails = await getMovieById(movieId);
+
+          const combinedDetails = {
+            ...rentalMovie,
+            ...movieDetails,
+            id: rentalMovie.id,
+          };
+
+          return combinedDetails;
+        })
+      );
+
+      return rentalsWithMovieDetails;
+    });
+};
+
 export default {
   getRentalsForUser,
   addRentalForUser,
   returnRentalForUser,
   sendDueDateWarnings,
   getTotalSpent,
+  getTotalSpentById,
+  getRentalsForUserById,
 };

@@ -115,7 +115,7 @@ const NavScrollExample = () => {
                         Dashboard
                       </NavDropdown.Item>
                     )}
-                    <NavDropdown.Item onClick={() => dispatch(logout())}>
+                    <NavDropdown.Item onClick={() => dispatch(logout())} as={Link} to={"/login"}>
                       Logout
                     </NavDropdown.Item>
                   </>

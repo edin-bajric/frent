@@ -13,8 +13,17 @@ import {
 import { Routes, Route } from "react-router-dom";
 import ProtectedRoute from "./utils/ProtectedRoute";
 import AdminProtectedRoute from "./utils/AdminProtectedRoute";
+import { useDispatch } from "react-redux";
+import { checkTokenValidity } from "./store/authSlice";
+import { useEffect } from "react";
 
 export default function App() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(checkTokenValidity());
+  }, [dispatch]);
+  
   return (
     <>
       <Navbar />

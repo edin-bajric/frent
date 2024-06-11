@@ -16,24 +16,51 @@ const getMovieById = async (id: string): Promise<Movie> => {
 };
 
 const addMovie = async (movie: Movie): Promise<Movie> => {
-  return appAxios.post("/movies/", movie).then((response) => {
-    const data = response.data;
-    return data;
-  });
+  try {
+    const token = localStorage.getItem("userToken");
+    if (!token) {
+      throw new Error("User token not found.");
+    }
+
+    const response = await appAxios.post("/movies/add", movie, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    return response.data;
+  } catch (error: any) {
+    throw new Error("Failed to add movie: " + error.message);
+  }
 };
 
 const deleteMovie = async (id: string): Promise<Movie> => {
-  return appAxios.delete(`/movies/${id}`).then((response) => {
-    const data = response.data;
-    return data;
-  });
+  try {
+    const token = localStorage.getItem("userToken");
+    if (!token) {
+      throw new Error("User token not found.");
+    }
+
+    const response = await appAxios.delete(`/movies/${id}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    return response.data;
+  } catch (error: any) {
+    throw new Error("Failed to delete movie: " + error.message);
+  }
 };
 
 const updateMovie = async (movie: Movie): Promise<Movie> => {
-  return appAxios.put(`/movies/${movie.id}`, movie).then((response) => {
-    const data = response.data;
-    return data;
-  });
+  try {
+    const token = localStorage.getItem("userToken");
+    if (!token) {
+      throw new Error("User token not found.");
+    }
+
+    const response = await appAxios.put(`/movies/${movie.id}`, movie, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    return response.data;
+  } catch (error: any) {
+    throw new Error("Failed to update movie: " + error.message);
+  }
 };
 
 const searchMovies = async (keyword: string, page: number, size: number) => {
@@ -52,7 +79,6 @@ const setMovieAvailable = async (movieId: string): Promise<void> => {
     await appAxios.put(`movies/setAvailable/${movieId}`, null, {
       headers: { Authorization: `Bearer ${localStorage.getItem("userToken")}` },
     });
-    console.log("Movie set as available successfully");
   } catch (error: any) {
     throw new Error("Failed to set movie available: " + error.message);
   }
@@ -63,11 +89,22 @@ const setMovieUnavailable = async (movieId: string): Promise<void> => {
     await appAxios.put(`movies/setUnavailable/${movieId}`, null, {
       headers: { Authorization: `Bearer ${localStorage.getItem("userToken")}` },
     });
-    console.log("Movie set as unavailable successfully");
   } catch (error: any) {
     throw new Error("Failed to set movie unavailable: " + error.message);
   }
 };
+
+const getAllMovies = async (): Promise<Movie[]> => {
+  try {
+    const response = await appAxios.get("movies/allMovies", {
+      headers: { Authorization: `Bearer ${localStorage.getItem("userToken")}` },
+    });
+    return response.data;
+  } catch (error: any) {
+    throw new Error("Failed to fetch all movies: " + error.message);
+  }
+};
+
 
 export default {
   getMovies,
@@ -78,4 +115,5 @@ export default {
   searchMovies,
   setMovieAvailable,
   setMovieUnavailable,
+  getAllMovies,
 };
