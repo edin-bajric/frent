@@ -254,10 +254,11 @@ public class RentalService {
         for (Rental rental : upcomingDueRentals) {
             sendUpcomingDueWarning(rental);
         }
-
-        String message = "Hello! This is a reminder to return your rentals on time. Thank you!";
-        String subject = "Frent Rental Reminder";
-        mailgunSender.send(emails, subject, message);
+        if (!emails.isEmpty()) {
+            String message = "Hello! This is a reminder to return your rentals on time. Thank you!";
+            String subject = "Frent Rental Reminder";
+            mailgunSender.send(emails, subject, message);
+        }
     }
 
     /**
