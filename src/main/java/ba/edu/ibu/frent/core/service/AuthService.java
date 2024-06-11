@@ -20,11 +20,10 @@ import org.springframework.stereotype.Service;
 @Service
 public class AuthService {
     private final UserRepository userRepository;
+    private final JwtService jwtService;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
-    @Autowired
-    private JwtService jwtService;
     @Autowired
     private AuthenticationManager authenticationManager;
 
@@ -33,8 +32,9 @@ public class AuthService {
      *
      * @param userRepository The UserRepository used for user-related database operations.
      */
-    public AuthService(UserRepository userRepository) {
+    public AuthService(UserRepository userRepository, JwtService jwtService) {
         this.userRepository = userRepository;
+        this.jwtService = jwtService;
     }
 
     /**
