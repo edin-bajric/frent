@@ -9,7 +9,7 @@ import useRentalsTotal from "../../hooks/useRentalsTotal";
 const RentalGrid = () => {
   const { data: rentalsMovies, error, isLoading, isError } = useRentals();
   const { data: rentalsTotal } = useRentalsTotal();
-  const [page, setPage] = useState(1);
+  const [, setPage] = useState(1);
 
   const handleScroll = () => {
     const bottom =
