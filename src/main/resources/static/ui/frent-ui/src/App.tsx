@@ -8,9 +8,9 @@ import {
   RegisterPage,
   NotFound,
   Search,
-  AdminPanel
+  AdminPanel,
 } from "./pages";
-import { Routes, Route } from "react-router-dom";
+import { HashRouter as Router, Routes, Route } from "react-router-dom";
 import ProtectedRoute from "./utils/ProtectedRoute";
 import AdminProtectedRoute from "./utils/AdminProtectedRoute";
 import { useDispatch } from "react-redux";
@@ -23,25 +23,27 @@ export default function App() {
   useEffect(() => {
     dispatch(checkTokenValidity());
   }, [dispatch]);
-  
+
   return (
     <>
       <Navbar />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/home" element={<Home />} />
-        <Route path="/api/movies" element={<Movies />} />
-        <Route element={<ProtectedRoute />}>
-          <Route path="/api/rentals" element={<Rentals />} />
-        </Route>
-        <Route path="/api/login" element={<SignInPage />} />
-        <Route path="/api/register" element={<RegisterPage />} />
-        <Route path="/api/search/:keyword/:page/:size" element={<Search />} />
-        <Route element={<AdminProtectedRoute />}>
-        <Route path="/api/dashboard" element={<AdminPanel />} />
-        </Route>
-        <Route path="*" element={<NotFound />} />
-      </Routes>
+      <Router>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/home" element={<Home />} />
+          <Route path="/movies" element={<Movies />} />
+          <Route element={<ProtectedRoute />}>
+            <Route path="/rentals" element={<Rentals />} />
+          </Route>
+          <Route path="/login" element={<SignInPage />} />
+          <Route path="/register" element={<RegisterPage />} />
+          <Route path="/search/:keyword/:page/:size" element={<Search />} />
+          <Route element={<AdminProtectedRoute />}>
+            <Route path="/dashboard" element={<AdminPanel />} />
+          </Route>
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </Router>
     </>
   );
 }
