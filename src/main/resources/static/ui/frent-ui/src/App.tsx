@@ -30,15 +30,15 @@ export default function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/home" element={<Home />} />
-        <Route path="/movies" element={<Movies />} />
+        <Route path="/api/movies" element={<Movies />} />
         <Route element={<ProtectedRoute />}>
-          <Route path="/rentals" element={<Rentals />} />
+          <Route path="/api/rentals" element={<Rentals />} />
         </Route>
-        <Route path="/login" element={<SignInPage />} />
-        <Route path="/register" element={<RegisterPage />} />
-        <Route path="/search/:keyword/:page/:size" element={<Search />} />
+        <Route path="/api/login" element={<SignInPage />} />
+        <Route path="/api/register" element={<RegisterPage />} />
+        <Route path="/api/search/:keyword/:page/:size" element={<Search />} />
         <Route element={<AdminProtectedRoute />}>
-        <Route path="/dashboard" element={<AdminPanel />} />
+        <Route path="/api/dashboard" element={<AdminPanel />} />
         </Route>
         <Route path="*" element={<NotFound />} />
       </Routes>
