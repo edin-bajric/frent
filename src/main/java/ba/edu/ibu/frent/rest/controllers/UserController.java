@@ -1,5 +1,6 @@
 package ba.edu.ibu.frent.rest.controllers;
 
+import ba.edu.ibu.frent.core.model.enums.UserType;
 import ba.edu.ibu.frent.core.service.UserService;
 import ba.edu.ibu.frent.rest.dto.UserDTO;
 import ba.edu.ibu.frent.rest.dto.UserRequestDTO;
@@ -229,6 +230,20 @@ public class UserController {
     @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<UserDTO> unsuspendUser(@PathVariable String id) {
         UserDTO updatedUser = userService.unsuspendUser(id);
+        return ResponseEntity.ok(updatedUser);
+    }
+
+    /**
+     * Change the user type of a user.
+     *
+     * @param id The ID of the user whose type is to be changed.
+     * @param userType The new user type.
+     * @return ResponseEntity containing the updated UserDTO.
+     */
+    @RequestMapping(method = RequestMethod.PATCH, path = "/changeUserType/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<UserDTO> changeUserType(@PathVariable String id, @RequestParam UserType userType) {
+        UserDTO updatedUser = userService.changeUserType(id, userType);
         return ResponseEntity.ok(updatedUser);
     }
 }

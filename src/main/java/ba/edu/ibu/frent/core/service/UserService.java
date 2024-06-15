@@ -1,23 +1,29 @@
 package ba.edu.ibu.frent.core.service;
 
-import ba.edu.ibu.frent.core.api.mailsender.MailSender;
-import ba.edu.ibu.frent.core.exceptions.auth.UserAlreadyExistsException;
-import ba.edu.ibu.frent.core.exceptions.repository.ResourceNotFoundException;
-import ba.edu.ibu.frent.core.model.Movie;
-import ba.edu.ibu.frent.core.model.User;
-import ba.edu.ibu.frent.core.repository.MovieRepository;
-import ba.edu.ibu.frent.core.repository.UserRepository;
-import ba.edu.ibu.frent.rest.dto.UserDTO;
-import ba.edu.ibu.frent.rest.dto.UserRequestDTO;
+import static java.util.stream.Collectors.toList;
+
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
-
-import static java.util.stream.Collectors.toList;
+import ba.edu.ibu.frent.core.api.mailsender.MailSender;
+import ba.edu.ibu.frent.core.exceptions.auth.UserAlreadyExistsException;
+import ba.edu.ibu.frent.core.exceptions.repository.ResourceNotFoundException;
+import ba.edu.ibu.frent.core.model.Movie;
+import ba.edu.ibu.frent.core.model.User;
+import ba.edu.ibu.frent.core.model.enums.UserType;
+import ba.edu.ibu.frent.core.repository.MovieRepository;
+import ba.edu.ibu.frent.core.repository.UserRepository;
+import ba.edu.ibu.frent.rest.dto.UserDTO;
+import ba.edu.ibu.frent.rest.dto.UserRequestDTO;
 
 /**
  * Service class that handles operations related to user management.
@@ -324,6 +330,25 @@ public class UserService {
         }
         User user = userOptional.get();
         user.setIsSuspended(false);
+        User updatedUser = userRepository.save(user);
+        return new UserDTO(updatedUser);
+    }
+
+    /**
+     * Change the user type of an existing user.
+     *
+     * @param id The ID of the user whose type is to be changed.
+     * @param userType The new user type.
+     * @return UserDTO representing the user with the updated type.
+     * @throws ResourceNotFoundException If the user with the given ID does not exist.
+     */
+    public UserDTO changeUserType(String id, UserType userType) {
+        Optional<User> userOptional = userRepository.findById(id);
+        if (userOptional.isEmpty()) {
+            throw new ResourceNotFoundException("The user with the given ID does not exist.");
+        }
+        User user = userOptional.get();
+        user.setUserType(userType);
         User updatedUser = userRepository.save(user);
         return new UserDTO(updatedUser);
     }
