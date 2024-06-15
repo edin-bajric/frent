@@ -104,7 +104,7 @@ const BasicExample = ({ movie }: Props) => {
           onClick={handleMovieCardClick}
         />
         <Card.Body>
-          <Card.Title as="h6">{movie.title}</Card.Title>
+          <Card.Title className="clamp-one-line" as="h6">{movie.title}</Card.Title>
           <Card.Text as="h6">{movie.rentalPrice}KM</Card.Text>
           <Badge
             bg={movie.available ? "success" : "danger"}

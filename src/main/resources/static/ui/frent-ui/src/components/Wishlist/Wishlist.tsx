@@ -9,6 +9,7 @@ import useCartTotal from "../../hooks/useCartTotal";
 import DangerAlert from "../DangerAlert";
 import SuccessAlert from "../SuccessAlert";
 import { useState } from "react";
+import "../../assets/css/MovieRentalCard.css";
 
 type WishlistProps = {
   show: boolean;
@@ -69,7 +70,7 @@ const Wishlist: React.FC<WishlistProps> = ({ show, handleClose }) => {
                 variant="light"
               >
                 <div className="ms-2 me-auto">
-                  <div className="fw-bold">{movie.title}</div>
+                  <div className="fw-bold clamp-one-line">{movie.title}</div>
                   {movie.rentalPrice}KM
                 </div>
                 <Button

@@ -7,6 +7,7 @@ import useRemoveFromCart from "../../hooks/useRemoveFromCart";
 import useAddRentalForUser from "../../hooks/useAddRentals";
 import useRentals from "../../hooks/useRentals";
 import { useEffect } from "react";
+import "../../assets/css/MovieRentalCard.css";
 
 type CartProps = {
   show: boolean;
@@ -82,7 +83,7 @@ const Cart: React.FC<CartProps> = ({ show, handleClose }) => {
                   width="50"
                   height="50"/>
                 <div className="ms-2 me-auto">
-                  <div className="fw-bold">{movie.title}</div>
+                  <div className="fw-bold clamp-one-line">{movie.title}</div>
                   {movie.rentalPrice}KM
                 </div>
                 <CloseButton onClick={() => handleRemoveFromCart(movie.id)} />

@@ -52,7 +52,7 @@ const BasicExample = ({ rentalMovie }: Props) => {
           onClick={handleRentalCardClick}
         />
         <Card.Body>
-          <Card.Title as="h6">{rentalMovie.title}</Card.Title>
+          <Card.Title className="clamp-one-line" as="h6">{rentalMovie.title}</Card.Title>
           <Card.Text style={{ color: isReturned ? "gray" : "crimson" }} as="h5">
             {isReturned
               ? 
